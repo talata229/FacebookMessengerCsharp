@@ -1,4 +1,5 @@
 ﻿using FacebookMessengerCsharp.Client.API;
+using FacebookMessengerCsharp.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -118,6 +119,30 @@ namespace FacebookMessengerCsharp.Console
                 Directory.CreateDirectory(dir);
             }
             return dir;
+        }
+
+        /// <summary>
+        /// Send random 1 tin nhắn cho 1 user trong list
+        /// </summary>
+        /// <param name="users">Danh sách người cần nhắn tin đến</param>
+        /// <param name="messages">Tin nhắn cần gửi</param>
+        /// <returns></returns>
+        public async Task SendRandomMessageToListUser(List<string> users, List<string> messages)
+        {
+            foreach (var user in users)
+            {
+                try
+                {
+                    string text = ListHelper.GetRandomItemInList(ListHelper.ListMessage);
+                    await this.send(new FB_Message { text = text }, user, ThreadType.USER);
+                    System.Console.WriteLine($"Sent -${text}- to -{user}-");
+                }
+                catch (Exception ex)
+                {
+                    System.Console.WriteLine($"Send faild to {user}");
+                }
+
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FacebookMessengerCsharp.Client.API;
+using FacebookMessengerCsharp.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,22 +40,10 @@ namespace FacebookMessengerCsharp.Console
                 await client.DoLogin(email, password);
             }
 
-            ////await client.StartListening();
-            //// Login with username and password
-            await client.send(new FB_Message { text = "Chúc 1 ngày tốt lành123456" }, "100005048402622", ThreadType.USER);
+            await client.SendRandomMessageToListUser(ListHelper.ListUser, ListHelper.ListMessage);
+
             System.Console.WriteLine("Done!");
             System.Console.ReadKey();
-        }
-
-        public static Task SendMessageToListUser()
-        {
-            FBClient_Simple simple = new FBClient_Simple();
-            string kwangtran229 = "100042693053214";
-            return Task.Factory.StartNew(async () =>
-            {
-                await simple.send(new FB_Message { text = "Chúc 1 ngày tốt lành123" }, "100005048402622", ThreadType.USER);
-                await simple.send(new FB_Message { text = "How are you" }, kwangtran229, ThreadType.USER);
-            });
         }
     }
 }

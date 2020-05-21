@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{10A55A4A-8259-486D-ADAA-1A9D2E008151}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>FacebookMessengerCsharp.Console</RootNamespace>
-    <AssemblyName>FacebookMessengerCsharp.Console</AssemblyName>
+    <ProjectGuid>{BA02DB6D-BE7D-402E-8892-EA7606A3F327}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FacebookMessengerCsharp.Helper</RootNamespace>
+    <AssemblyName>FacebookMessengerCsharp.Helper</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,26 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Basic_Usage.cs" />
-    <Compile Include="FBClient_Cookies.cs" />
-    <Compile Include="FBClient_Simple.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ListHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuangClient.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FacebookMessengerCsharp.Client\FacebookMessengerCsharp.Client.csproj">
-      <Project>{48dc3e7d-75b2-453c-8dab-7b152f069f47}</Project>
-      <Name>FacebookMessengerCsharp.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FacebookMessengerCsharp.Helper\FacebookMessengerCsharp.Helper.csproj">
-      <Project>{BA02DB6D-BE7D-402E-8892-EA7606A3F327}</Project>
-      <Name>FacebookMessengerCsharp.Helper</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
