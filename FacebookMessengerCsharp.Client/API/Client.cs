@@ -3489,10 +3489,10 @@ namespace FacebookMessengerCsharp.Client.API
             var cookies = this.getSession();
 
             var headers = new Dictionary<string, string>() {
-                { "Referer", "https://www.facebook.com" },
-                { "User-Agent", Utils.USER_AGENTS[0] },
+                 { "36", "https://www.facebook.com" },
+                { "40", Utils.USER_AGENTS[0] },
                 { "Cookie", string.Join(";", cookies[".facebook.com"].Select(c => $"{c.Name}={c.Value}"))},
-                { "Accept", "*/*"},
+                { "20", "*/*"},
                 { "Origin", "https://www.messenger.com" }
             };
 

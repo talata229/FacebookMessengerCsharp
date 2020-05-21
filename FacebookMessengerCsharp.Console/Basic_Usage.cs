@@ -67,7 +67,7 @@ namespace FacebookMessengerCsharp.Console
             //}
 
             // Send an emoji to myself
-            //await client.send(new FB_Message { text = "Chúc 1 ngày tốt lành" }, "100005048402622", ThreadType.USER);
+            await client.send(new FB_Message { text = "Chúc 1 ngày tốt lành" }, "100005048402622", ThreadType.USER);
             //await client.sendEmoji("👍", EmojiSize.LARGE, thread_id: client.GetUserUid(), thread_type: ThreadType.USER);
 
             // Send a local file to myself

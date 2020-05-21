@@ -49,7 +49,7 @@ namespace FacebookMessengerCsharp.Client.API
             this._parser = new HtmlParser();
 
             this._headers = new Dictionary<string, string>() {
-                { "Referer", "https://www.facebook.com" },
+                  { "Referer", "https://www.facebook.com" },
                 { "User-Agent", user_agent ?? Utils.USER_AGENTS[0] },
             };
 
