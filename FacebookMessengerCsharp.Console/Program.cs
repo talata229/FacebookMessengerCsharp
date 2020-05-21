@@ -49,6 +49,7 @@ namespace FacebookMessengerCsharp.Console
         public static Task SendMessageToListUser()
         {
             FBClient_Simple simple = new FBClient_Simple();
+            string kwangtran229 = "100042693053214";
             return Task.Factory.StartNew(async () =>
             {
                 await simple.send(new FB_Message { text = "Chúc 1 ngày tốt lành123" }, "100005048402622", ThreadType.USER);
