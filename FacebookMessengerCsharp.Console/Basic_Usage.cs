@@ -1,8 +1,5 @@
 ﻿using FacebookMessengerCsharp.Client.API;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -91,7 +88,6 @@ namespace FacebookMessengerCsharp.Console
             System.Console.CancelKeyPress += new ConsoleCancelEventHandler((s, e) => { e.Cancel = true; _closing.Set(); });
             _closing.WaitOne();
             client.StopListening();
-
             // Logging out is not required
             // await client.DoLogout();
         }

@@ -5,9 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FacebookMessengerCsharp.Console
@@ -134,12 +132,14 @@ namespace FacebookMessengerCsharp.Console
                 try
                 {
                     string text = ListHelper.GetRandomItemInList(ListHelper.ListMessage);
+                    await this.setTypingStatus(TypingStatus.TYPING, user, ThreadType.USER);
                     await this.send(new FB_Message { text = text }, user, ThreadType.USER);
+                    await this.wave(true, user, ThreadType.USER);
                     System.Console.WriteLine($"Sent -${text}- to -{user}-");
                 }
                 catch (Exception ex)
                 {
-                    System.Console.WriteLine($"Send faild to {user}");
+                    System.Console.WriteLine($"Send failed to {user}");
                 }
 
             }
