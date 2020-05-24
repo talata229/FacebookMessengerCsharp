@@ -54,10 +54,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleLogHelper.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="FacebookToolHelper.cs" />
     <Compile Include="ListHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimsimiHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

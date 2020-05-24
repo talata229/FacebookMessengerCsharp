@@ -25,11 +25,14 @@ namespace Facebook.DAL
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Fb_BlockUser> Fb_BlockUser { get; set; }
         public virtual DbSet<Fb_Like_Post> Fb_Like_Post { get; set; }
         public virtual DbSet<Fb_Message> Fb_Message { get; set; }
         public virtual DbSet<Fb_Post> Fb_Post { get; set; }
         public virtual DbSet<Fb_TemplateMessage> Fb_TemplateMessage { get; set; }
+        public virtual DbSet<Fb_Test> Fb_Test { get; set; }
         public virtual DbSet<Fb_User> Fb_User { get; set; }
+        public virtual DbSet<Fb_User_Simsimi> Fb_User_Simsimi { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="FacebookToolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Fb_BlockUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="IsBlockAll" Type="bit" />
+          <Property Name="UtilTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="Fb_Like_Post">
           <Key>
             <PropertyRef Name="Id" />
@@ -50,6 +61,12 @@
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="Type" Type="nchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="Fb_Test">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="Fb_User">
           <Key>
             <PropertyRef Name="Id" />
@@ -58,6 +75,17 @@
           <Property Name="FacebookId" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="200" />
           <Property Name="BirthDay" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Fb_User_Simsimi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
+          <Property Name="FacebookName" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsAgree" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -106,11 +134,14 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="FacebookToolModelStoreContainer">
+          <EntitySet Name="Fb_BlockUser" EntityType="Self.Fb_BlockUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fb_Like_Post" EntityType="Self.Fb_Like_Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fb_Message" EntityType="Self.Fb_Message" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fb_Post" EntityType="Self.Fb_Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fb_TemplateMessage" EntityType="Self.Fb_TemplateMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_Test" EntityType="Self.Fb_Test" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fb_User" EntityType="Self.Fb_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_User_Simsimi" EntityType="Self.Fb_User_Simsimi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="Self.FK_Fb_Like_Post_Fb_Post">
             <End Role="Fb_Post" EntitySet="Fb_Post" />
@@ -130,11 +161,14 @@
     <edmx:ConceptualModels>
       <Schema Namespace="FacebookToolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="FbToolEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Fb_BlockUser" EntityType="FacebookToolModel.Fb_BlockUser" />
           <EntitySet Name="Fb_Like_Post" EntityType="FacebookToolModel.Fb_Like_Post" />
           <EntitySet Name="Fb_Message" EntityType="FacebookToolModel.Fb_Message" />
           <EntitySet Name="Fb_Post" EntityType="FacebookToolModel.Fb_Post" />
           <EntitySet Name="Fb_TemplateMessage" EntityType="FacebookToolModel.Fb_TemplateMessage" />
+          <EntitySet Name="Fb_Test" EntityType="FacebookToolModel.Fb_Test" />
           <EntitySet Name="Fb_User" EntityType="FacebookToolModel.Fb_User" />
+          <EntitySet Name="Fb_User_Simsimi" EntityType="FacebookToolModel.Fb_User_Simsimi" />
           <EntitySet Name="sysdiagrams" EntityType="FacebookToolModel.sysdiagram" />
           <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="FacebookToolModel.FK_Fb_Like_Post_Fb_Post">
             <End Role="Fb_Post" EntitySet="Fb_Post" />
@@ -149,6 +183,17 @@
             <End Role="Fb_Message" EntitySet="Fb_Message" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Fb_BlockUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsBlockAll" Type="Boolean" />
+          <Property Name="UtilTime" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="Fb_Like_Post">
           <Key>
             <PropertyRef Name="Id" />
@@ -199,6 +244,12 @@
           <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Fb_Message" Relationship="FacebookToolModel.FK_Fb_Message_Fb_TemplateMessage" FromRole="Fb_TemplateMessage" ToRole="Fb_Message" />
         </EntityType>
+        <EntityType Name="Fb_Test">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
         <EntityType Name="Fb_User">
           <Key>
             <PropertyRef Name="Id" />
@@ -208,6 +259,17 @@
           <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="BirthDay" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Fb_Message" Relationship="FacebookToolModel.FK_Fb_Message_Fb_User" FromRole="Fb_User" ToRole="Fb_Message" />
+        </EntityType>
+        <EntityType Name="Fb_User_Simsimi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsAgree" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -255,12 +317,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="FacebookToolModelStoreContainer" CdmEntityContainer="FbToolEntities">
+          <EntitySetMapping Name="Fb_BlockUser">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_BlockUser">
+              <MappingFragment StoreEntitySet="Fb_BlockUser">
+                <ScalarProperty Name="UtilTime" ColumnName="UtilTime" />
+                <ScalarProperty Name="IsBlockAll" ColumnName="IsBlockAll" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Fb_Like_Post">
             <EntityTypeMapping TypeName="FacebookToolModel.Fb_Like_Post">
               <MappingFragment StoreEntitySet="Fb_Like_Post">
@@ -310,11 +384,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Fb_Test">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_Test">
+              <MappingFragment StoreEntitySet="Fb_Test">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Fb_User">
             <EntityTypeMapping TypeName="FacebookToolModel.Fb_User">
               <MappingFragment StoreEntitySet="Fb_User">
                 <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fb_User_Simsimi">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_User_Simsimi">
+              <MappingFragment StoreEntitySet="Fb_User_Simsimi">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsAgree" ColumnName="IsAgree" />
+                <ScalarProperty Name="FacebookName" ColumnName="FacebookName" />
                 <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

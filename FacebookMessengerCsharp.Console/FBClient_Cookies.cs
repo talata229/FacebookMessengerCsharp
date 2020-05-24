@@ -1,4 +1,5 @@
-﻿using FacebookMessengerCsharp.Client.API;
+﻿using Facebook.DAL.Constants;
+using FacebookMessengerCsharp.Client.API;
 using FacebookMessengerCsharp.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -30,7 +31,46 @@ namespace FacebookMessengerCsharp.Console
 
         protected override async Task onMessage(string mid = null, string author_id = null, string message = null, FB_Message message_object = null, string thread_id = null, ThreadType? thread_type = null, long ts = 0, JToken metadata = null, JToken msg = null)
         {
-            System.Console.WriteLine(string.Format("Got new message from {0}: {1}", author_id, message));
+            //authorId: người gửi
+            //thread_id: thread hiện tại
+            var userId = this.GetUserUid();
+            if (userId != author_id)
+            {
+                await FacebookToolHelper.CheckSpecialMessage(message, thread_id);
+                ConsoleLogHelper.WriteToConsole($"Got new message from {author_id}: {message}");
+                var isBlock = await FacebookToolHelper.CheckIsBlockOrNot(author_id);
+                if (isBlock)
+                {
+                    return;
+                }
+                else
+                {
+                    //Co the send message o day
+                    var agreeSimsimi = await FacebookToolHelper.CheckUserAgreeSimsimi(thread_id);
+                    if (!agreeSimsimi)
+                    {
+                        await this.send(new FB_Message
+                        {
+                            text = Constant.TroLyAoMessage
+                        }, thread_id, ThreadType.USER);
+                        await FacebookToolHelper.AddUser5Min(thread_id);
+                    }
+                    else
+                    {
+                        string simsimiMessage = await SimsimiHelper.SendSimsimi(message);
+                        await this.send(new FB_Message
+                        {
+                            text = "Trợ lý ảo: " + simsimiMessage
+                        }, thread_id, ThreadType.USER);
+                        ConsoleLogHelper.WriteToConsole($"Send message = {simsimiMessage} to {thread_id}");
+                    }
+                }
+            }
+            else
+            {
+                //Tự mình gửi đi
+                await FacebookToolHelper.CheckSpecialMessage(message, thread_id);
+            }
             await Task.Yield();
         }
 

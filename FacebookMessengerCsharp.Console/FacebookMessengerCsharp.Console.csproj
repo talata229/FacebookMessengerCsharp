@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Graphics-Vibe-Hot-Burning-Social-Facebook.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
@@ -72,6 +75,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Facebook.DAL\Facebook.DAL.csproj">
+      <Project>{C7A807D6-ABE8-4DD5-A00B-2FEFE168D385}</Project>
+      <Name>Facebook.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FacebookMessengerCsharp.Client\FacebookMessengerCsharp.Client.csproj">
       <Project>{48dc3e7d-75b2-453c-8dab-7b152f069f47}</Project>
       <Name>FacebookMessengerCsharp.Client</Name>
@@ -80,6 +87,9 @@
       <Project>{BA02DB6D-BE7D-402E-8892-EA7606A3F327}</Project>
       <Name>FacebookMessengerCsharp.Helper</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Graphics-Vibe-Hot-Burning-Social-Facebook.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
