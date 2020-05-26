@@ -94,7 +94,7 @@ namespace FacebookMessengerCsharp.Helper
                     {
                         ConsoleLogHelper.WriteToConsole($"Like Post failed - {post.Id}");
                     }
-                    Thread.Sleep(TimeSpan.FromSeconds(5));
+                    Thread.Sleep(TimeSpan.FromSeconds(20));
                 }
             }
 
