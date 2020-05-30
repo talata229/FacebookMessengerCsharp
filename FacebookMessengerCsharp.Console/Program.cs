@@ -1,6 +1,7 @@
 ﻿using FacebookMessengerCsharp.Helper;
 using Quartz;
 using Quartz.Impl;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FacebookMessengerCsharp.Console
@@ -9,6 +10,7 @@ namespace FacebookMessengerCsharp.Console
     {
         static async Task Main(string[] args)
         {
+            System.Console.OutputEncoding = Encoding.Unicode;
             #region Chay ngon
             //// Run example
             ISchedulerFactory schedulerFactory = new StdSchedulerFactory();

@@ -70,7 +70,17 @@ namespace FacebookMessengerCsharp.Helper
                 foreach (var post in newfeedDTOs)
                 {
                     string type = EnumHelper.GetDescription(EnumReactionType.LIKE);
-                    bool isSuccess = await LikePost(Constant.Token, post.Id, EnumReactionType.LIKE);
+
+                    Random rd = new Random();
+                    bool isSuccess = false;
+                    if (rd.NextDouble() <= 0.7)
+                    {
+                        isSuccess = await LikePost(Constant.Token, post.Id, EnumReactionType.LIKE);
+                    }
+                    else
+                    {
+                        isSuccess = await LikePost(Constant.Token, post.Id, EnumReactionType.LOVE);
+                    }
                     if (isSuccess)
                     {
                         //Save db

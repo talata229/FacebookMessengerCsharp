@@ -49,9 +49,10 @@ namespace FacebookMessengerCsharp.Console
                     var agreeSimsimi = await FacebookToolHelper.CheckUserAgreeSimsimi(thread_id);
                     if (!agreeSimsimi)
                     {
+
                         await this.send(new FB_Message
                         {
-                            text = Constant.TroLyAoMessage
+                            text = ListHelper.GetRandomItemInList(Constant.ListTroLyAoMessage)
                         }, thread_id, ThreadType.USER);
                         await FacebookToolHelper.AddUser5Min(thread_id);
                     }
