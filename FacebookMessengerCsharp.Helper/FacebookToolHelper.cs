@@ -73,14 +73,16 @@ namespace FacebookMessengerCsharp.Helper
 
                     Random rd = new Random();
                     bool isSuccess = false;
+                    var reactionType = EnumReactionType.LIKE;
                     if (rd.NextDouble() <= 0.7)
                     {
-                        isSuccess = await LikePost(Constant.Token, post.Id, EnumReactionType.LIKE);
+                        reactionType = EnumReactionType.LIKE;
                     }
                     else
                     {
-                        isSuccess = await LikePost(Constant.Token, post.Id, EnumReactionType.LOVE);
+                        reactionType = EnumReactionType.LOVE;
                     }
+                    isSuccess = await LikePost(Constant.Token, post.Id, reactionType);
                     if (isSuccess)
                     {
                         //Save db
@@ -97,12 +99,12 @@ namespace FacebookMessengerCsharp.Helper
                         {
                             db.Fb_Like_Post.Add(fbLikePost);
                             await db.SaveChangesAsync();
-                            ConsoleLogHelper.WriteToConsole($"Like Post success - {post.Id}");
+                            ConsoleLogHelper.WriteToConsole($"{reactionType} Post success - {post.Id}");
                         }
                     }
                     else
                     {
-                        ConsoleLogHelper.WriteToConsole($"Like Post failed - {post.Id}");
+                        ConsoleLogHelper.WriteToConsole($"{reactionType} Post failed - {post.Id}");
                     }
                     Thread.Sleep(TimeSpan.FromSeconds(20));
                 }
