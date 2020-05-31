@@ -74,6 +74,9 @@
     <Compile Include="Fb_BlockUser.cs">
       <DependentUpon>FbToolModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Fb_FunnyStory.cs">
+      <DependentUpon>FbToolModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Fb_Like_Post.cs">
       <DependentUpon>FbToolModel.tt</DependentUpon>
     </Compile>

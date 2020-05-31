@@ -272,9 +272,24 @@ namespace FacebookMessengerCsharp.Helper
                 {
                     return EnumFeature.GirlXinh;
                 }
+                if (message.Equals(EnumHelper.GetDescription(EnumFeature.TruyenCuoi), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return EnumFeature.TruyenCuoi;
+                }
             }
             return EnumFeature.Normal;
         }
+
+        public static async Task<List<string>> GetListTruyenCuoi()
+        {
+            List<string> listTruyenCuoi = new List<string>();
+            using (FbToolEntities db = new FbToolEntities())
+            {
+                listTruyenCuoi = await db.Fb_FunnyStory.Select(x => x.Content).ToListAsync();
+            }
+            return listTruyenCuoi;
+        }
+
 
         public static async Task<bool> CheckIsBlockOrNot(string userId)
         {

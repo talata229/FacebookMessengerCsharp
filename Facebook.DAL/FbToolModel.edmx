@@ -16,6 +16,15 @@
           <Property Name="IsBlockAll" Type="bit" />
           <Property Name="UtilTime" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Fb_FunnyStory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Fb_Like_Post">
           <Key>
             <PropertyRef Name="Id" />
@@ -143,6 +152,12 @@
           <EntitySet Name="Fb_User" EntityType="Self.Fb_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fb_User_Simsimi" EntityType="Self.Fb_User_Simsimi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_FunnyStory" EntityType="Self.Fb_FunnyStory" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Fb_FunnyStory].[Id] AS [Id], 
+    [Fb_FunnyStory].[Content] AS [Content]
+    FROM [dbo].[Fb_FunnyStory] AS [Fb_FunnyStory]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="Self.FK_Fb_Like_Post_Fb_Post">
             <End Role="Fb_Post" EntitySet="Fb_Post" />
             <End Role="Fb_Like_Post" EntitySet="Fb_Like_Post" />
@@ -170,6 +185,7 @@
           <EntitySet Name="Fb_User" EntityType="FacebookToolModel.Fb_User" />
           <EntitySet Name="Fb_User_Simsimi" EntityType="FacebookToolModel.Fb_User_Simsimi" />
           <EntitySet Name="sysdiagrams" EntityType="FacebookToolModel.sysdiagram" />
+          <EntitySet Name="Fb_FunnyStory" EntityType="FacebookToolModel.Fb_FunnyStory" />
           <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="FacebookToolModel.FK_Fb_Like_Post_Fb_Post">
             <End Role="Fb_Post" EntitySet="Fb_Post" />
             <End Role="Fb_Like_Post" EntitySet="Fb_Like_Post" />
@@ -280,6 +296,13 @@
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Fb_FunnyStory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Fb_Like_Post_Fb_Post">
           <End Type="FacebookToolModel.Fb_Post" Role="Fb_Post" Multiplicity="0..1" />
@@ -421,6 +444,14 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fb_FunnyStory">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_FunnyStory">
+              <MappingFragment StoreEntitySet="Fb_FunnyStory">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

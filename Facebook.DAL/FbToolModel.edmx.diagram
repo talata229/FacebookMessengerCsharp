@@ -9,11 +9,12 @@
         <EntityTypeShape EntityType="FacebookToolModel.Fb_Like_Post" Width="1.5" PointX="5" PointY="5.125" />
         <EntityTypeShape EntityType="FacebookToolModel.Fb_Message" Width="1.5" PointX="3" PointY="1" />
         <EntityTypeShape EntityType="FacebookToolModel.Fb_Post" Width="1.5" PointX="2.75" PointY="5" />
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_TemplateMessage" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="FacebookToolModel.Fb_TemplateMessage" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="FacebookToolModel.Fb_Test" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_User" Width="1.5" PointX="0.75" PointY="5.25" />
+        <EntityTypeShape EntityType="FacebookToolModel.Fb_User" Width="1.5" PointX="0.75" PointY="1.25" />
         <EntityTypeShape EntityType="FacebookToolModel.Fb_User_Simsimi" Width="1.5" PointX="7.75" PointY="2.75" />
         <EntityTypeShape EntityType="FacebookToolModel.sysdiagram" Width="1.5" PointX="7.75" PointY="5.75" />
+        <EntityTypeShape EntityType="FacebookToolModel.Fb_FunnyStory" Width="1.5" PointX="0.75" PointY="8.75" />
         <AssociationConnector Association="FacebookToolModel.FK_Fb_Like_Post_Fb_Post" />
         <AssociationConnector Association="FacebookToolModel.FK_Fb_Message_Fb_TemplateMessage" />
         <AssociationConnector Association="FacebookToolModel.FK_Fb_Message_Fb_User" />

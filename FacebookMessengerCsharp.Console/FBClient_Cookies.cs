@@ -61,6 +61,13 @@ namespace FacebookMessengerCsharp.Console
                                 thread_type: ThreadType.USER);
                         }
                         return;
+                    case Facebook.DAL.Enum.EnumFeature.TruyenCuoi:
+                        List<string> listTruyenCuoi = await FacebookToolHelper.GetListTruyenCuoi();
+                        await this.send(new FB_Message
+                        {
+                            text = ListHelper.GetRandomItemInList(listTruyenCuoi)
+                        }, thread_id, ThreadType.USER);
+                        return;
                     default:
                         break;
                 }

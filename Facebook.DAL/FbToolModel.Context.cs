@@ -34,5 +34,6 @@ namespace Facebook.DAL
         public virtual DbSet<Fb_User> Fb_User { get; set; }
         public virtual DbSet<Fb_User_Simsimi> Fb_User_Simsimi { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Fb_FunnyStory> Fb_FunnyStory { get; set; }
     }
 }
