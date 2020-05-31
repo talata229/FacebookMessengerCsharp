@@ -21,117 +21,153 @@ namespace FacebookMessengerCsharp.Helper
             List<NewfeedDTO> newfeedDTOs = new List<NewfeedDTO>();
             try
             {
-                HttpClient http = new HttpClient();
-                string url = $"https://graph.facebook.com/me/home?access_token={token}&fields=id,message,created_time,from,type&limit=50";
-                var response = await http.GetAsync(url);
-                var result = await response.Content.ReadAsStringAsync();
-                NewfeedRoot categoryRoot = JsonConvert.DeserializeObject<NewfeedRoot>(result);
+                try
+                {
+                    HttpClient http = new HttpClient();
+                    string url = $"https://graph.facebook.com/me/home?access_token={token}&fields=id,message,created_time,from,type&limit=50";
+                    var response = await http.GetAsync(url);
+                    var result = await response.Content.ReadAsStringAsync();
+                    NewfeedRoot categoryRoot = JsonConvert.DeserializeObject<NewfeedRoot>(result);
 
-                newfeedDTOs = categoryRoot.Data;
-                //Save post in db
+                    newfeedDTOs = categoryRoot.Data;
+                    //Save post in db
+                    using (FbToolEntities db = new FbToolEntities())
+                    {
+                        foreach (var post in newfeedDTOs)
+                        {
+                            try
+                            {
+                                Fb_Post fb_Post = new Fb_Post
+                                {
+                                    FacebookId = post.Id,
+                                    CreatedDate = DateTime.Now,
+                                    UpdatedDate = null,
+                                    FromUserId = post.From?.Id,
+                                    Type = post.Type,
+                                    Message = post.Message
+                                }; ;
+                                if (!db.Fb_Post.Any(x => x.FacebookId == post.Id))
+                                {
+                                    db.Fb_Post.Add(fb_Post);
+                                    await db.SaveChangesAsync();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"There's something went wrong GetNewFeed1. Exception = {ex.Message}. InnerException ={ex.InnerException?.Message}");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ConsoleLogHelper.WriteToConsole($"Exception in GetNewFeed, message = {ex.Message}");
+                }
+                if (!isOnlyUser)
+                {
+                    return newfeedDTOs;
+                }
+                var newfeedDTOsUser = newfeedDTOs.Where(x => x.From.Category == null).ToList();
+                return newfeedDTOsUser;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There's something went wrong GetNewFeed2. Exception = {ex.Message}. InnerException ={ex.InnerException?.Message}");
+            }
+            return newfeedDTOs;
+        }
+
+        public static async Task ReactionAllPost()
+        {
+            try
+            {
+                List<NewfeedDTO> newfeedDTOs = await GetNewFeed(Constant.Token);
                 using (FbToolEntities db = new FbToolEntities())
                 {
                     foreach (var post in newfeedDTOs)
                     {
-                        Fb_Post fb_Post = new Fb_Post
+                        try
                         {
-                            FacebookId = post.Id,
-                            CreatedDate = DateTime.Now,
-                            UpdatedDate = null,
-                            FromUserId = post.From?.Id,
-                            Type = post.Type,
-                            Message = post.Message
-                        }; ;
-                        if (!db.Fb_Post.Any(x => x.FacebookId == post.Id))
+                            string type = EnumHelper.GetDescription(EnumReactionType.LIKE);
+
+                            Random rd = new Random();
+                            bool isSuccess = false;
+                            var reactionType = EnumReactionType.LIKE;
+                            if (rd.NextDouble() <= 0.7)
+                            {
+                                reactionType = EnumReactionType.LIKE;
+                            }
+                            else
+                            {
+                                reactionType = EnumReactionType.LOVE;
+                            }
+                            isSuccess = await LikePost(Constant.Token, post.Id, reactionType);
+                            if (isSuccess)
+                            {
+                                //Save db
+                                Fb_Post postInDb = await db.Fb_Post.FirstOrDefaultAsync(x => x.FacebookId == post.Id);
+                                Fb_Like_Post fbLikePost = new Fb_Like_Post
+                                {
+                                    IdPost = postInDb?.Id,
+                                    FacebookIdPost = post.Id,
+                                    CreatedDate = DateTime.Now,
+                                    UpdatedDate = null,
+                                    Type = type
+                                };
+                                if (!db.Fb_Like_Post.Any(x => x.FacebookIdPost == postInDb.FacebookId))
+                                {
+                                    db.Fb_Like_Post.Add(fbLikePost);
+                                    await db.SaveChangesAsync();
+                                    ConsoleLogHelper.WriteToConsole($"{reactionType} Post success - {post.Id}");
+                                }
+                            }
+                            else
+                            {
+                                ConsoleLogHelper.WriteToConsole($"{reactionType} Post failed - {post.Id}");
+                            }
+                            Thread.Sleep(TimeSpan.FromSeconds(20));
+                        }
+                        catch (Exception ex)
                         {
-                            db.Fb_Post.Add(fb_Post);
-                            await db.SaveChangesAsync();
+                            Console.WriteLine($"There's something went wrong ReactionAllPost1. Exception = {ex.Message}. InnerException ={ex.InnerException?.Message}");
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                ConsoleLogHelper.WriteToConsole($"Exception in GetNewFeed, message = {ex.Message}");
+                Console.WriteLine($"There's something went wrong GetNewFeed. ReactionAllPost2 = {ex.Message}. InnerException ={ex.InnerException?.Message}");
             }
-            if (!isOnlyUser)
-            {
-                return newfeedDTOs;
-            }
-            var newfeedDTOsUser = newfeedDTOs.Where(x => x.From.Category == null).ToList();
-            return newfeedDTOsUser;
-        }
-
-        public static async Task ReactionAllPost()
-        {
-            List<NewfeedDTO> newfeedDTOs = await GetNewFeed(Constant.Token);
-            using (FbToolEntities db = new FbToolEntities())
-            {
-                foreach (var post in newfeedDTOs)
-                {
-                    string type = EnumHelper.GetDescription(EnumReactionType.LIKE);
-
-                    Random rd = new Random();
-                    bool isSuccess = false;
-                    var reactionType = EnumReactionType.LIKE;
-                    if (rd.NextDouble() <= 0.7)
-                    {
-                        reactionType = EnumReactionType.LIKE;
-                    }
-                    else
-                    {
-                        reactionType = EnumReactionType.LOVE;
-                    }
-                    isSuccess = await LikePost(Constant.Token, post.Id, reactionType);
-                    if (isSuccess)
-                    {
-                        //Save db
-                        Fb_Post postInDb = await db.Fb_Post.FirstOrDefaultAsync(x => x.FacebookId == post.Id);
-                        Fb_Like_Post fbLikePost = new Fb_Like_Post
-                        {
-                            IdPost = postInDb?.Id,
-                            FacebookIdPost = post.Id,
-                            CreatedDate = DateTime.Now,
-                            UpdatedDate = null,
-                            Type = type
-                        };
-                        if (!db.Fb_Like_Post.Any(x => x.FacebookIdPost == postInDb.FacebookId))
-                        {
-                            db.Fb_Like_Post.Add(fbLikePost);
-                            await db.SaveChangesAsync();
-                            ConsoleLogHelper.WriteToConsole($"{reactionType} Post success - {post.Id}");
-                        }
-                    }
-                    else
-                    {
-                        ConsoleLogHelper.WriteToConsole($"{reactionType} Post failed - {post.Id}");
-                    }
-                    Thread.Sleep(TimeSpan.FromSeconds(20));
-                }
-            }
-
         }
         public static async Task<bool> LikePost(string token, string postId, EnumReactionType type = EnumReactionType.LIKE)
         {
-            HttpClient http = new HttpClient();
-            string typeReact = EnumHelper.GetDescription(type);
-            string url = $"https://graph.facebook.com/{postId}/reactions?type={typeReact}&method=POST&access_token={token}";
-            var response = await http.GetAsync(url);
-            var result = await response.Content.ReadAsStringAsync();
-            FbSimpleResponse res = JsonConvert.DeserializeObject<FbSimpleResponse>(result);
-            if (res.Success)
-            {
-                return true;
-            }
-            string[] arr = postId.Split('_');
             var isSuccess = false;
-            if (arr.Length > 1)
+            try
             {
-                string url2 = $"https://graph.facebook.com/{arr[1]}/reactions?type={typeReact}&method=POST&access_token={token}";
-                var response2 = await http.GetAsync(url2);
-                var result2 = await response2.Content.ReadAsStringAsync();
-                FbSimpleResponse res2 = JsonConvert.DeserializeObject<FbSimpleResponse>(result2);
-                isSuccess = res2.Success;
+                HttpClient http = new HttpClient();
+                string typeReact = EnumHelper.GetDescription(type);
+                string url = $"https://graph.facebook.com/{postId}/reactions?type={typeReact}&method=POST&access_token={token}";
+                var response = await http.GetAsync(url);
+                var result = await response.Content.ReadAsStringAsync();
+                FbSimpleResponse res = JsonConvert.DeserializeObject<FbSimpleResponse>(result);
+                if (res.Success)
+                {
+                    return true;
+                }
+                string[] arr = postId.Split('_');
+
+                if (arr.Length > 1)
+                {
+                    string url2 = $"https://graph.facebook.com/{arr[1]}/reactions?type={typeReact}&method=POST&access_token={token}";
+                    var response2 = await http.GetAsync(url2);
+                    var result2 = await response2.Content.ReadAsStringAsync();
+                    FbSimpleResponse res2 = JsonConvert.DeserializeObject<FbSimpleResponse>(result2);
+                    isSuccess = res2.Success;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There's something went wrong GetNewFeed. Exception = {ex.Message}. InnerException ={ex.InnerException?.Message}");
             }
             return isSuccess;
         }
