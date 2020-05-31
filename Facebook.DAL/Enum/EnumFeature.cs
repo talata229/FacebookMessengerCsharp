@@ -4,6 +4,8 @@ namespace Facebook.DAL.Enum
 {
     public enum EnumFeature
     {
+        [Description("NoSpecialFeature")]
+        NoSpecialFeature,
         [Description("StopAll")]
         StopAll,
         [Description("RemoveStopAll")]
@@ -11,6 +13,10 @@ namespace Facebook.DAL.Enum
         [Description("Stop5Min")]
         Stop5Min,
         [Description("TroLyAo")]
-        TroLyAo
+        TroLyAo,
+        [Description("GirlXinh")]
+        GirlXinh,
+        [Description("Normal")]
+        Normal
     }
 }

@@ -12,5 +12,10 @@ namespace Facebook.DAL.Constants
             "Mình là trợ lý ảo của anh Quang.\nHiện tại anh Quang không đang online.\nTrong quá trình trợ đợi, các bạn có thể viết tin nhắn \"trolyao\" để nói chuyện với mình.\n" +
             "Khi nào online thì anh Quang sẽ trả lời cho bạn."
         };
+
+        public static List<string> ListConfirmAgreeUseTroLyAoMessage = new List<string>
+        {
+            "Chào bạn. Mình là trợ lý ảo.\nRất hân hạn được nói chuyện với bạn.\nCác bạn có thể đặt ra bất cứ câu hỏi nào, mình sẽ trả lời cho bạn"
+        };
     }
 }

@@ -136,7 +136,7 @@ namespace FacebookMessengerCsharp.Helper
             return isSuccess;
         }
 
-        public static async Task CheckSpecialMessage(string message, string threadId)
+        public static async Task<EnumFeature> CheckSpecialMessage(string message, string threadId)
         {
             using (FbToolEntities db = new FbToolEntities())
             {
@@ -150,7 +150,7 @@ namespace FacebookMessengerCsharp.Helper
                         await db.SaveChangesAsync();
                         ConsoleLogHelper.WriteToConsole($"RemoveStopAll {threadId}");
                     }
-                    return;
+                    return EnumFeature.NoSpecialFeature;
                 }
                 //StopAll
                 if (message.Equals(EnumHelper.GetDescription(EnumFeature.StopAll), StringComparison.InvariantCultureIgnoreCase))
@@ -177,9 +177,8 @@ namespace FacebookMessengerCsharp.Helper
                         await db.SaveChangesAsync();
                         ConsoleLogHelper.WriteToConsole($"StopAll {threadId}");
                     }
-                    return;
+                    return EnumFeature.NoSpecialFeature;
                 }
-
                 //Stop5Min
                 if (message.Equals(EnumHelper.GetDescription(EnumFeature.Stop5Min), StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -206,7 +205,6 @@ namespace FacebookMessengerCsharp.Helper
                     //    await db.SaveChangesAsync();
                     //}
                     //ConsoleLogHelper.WriteToConsole($"Stop5Min {threadId}");
-                    //return;
                 }
                 //TroLyAo
                 if (message.Equals(EnumHelper.GetDescription(EnumFeature.TroLyAo), StringComparison.InvariantCultureIgnoreCase))
@@ -232,9 +230,14 @@ namespace FacebookMessengerCsharp.Helper
                         await db.SaveChangesAsync();
                         ConsoleLogHelper.WriteToConsole($"TroLyAo agree - {threadId}");
                     }
-                    return;
+                    return EnumFeature.TroLyAo;
+                }
+                if (message.Equals(EnumHelper.GetDescription(EnumFeature.GirlXinh), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return EnumFeature.GirlXinh;
                 }
             }
+            return EnumFeature.Normal;
         }
 
         public static async Task<bool> CheckIsBlockOrNot(string userId)

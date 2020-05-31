@@ -36,7 +36,34 @@ namespace FacebookMessengerCsharp.Console
             var userId = this.GetUserUid();
             if (userId != author_id)
             {
-                await FacebookToolHelper.CheckSpecialMessage(message, thread_id);
+                var specialMessage = await FacebookToolHelper.CheckSpecialMessage(message, thread_id);
+                switch (specialMessage)
+                {
+                    case Facebook.DAL.Enum.EnumFeature.NoSpecialFeature:
+                    case Facebook.DAL.Enum.EnumFeature.StopAll:
+                    case Facebook.DAL.Enum.EnumFeature.RemoveStopAll:
+                    case Facebook.DAL.Enum.EnumFeature.Stop5Min:
+                        return;
+                    case Facebook.DAL.Enum.EnumFeature.TroLyAo:
+                        await this.send(new FB_Message
+                        {
+                            text = ListHelper.GetRandomItemInList(Constant.ListConfirmAgreeUseTroLyAoMessage)
+                        }, thread_id, ThreadType.USER);
+                        return;
+                    case Facebook.DAL.Enum.EnumFeature.GirlXinh:
+                        string fileNameWithExtension = DownloadHelper.DownloadImageFromUrl(DownloadHelper.RandomImageIdGirl());
+                        using (FileStream stream = File.OpenRead(fileNameWithExtension))
+                        {
+                            await sendLocalFiles(
+                                file_paths: new Dictionary<string, Stream>() { { fileNameWithExtension, stream } },
+                                message: null,
+                                thread_id: author_id,
+                                thread_type: ThreadType.USER);
+                        }
+                        return;
+                    default:
+                        break;
+                }
                 ConsoleLogHelper.WriteToConsole($"Got new message from {author_id}: {message}");
                 var isBlock = await FacebookToolHelper.CheckIsBlockOrNot(author_id);
                 if (isBlock)
