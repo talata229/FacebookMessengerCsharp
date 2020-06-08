@@ -18,6 +18,8 @@ namespace Facebook.DAL.Enum
         GirlXinh,
         [Description("TruyenCuoi")]
         TruyenCuoi,
+        [Description("TinTuc")]
+        TinTuc,
         [Description("Normal")]
         Normal
     }

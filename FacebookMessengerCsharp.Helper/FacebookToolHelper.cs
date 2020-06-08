@@ -276,6 +276,10 @@ namespace FacebookMessengerCsharp.Helper
                 {
                     return EnumFeature.TruyenCuoi;
                 }
+                if (message.Equals(EnumHelper.GetDescription(EnumFeature.TinTuc), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return EnumFeature.TinTuc;
+                }
             }
             return EnumFeature.Normal;
         }

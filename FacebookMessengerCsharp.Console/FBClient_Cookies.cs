@@ -68,6 +68,16 @@ namespace FacebookMessengerCsharp.Console
                             text = ListHelper.GetRandomItemInList(listTruyenCuoi)
                         }, thread_id, ThreadType.USER);
                         return;
+                    case Facebook.DAL.Enum.EnumFeature.TinTuc:
+                        List<NewfeedRss> newfeedRsses = RSSHelper.GetTinMoiNhat();
+                        foreach (var newfeed in newfeedRsses)
+                        {
+                            await this.send(new FB_Message
+                            {
+                                text = $"{ newfeed.Title} \n{newfeed.Link}"
+                            }, thread_id, ThreadType.USER);
+                        }
+                        return;
                     default:
                         break;
                 }
