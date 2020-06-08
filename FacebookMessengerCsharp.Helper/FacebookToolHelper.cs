@@ -5,6 +5,7 @@ using Facebook.DAL.Responses;
 using Facebook.DAL.Responses.Newfeed;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -16,9 +17,10 @@ namespace FacebookMessengerCsharp.Helper
 {
     public class FacebookToolHelper
     {
-        public static async Task<List<NewfeedDTO>> GetNewFeed(string token, bool isOnlyUser = true)
+        public static async Task<List<NewfeedDTO>> GetNewFeed(string token, bool isOnlyUser = true, int countGet = 2)
         {
             List<NewfeedDTO> newfeedDTOs = new List<NewfeedDTO>();
+
             try
             {
                 try
@@ -28,8 +30,24 @@ namespace FacebookMessengerCsharp.Helper
                     var response = await http.GetAsync(url);
                     var result = await response.Content.ReadAsStringAsync();
                     NewfeedRoot categoryRoot = JsonConvert.DeserializeObject<NewfeedRoot>(result);
-
+                    //Lấy lần 1
                     newfeedDTOs = categoryRoot.Data;
+
+                    for (int i = 0; i < countGet; i++)
+                    {
+                        try
+                        {
+                            url = categoryRoot.Paging?.Next;
+                            response = await http.GetAsync(url);
+                            result = await response.Content.ReadAsStringAsync();
+                            categoryRoot = JsonConvert.DeserializeObject<NewfeedRoot>(result);
+                            newfeedDTOs = newfeedDTOs.Concat(categoryRoot.Data).ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"GetNewFeed lần {i} bị lỗi!");
+                        }
+                    }
                     //Save post in db
                     using (FbToolEntities db = new FbToolEntities())
                     {
@@ -81,7 +99,8 @@ namespace FacebookMessengerCsharp.Helper
         {
             try
             {
-                List<NewfeedDTO> newfeedDTOs = await GetNewFeed(Constant.Token);
+                List<NewfeedDTO> newfeedDTOs = await GetNewFeed(Constant.Token, true, 3);
+                newfeedDTOs = newfeedDTOs.Distinct(new ComparerCustom()).ToList();
                 using (FbToolEntities db = new FbToolEntities())
                 {
                     foreach (var post in newfeedDTOs)
@@ -89,7 +108,6 @@ namespace FacebookMessengerCsharp.Helper
                         try
                         {
                             string type = EnumHelper.GetDescription(EnumReactionType.LIKE);
-
                             Random rd = new Random();
                             bool isSuccess = false;
                             var reactionType = EnumReactionType.LIKE;

@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComparerCustom.cs" />
     <Compile Include="ConsoleLogHelper.cs" />
     <Compile Include="DownloadHelper.cs" />
     <Compile Include="EnumHelper.cs" />
