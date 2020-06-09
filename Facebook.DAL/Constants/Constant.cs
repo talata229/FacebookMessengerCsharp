@@ -4,7 +4,7 @@ namespace Facebook.DAL.Constants
 {
     public class Constant
     {
-        public static string Token = "EAAAAUaZA8jlABAFXJi1abZAY3dPsACsp7xZB6WHKv8QamEqh95vGbkEiqIqdQ7Y5lZAKHM0ytyaW4BfFkLQQUI3V7W8z1TkgW8ojnFEVozUJGLcG60cXyrwQ4LXYcOc5lL2m3vIO1VmPDkhUhSnsgWiMT1rBFv85qpk1JrzXFF6ZCrlzZCghcYujo2AnX4JnAZD";
+        public static string Token = "EAAAAUaZA8jlABAMrczZC1Ue47TdL6hFByPM6fumLburjjLuCD6v7o8H6PKiVWjEdPjGOThIiF4sj94WZCKd33JTR37IBZB9REPBsrKTtZBDjIfLff2It8tKG7vqPDGLuCAi192eZAcyZCIglzU7vZCa5z2HoDvGnLRmYjBoTOpJFD5foRIqTJ2jTCvWT6nVPz4gZD";
         public static List<string> ListTroLyAoMessage = new List<string>
         {
             "Đây là trợ lý ảo của Quang.\nHiện tại Quang không đang online nên không thể trả lời bạn ngay được.\nTrong khi chờ đợi, các bạn có thể gõ tin nhắn \"trolyao\" để trao đổi với trợ lý ảo" ,
