@@ -4,7 +4,7 @@ namespace Facebook.DAL.Constants
 {
     public class Constant
     {
-        public static string Token = "EAAAAUaZA8jlABAICwwvQZBkiIZAMnkHMLYLrVE9ucxWLXZBGePHIjiMkqrFX3QJZBn0tSDxM5p4SIBoOLtOJe6OQe5wnmxw7uri3ELZBAK0FuAD0X1JpMaiV0j2TvYw39NpWAuye7H1g7bAOJrSEKoqGXBTSPuSL9lquQJdgJgddW2uo4b2Wp8moTftlcNvVMZD";
+        public static string Token = "EAAAAUaZA8jlABAOrk9a1JfVjEtIM0eOZCvm0erZCauRurmH9DVZBdGB0lEzBZCpmyfGlhAUuCf6jlLbCrls3YFAZA3JuNzyo6yomQZCdXUZBtC6BUE44ScthZBPn61s0ZB3QH3zoppJ6oqxhrZCFB8CxDpNKZAUCXCTFSFXuRLtSUqWSom7y1ZAZC44qKeS7mabPy0LLsZD";
         public static List<string> ListTroLyAoMessage = new List<string>
         {
             "Đây là trợ lý ảo của Quang.\nHiện tại Quang không đang online nên không thể trả lời bạn ngay được.\nTrong khi chờ đợi, các bạn có thể gõ tin nhắn \"trolyao\" để trao đổi với trợ lý ảo" ,
@@ -17,5 +17,7 @@ namespace Facebook.DAL.Constants
         {
             "Chào bạn. Mình là trợ lý ảo.\nRất hân hạn được nói chuyện với bạn.\nCác bạn có thể đặt ra bất cứ câu hỏi nào, mình sẽ trả lời cho bạn"
         };
+
+        public static int TIME_SLEEP_REACTION = 60 * 1000;
     }
 }

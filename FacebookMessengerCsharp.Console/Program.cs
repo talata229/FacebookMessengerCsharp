@@ -20,7 +20,8 @@ namespace FacebookMessengerCsharp.Console
                 .Build();
             ITrigger trigger = TriggerBuilder.Create()
                 //.WithCronSchedule("0 0/1 * * * ?") //1 phut 1 lan
-                .WithCronSchedule("0 0 0/1 1/1 * ? *") //1 tieng 1 lan
+                //.WithCronSchedule("0 0 0/1 1/1 * ? *") //1 tieng 1 lan  //SESSION_COOKIES_core.dat
+                .WithCronSchedule("0 0/30 * 1/1 * ? *") //30 phút 1 lần
                 .StartNow()
                 .Build();
             await scheduler.ScheduleJob(job, trigger);

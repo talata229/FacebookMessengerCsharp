@@ -5,7 +5,6 @@ using Facebook.DAL.Responses;
 using Facebook.DAL.Responses.Newfeed;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -17,10 +16,9 @@ namespace FacebookMessengerCsharp.Helper
 {
     public class FacebookToolHelper
     {
-        public static async Task<List<NewfeedDTO>> GetNewFeed(string token, bool isOnlyUser = true, int countGet = 2)
+        public static async Task<List<NewfeedDTO>> GetNewFeed(string token, bool isOnlyUser = true, int countGet = 3)
         {
             List<NewfeedDTO> newfeedDTOs = new List<NewfeedDTO>();
-
             try
             {
                 try
@@ -111,13 +109,17 @@ namespace FacebookMessengerCsharp.Helper
                             Random rd = new Random();
                             bool isSuccess = false;
                             var reactionType = EnumReactionType.LIKE;
-                            if (rd.NextDouble() <= 0.7)
+                            if (rd.NextDouble() <= 0.5)
                             {
                                 reactionType = EnumReactionType.LIKE;
                             }
-                            else
+                            else if (rd.NextDouble() <= 0.8)
                             {
                                 reactionType = EnumReactionType.LOVE;
+                            }
+                            else
+                            {
+                                reactionType = EnumReactionType.HAHA;
                             }
                             isSuccess = await LikePost(Constant.Token, post.Id, reactionType);
                             if (isSuccess)
@@ -143,7 +145,7 @@ namespace FacebookMessengerCsharp.Helper
                             {
                                 ConsoleLogHelper.WriteToConsole($"{reactionType} Post failed - {post.Id}");
                             }
-                            Thread.Sleep(TimeSpan.FromSeconds(20));
+                            Thread.Sleep(TimeSpan.FromSeconds(Constant.TIME_SLEEP_REACTION));
                         }
                         catch (Exception ex)
                         {
@@ -236,29 +238,7 @@ namespace FacebookMessengerCsharp.Helper
                 //Stop5Min
                 if (message.Equals(EnumHelper.GetDescription(EnumFeature.Stop5Min), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    await AddUser5Min(threadId);
-                    //var userInDb = await db.Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == threadId);
-                    //if (userInDb == null)
-                    //{
-                    //    Fb_BlockUser blockUser = new Fb_BlockUser
-                    //    {
-                    //        FacebookId = threadId,
-                    //        CreatedDate = DateTime.Now,
-                    //        UpdatedDate = null,
-                    //        IsBlockAll = false,
-                    //        UtilTime = DateTime.Now.AddMinutes(5),
-                    //    };
-                    //    db.Fb_BlockUser.Add(blockUser);
-                    //    await db.SaveChangesAsync();
-                    //}
-                    //if (userInDb != null)
-                    //{
-                    //    userInDb.IsBlockAll = false;
-                    //    userInDb.UpdatedDate = DateTime.Now;
-                    //    userInDb.UtilTime = DateTime.Now.AddMinutes(5);
-                    //    await db.SaveChangesAsync();
-                    //}
-                    //ConsoleLogHelper.WriteToConsole($"Stop5Min {threadId}");
+                    await AddUser10Min(threadId);
                 }
                 //TroLyAo
                 if (message.Equals(EnumHelper.GetDescription(EnumFeature.TroLyAo), StringComparison.InvariantCultureIgnoreCase))
@@ -344,7 +324,7 @@ namespace FacebookMessengerCsharp.Helper
             }
         }
 
-        public static async Task AddUser5Min(string userId)
+        public static async Task AddUser10Min(string userId)
         {
             using (FbToolEntities db = new FbToolEntities())
             {
@@ -357,7 +337,7 @@ namespace FacebookMessengerCsharp.Helper
                         CreatedDate = DateTime.Now,
                         UpdatedDate = null,
                         IsBlockAll = false,
-                        UtilTime = DateTime.Now.AddMinutes(5),
+                        UtilTime = DateTime.Now.AddMinutes(10),
                     };
                     db.Fb_BlockUser.Add(blockUser);
                     await db.SaveChangesAsync();
@@ -369,7 +349,7 @@ namespace FacebookMessengerCsharp.Helper
                     userInDb.UtilTime = DateTime.Now.AddMinutes(5);
                     await db.SaveChangesAsync();
                 }
-                ConsoleLogHelper.WriteToConsole($"Stop5Min {userId}");
+                ConsoleLogHelper.WriteToConsole($"Stop10Min {userId}");
                 return;
             }
         }

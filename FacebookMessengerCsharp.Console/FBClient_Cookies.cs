@@ -98,7 +98,7 @@ namespace FacebookMessengerCsharp.Console
                         {
                             text = ListHelper.GetRandomItemInList(Constant.ListTroLyAoMessage)
                         }, thread_id, ThreadType.USER);
-                        await FacebookToolHelper.AddUser5Min(thread_id);
+                        await FacebookToolHelper.AddUser10Min(thread_id);
                     }
                     else
                     {
