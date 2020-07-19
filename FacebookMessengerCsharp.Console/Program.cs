@@ -1,4 +1,5 @@
-﻿using FacebookMessengerCsharp.Helper;
+﻿using System.Collections.Generic;
+using FacebookMessengerCsharp.Helper;
 using Quartz;
 using Quartz.Impl;
 using System.Text;
@@ -11,8 +12,8 @@ namespace FacebookMessengerCsharp.Console
         static async Task Main(string[] args)
         {
             System.Console.OutputEncoding = Encoding.Unicode;
+            //Dictionary<string, string> dic = TuDienHelper.GenerateVietNameseDictionary();
             #region Chay ngon
-            //// Run example
             ISchedulerFactory schedulerFactory = new StdSchedulerFactory();
             IScheduler scheduler = await schedulerFactory.GetScheduler();
             IJobDetail job = JobBuilder.Create<LikePostJob>()
@@ -26,41 +27,8 @@ namespace FacebookMessengerCsharp.Console
                 .Build();
             await scheduler.ScheduleJob(job, trigger);
             await scheduler.Start();
-
             Basic_Usage.Run().GetAwaiter().GetResult();
-
-            //// Wait for keypress
-            //System.Console.ReadKey();
             #endregion
-
-
-            //// Instantiate FBClient
-            //FBClient_Cookies client = new FBClient_Cookies();
-            //try
-            //{
-            //    await client.TryLogin();
-            //}
-            //catch
-            //{
-            //    // Read email and pw from console
-            //    System.Console.WriteLine("Insert Facebook email:");
-            //    var email = System.Console.ReadLine();
-            //    System.Console.WriteLine("Insert Facebook password:");
-            //    var password = System.Console.ReadLine();
-
-            //    // Login with username and password
-            //    await client.DoLogin(email, password);
-            //}
-
-            ////send message
-            //await client.SendRandomMessageToListUser(ListHelper.ListUser, ListHelper.ListMessage);
-            ////// Test
-            ////await FacebookToolHelper.ReactionAllPost();
-
-
-
-
-            //await scheduler.Shutdown();
             System.Console.WriteLine("Done!");
             System.Console.ReadKey();
         }

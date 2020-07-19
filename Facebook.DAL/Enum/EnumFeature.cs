@@ -20,6 +20,14 @@ namespace Facebook.DAL.Enum
         TruyenCuoi,
         [Description("TinTuc")]
         TinTuc,
+        [Description("NoiTu")]
+        NoiTu,
+        [Description("StopNoiTu")]
+        StopNoiTu,
+        [Description("NoiTuTiengAnh")]
+        NoiTuTiengAnh,
+        [Description("StopNoiTuTiengAnh")]
+        StopNoiTuTiengAnh,
         [Description("Normal")]
         Normal
     }

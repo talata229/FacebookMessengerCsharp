@@ -1,0 +1,502 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FacebookToolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Fb_BlockUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="IsBlockAll" Type="bit" />
+          <Property Name="UtilTime" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Fb_FunnyStory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Fb_Like_Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPost" Type="int" />
+          <Property Name="FacebookIdPost" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="Type" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Fb_Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacebookIdReceived" Type="int" />
+          <Property Name="FacebookINameReceived" Type="nvarchar" MaxLength="200" />
+          <Property Name="Fb_TemplateMessageId" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Fb_Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="FromUserId" Type="nvarchar" MaxLength="50" />
+          <Property Name="CommentCount" Type="int" />
+          <Property Name="Type" Type="nvarchar" MaxLength="20" />
+          <Property Name="Message" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Fb_TemplateMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="Type" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Fb_Test">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Fb_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacebookId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="BirthDay" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Fb_User_Simsimi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
+          <Property Name="FacebookName" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsAgree" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="NoiTuTiengAnhUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsNoiTuTiengAnh" Type="bit" />
+        </EntityType>
+        <EntityType Name="NoiTuUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsNoiTu" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Fb_Like_Post_Fb_Post">
+          <End Role="Fb_Post" Type="Self.Fb_Post" Multiplicity="0..1" />
+          <End Role="Fb_Like_Post" Type="Self.Fb_Like_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fb_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fb_Like_Post">
+              <PropertyRef Name="IdPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fb_Message_Fb_TemplateMessage">
+          <End Role="Fb_TemplateMessage" Type="Self.Fb_TemplateMessage" Multiplicity="0..1" />
+          <End Role="Fb_Message" Type="Self.Fb_Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fb_TemplateMessage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fb_Message">
+              <PropertyRef Name="Fb_TemplateMessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fb_Message_Fb_User">
+          <End Role="Fb_User" Type="Self.Fb_User" Multiplicity="0..1" />
+          <End Role="Fb_Message" Type="Self.Fb_Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fb_User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fb_Message">
+              <PropertyRef Name="FacebookIdReceived" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FacebookToolModelStoreContainer">
+          <EntitySet Name="Fb_BlockUser" EntityType="Self.Fb_BlockUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_Like_Post" EntityType="Self.Fb_Like_Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_Message" EntityType="Self.Fb_Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_Post" EntityType="Self.Fb_Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_TemplateMessage" EntityType="Self.Fb_TemplateMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_Test" EntityType="Self.Fb_Test" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_User" EntityType="Self.Fb_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_User_Simsimi" EntityType="Self.Fb_User_Simsimi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NoiTuTiengAnhUser" EntityType="Self.NoiTuTiengAnhUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NoiTuUser" EntityType="Self.NoiTuUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fb_FunnyStory" EntityType="Self.Fb_FunnyStory" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Fb_FunnyStory].[Id] AS [Id], 
+    [Fb_FunnyStory].[Content] AS [Content]
+    FROM [dbo].[Fb_FunnyStory] AS [Fb_FunnyStory]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="Self.FK_Fb_Like_Post_Fb_Post">
+            <End Role="Fb_Post" EntitySet="Fb_Post" />
+            <End Role="Fb_Like_Post" EntitySet="Fb_Like_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fb_Message_Fb_TemplateMessage" Association="Self.FK_Fb_Message_Fb_TemplateMessage">
+            <End Role="Fb_TemplateMessage" EntitySet="Fb_TemplateMessage" />
+            <End Role="Fb_Message" EntitySet="Fb_Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fb_Message_Fb_User" Association="Self.FK_Fb_Message_Fb_User">
+            <End Role="Fb_User" EntitySet="Fb_User" />
+            <End Role="Fb_Message" EntitySet="Fb_Message" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FacebookToolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Fb_BlockUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsBlockAll" Type="Boolean" />
+          <Property Name="UtilTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Fb_Like_Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPost" Type="Int32" />
+          <Property Name="FacebookIdPost" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Fb_Post" Relationship="Self.FK_Fb_Like_Post_Fb_Post" FromRole="Fb_Like_Post" ToRole="Fb_Post" />
+        </EntityType>
+        <EntityType Name="Fb_Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacebookIdReceived" Type="Int32" />
+          <Property Name="FacebookINameReceived" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Fb_TemplateMessageId" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Fb_TemplateMessage" Relationship="Self.FK_Fb_Message_Fb_TemplateMessage" FromRole="Fb_Message" ToRole="Fb_TemplateMessage" />
+          <NavigationProperty Name="Fb_User" Relationship="Self.FK_Fb_Message_Fb_User" FromRole="Fb_Message" ToRole="Fb_User" />
+        </EntityType>
+        <EntityType Name="Fb_Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="FromUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CommentCount" Type="Int32" />
+          <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Fb_Like_Post" Relationship="Self.FK_Fb_Like_Post_Fb_Post" FromRole="Fb_Post" ToRole="Fb_Like_Post" />
+        </EntityType>
+        <EntityType Name="Fb_TemplateMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Fb_Message" Relationship="Self.FK_Fb_Message_Fb_TemplateMessage" FromRole="Fb_TemplateMessage" ToRole="Fb_Message" />
+        </EntityType>
+        <EntityType Name="Fb_Test">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Fb_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacebookId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDay" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Fb_Message" Relationship="Self.FK_Fb_Message_Fb_User" FromRole="Fb_User" ToRole="Fb_Message" />
+        </EntityType>
+        <EntityType Name="Fb_User_Simsimi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsAgree" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="NoiTuUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsNoiTu" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Fb_FunnyStory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Fb_Like_Post_Fb_Post">
+          <End Role="Fb_Post" Type="Self.Fb_Post" Multiplicity="0..1" />
+          <End Role="Fb_Like_Post" Type="Self.Fb_Like_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fb_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fb_Like_Post">
+              <PropertyRef Name="IdPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fb_Message_Fb_TemplateMessage">
+          <End Role="Fb_TemplateMessage" Type="Self.Fb_TemplateMessage" Multiplicity="0..1" />
+          <End Role="Fb_Message" Type="Self.Fb_Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fb_TemplateMessage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fb_Message">
+              <PropertyRef Name="Fb_TemplateMessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fb_Message_Fb_User">
+          <End Role="Fb_User" Type="Self.Fb_User" Multiplicity="0..1" />
+          <End Role="Fb_Message" Type="Self.Fb_Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fb_User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fb_Message">
+              <PropertyRef Name="FacebookIdReceived" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FbToolEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Fb_BlockUser" EntityType="Self.Fb_BlockUser" />
+          <EntitySet Name="Fb_Like_Post" EntityType="Self.Fb_Like_Post" />
+          <EntitySet Name="Fb_Message" EntityType="Self.Fb_Message" />
+          <EntitySet Name="Fb_Post" EntityType="Self.Fb_Post" />
+          <EntitySet Name="Fb_TemplateMessage" EntityType="Self.Fb_TemplateMessage" />
+          <EntitySet Name="Fb_Test" EntityType="Self.Fb_Test" />
+          <EntitySet Name="Fb_User" EntityType="Self.Fb_User" />
+          <EntitySet Name="Fb_User_Simsimi" EntityType="Self.Fb_User_Simsimi" />
+          <EntitySet Name="NoiTuUsers" EntityType="Self.NoiTuUser" />
+          <EntitySet Name="Fb_FunnyStory" EntityType="Self.Fb_FunnyStory" />
+          <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="Self.FK_Fb_Like_Post_Fb_Post">
+            <End Role="Fb_Post" EntitySet="Fb_Post" />
+            <End Role="Fb_Like_Post" EntitySet="Fb_Like_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fb_Message_Fb_TemplateMessage" Association="Self.FK_Fb_Message_Fb_TemplateMessage">
+            <End Role="Fb_TemplateMessage" EntitySet="Fb_TemplateMessage" />
+            <End Role="Fb_Message" EntitySet="Fb_Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fb_Message_Fb_User" Association="Self.FK_Fb_Message_Fb_User">
+            <End Role="Fb_User" EntitySet="Fb_User" />
+            <End Role="Fb_Message" EntitySet="Fb_Message" />
+          </AssociationSet>
+          <EntitySet Name="NoiTuTiengAnhUsers" EntityType="FacebookToolModel.NoiTuTiengAnhUser" />
+        </EntityContainer>
+        <EntityType Name="NoiTuTiengAnhUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsNoiTuTiengAnh" Type="Boolean" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FacebookToolModelStoreContainer" CdmEntityContainer="FbToolEntities">
+          <EntitySetMapping Name="Fb_BlockUser">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_BlockUser">
+              <MappingFragment StoreEntitySet="Fb_BlockUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="IsBlockAll" ColumnName="IsBlockAll" />
+                <ScalarProperty Name="UtilTime" ColumnName="UtilTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fb_Like_Post">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_Like_Post">
+              <MappingFragment StoreEntitySet="Fb_Like_Post">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdPost" ColumnName="IdPost" />
+                <ScalarProperty Name="FacebookIdPost" ColumnName="FacebookIdPost" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fb_Message">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_Message">
+              <MappingFragment StoreEntitySet="Fb_Message">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FacebookIdReceived" ColumnName="FacebookIdReceived" />
+                <ScalarProperty Name="FacebookINameReceived" ColumnName="FacebookINameReceived" />
+                <ScalarProperty Name="Fb_TemplateMessageId" ColumnName="Fb_TemplateMessageId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fb_Post">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_Post">
+              <MappingFragment StoreEntitySet="Fb_Post">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="FromUserId" ColumnName="FromUserId" />
+                <ScalarProperty Name="CommentCount" ColumnName="CommentCount" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fb_TemplateMessage">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_TemplateMessage">
+              <MappingFragment StoreEntitySet="Fb_TemplateMessage">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fb_Test">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_Test">
+              <MappingFragment StoreEntitySet="Fb_Test">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fb_User">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_User">
+              <MappingFragment StoreEntitySet="Fb_User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fb_User_Simsimi">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_User_Simsimi">
+              <MappingFragment StoreEntitySet="Fb_User_Simsimi">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="FacebookName" ColumnName="FacebookName" />
+                <ScalarProperty Name="IsAgree" ColumnName="IsAgree" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NoiTuUsers">
+            <EntityTypeMapping TypeName="FacebookToolModel.NoiTuUser">
+              <MappingFragment StoreEntitySet="NoiTuUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="IsNoiTu" ColumnName="IsNoiTu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fb_FunnyStory">
+            <EntityTypeMapping TypeName="FacebookToolModel.Fb_FunnyStory">
+              <MappingFragment StoreEntitySet="Fb_FunnyStory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NoiTuTiengAnhUsers">
+            <EntityTypeMapping TypeName="FacebookToolModel.NoiTuTiengAnhUser">
+              <MappingFragment StoreEntitySet="NoiTuTiengAnhUser">
+                <ScalarProperty Name="IsNoiTuTiengAnh" ColumnName="IsNoiTuTiengAnh" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

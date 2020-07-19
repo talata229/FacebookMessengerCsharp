@@ -89,7 +89,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TuDienTiengAnh.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Graphics-Vibe-Hot-Burning-Social-Facebook.ico" />
+    <Content Include="TuDienTiengViet.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TuDienVietAnh.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

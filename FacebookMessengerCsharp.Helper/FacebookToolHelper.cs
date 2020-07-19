@@ -159,6 +159,9 @@ namespace FacebookMessengerCsharp.Helper
                 Console.WriteLine($"There's something went wrong GetNewFeed. ReactionAllPost2 = {ex.Message}. InnerException ={ex.InnerException?.Message}");
             }
         }
+
+       
+
         public static async Task<bool> LikePost(string token, string postId, EnumReactionType type = EnumReactionType.LIKE)
         {
             var isSuccess = false;
@@ -278,6 +281,14 @@ namespace FacebookMessengerCsharp.Helper
                 {
                     return EnumFeature.TinTuc;
                 }
+                if (message.Equals(EnumHelper.GetDescription(EnumFeature.NoiTu), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return EnumFeature.NoiTu;
+                }
+                if (message.Equals(EnumHelper.GetDescription(EnumFeature.StopNoiTu), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return EnumFeature.StopNoiTu;
+                }
             }
             return EnumFeature.Normal;
         }
@@ -351,6 +362,119 @@ namespace FacebookMessengerCsharp.Helper
                 }
                 ConsoleLogHelper.WriteToConsole($"Stop10Min {userId}");
                 return;
+            }
+        }
+
+        public static async Task<bool> CheckIsNoiTuTiengVietOrNot(string userId)
+        {
+            using (FbToolEntities db = new FbToolEntities())
+            {
+                var userInDb = await db.NoiTuUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                if (userInDb == null)
+                {
+                    return false;
+                }
+
+                return userInDb.IsNoiTu.GetValueOrDefault();
+            }
+        }
+
+        public static async Task<bool> CheckIsNoiTuTiengAnhOrNot(string userId)
+            {
+                using (FbToolEntities db = new FbToolEntities())
+                {
+                    var userInDb = await db.NoiTuTiengAnhUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                    if (userInDb == null)
+                    {
+                        return false;
+                    }
+                    return userInDb.IsNoiTuTiengAnh.GetValueOrDefault();
+                }
+            }
+            public static async Task SetUserNoiTu(string userId)
+        {
+            using (FbToolEntities db = new FbToolEntities())
+            {
+                var userInDb = await db.NoiTuUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                if (userInDb == null)
+                {
+                    db.NoiTuUsers.Add(new NoiTuUser()
+                    {
+                        FacebookId = userId,
+                        IsNoiTu = true
+                    });
+                    
+                }
+                else
+                {
+                    userInDb.IsNoiTu = true;
+                }
+                await db.SaveChangesAsync();
+            }
+        }
+        public static async Task SetUserStopNoiTu(string userId)
+        {
+            using (FbToolEntities db = new FbToolEntities())
+            {
+                var userInDb = await db.NoiTuUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                if (userInDb == null)
+                {
+                    db.NoiTuUsers.Add(new NoiTuUser()
+                    {
+                        FacebookId = userId,
+                        IsNoiTu = false
+                    });
+                }
+                else
+                {
+                    userInDb.IsNoiTu = false;
+                }
+                await db.SaveChangesAsync();
+            }
+        }
+
+       
+
+        public static async Task SetUserNoiTuTiengAnh(string userId)
+        {
+            using (FbToolEntities db = new FbToolEntities())
+            {
+                var userInDb = await db.NoiTuTiengAnhUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                if (userInDb == null)
+                {
+                    db.NoiTuTiengAnhUsers.Add(new NoiTuTiengAnhUser()
+                    {
+                        FacebookId = userId,
+                        IsNoiTuTiengAnh = true
+                    });
+
+                }
+                else
+                {
+                    userInDb.IsNoiTuTiengAnh = true;
+                }
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public static async Task SetUserStopNoiTuTiengAnh(string userId)
+        {
+            using (FbToolEntities db = new FbToolEntities())
+            {
+                var userInDb = await db.NoiTuTiengAnhUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                if (userInDb == null)
+                {
+                    db.NoiTuTiengAnhUsers.Add(new NoiTuTiengAnhUser()
+                    {
+                        FacebookId = userId,
+                        IsNoiTuTiengAnh = false
+                    });
+                }
+                else
+                {
+                    userInDb.IsNoiTuTiengAnh = false;
+                }
+                await db.SaveChangesAsync();
             }
         }
     }

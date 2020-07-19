@@ -6,8 +6,10 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Facebook.DAL.Enum;
 
 namespace FacebookMessengerCsharp.Console
 {
@@ -31,6 +33,7 @@ namespace FacebookMessengerCsharp.Console
 
         protected override async Task onMessage(string mid = null, string author_id = null, string message = null, FB_Message message_object = null, string thread_id = null, ThreadType? thread_type = null, long ts = 0, JToken metadata = null, JToken msg = null)
         {
+
             //authorId: người gửi
             //thread_id: thread hiện tại
             var userId = this.GetUserUid();
@@ -78,6 +81,34 @@ namespace FacebookMessengerCsharp.Console
                             }, thread_id, ThreadType.USER);
                         }
                         return;
+                    case Facebook.DAL.Enum.EnumFeature.NoiTu:
+                        await FacebookToolHelper.SetUserNoiTu(author_id);
+                        await this.send(new FB_Message
+                        {
+                            text = $"Bắt đầu chơi nối từ tiếng việt thôi!!!"
+                        }, thread_id, ThreadType.USER);
+                        return;
+                    case Facebook.DAL.Enum.EnumFeature.StopNoiTu:
+                        await FacebookToolHelper.SetUserStopNoiTu(author_id);
+                        await this.send(new FB_Message
+                        {
+                            text = $"Đã dừng chơi nối từ tiếng việt!"
+                        }, thread_id, ThreadType.USER);
+                        return;
+                    case Facebook.DAL.Enum.EnumFeature.NoiTuTiengAnh:
+                        await FacebookToolHelper.SetUserNoiTuTiengAnh(author_id);
+                        await this.send(new FB_Message
+                        {
+                            text = $"Bắt đầu chơi nối từ tiếng Anh thôi!!!"
+                        }, thread_id, ThreadType.USER);
+                        return;
+                    case Facebook.DAL.Enum.EnumFeature.StopNoiTuTiengAnh:
+                        await FacebookToolHelper.SetUserStopNoiTuTiengAnh(author_id);
+                        await this.send(new FB_Message
+                        {
+                            text = $"Đã dừng chơi nối từ tiếng Anh!"
+                        }, thread_id, ThreadType.USER);
+                        return;
                     default:
                         break;
                 }
@@ -91,9 +122,32 @@ namespace FacebookMessengerCsharp.Console
                 {
                     //Co the send message o day
                     var agreeSimsimi = await FacebookToolHelper.CheckUserAgreeSimsimi(thread_id);
-                    if (!agreeSimsimi)
+                    if (await FacebookToolHelper.CheckIsNoiTuTiengVietOrNot(thread_id))
                     {
-
+                        var dic = TuDienHelper.GenerateVietNameseDictionary();
+                        var lastWord = message.LastWord();
+                        var listNewWord = dic.Keys.Where(x => String.Equals(x.FirstWord(), lastWord, StringComparison.OrdinalIgnoreCase) && x.Contains(" ")).ToList();
+                        string textSend = listNewWord.Count == 0 ? "Chịu thua rồi, ko tìm thấy từ nào cả :((" : $"Nối từ: {ListHelper.GetRandomItemInList(listNewWord)}";
+                        await this.send(new FB_Message
+                        {
+                            text = textSend
+                        }, thread_id, ThreadType.USER);
+                        return;
+                    }
+                    else if (await FacebookToolHelper.CheckIsNoiTuTiengAnhOrNot(thread_id))
+                    {
+                        var dic = TuDienHelper.GenerateVietNameseDictionary();
+                        var lastWord = message.LastWord();
+                        var listNewWord = dic.Keys.Where(x => String.Equals(x.FirstWord(), lastWord, StringComparison.OrdinalIgnoreCase) && x.Contains(" ")).ToList();
+                        string textSend = listNewWord.Count == 0 ? "Chịu thua rồi, ko tìm thấy từ nào cả :((" : $"Nối từ: {ListHelper.GetRandomItemInList(listNewWord)}";
+                        await this.send(new FB_Message
+                        {
+                            text = textSend
+                        }, thread_id, ThreadType.USER);
+                        return;
+                    }
+                    else if (!agreeSimsimi)
+                    {
                         await this.send(new FB_Message
                         {
                             text = ListHelper.GetRandomItemInList(Constant.ListTroLyAoMessage)
@@ -114,9 +168,18 @@ namespace FacebookMessengerCsharp.Console
             else
             {
                 //Tự mình gửi đi
-                await FacebookToolHelper.CheckSpecialMessage(message, thread_id);
+                var specialMessage = await FacebookToolHelper.CheckSpecialMessage(message, thread_id);
+                switch (specialMessage)
+                {
+                    case EnumFeature.NoiTu:
+                        await FacebookToolHelper.SetUserNoiTu(thread_id);
+                        break;
+                    case EnumFeature.StopNoiTu:
+                        await FacebookToolHelper.SetUserStopNoiTu(thread_id);
+                        break;
+                }
+                await Task.Yield();
             }
-            await Task.Yield();
         }
 
         protected override async Task DeleteCookiesAsync()
