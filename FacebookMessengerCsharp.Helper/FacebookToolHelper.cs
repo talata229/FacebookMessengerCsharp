@@ -160,7 +160,7 @@ namespace FacebookMessengerCsharp.Helper
             }
         }
 
-       
+
 
         public static async Task<bool> LikePost(string token, string postId, EnumReactionType type = EnumReactionType.LIKE)
         {
@@ -380,18 +380,18 @@ namespace FacebookMessengerCsharp.Helper
         }
 
         public static async Task<bool> CheckIsNoiTuTiengAnhOrNot(string userId)
+        {
+            using (FbToolEntities db = new FbToolEntities())
             {
-                using (FbToolEntities db = new FbToolEntities())
+                var userInDb = await db.NoiTuTiengAnhUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                if (userInDb == null)
                 {
-                    var userInDb = await db.NoiTuTiengAnhUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
-                    if (userInDb == null)
-                    {
-                        return false;
-                    }
-                    return userInDb.IsNoiTuTiengAnh.GetValueOrDefault();
+                    return false;
                 }
+                return userInDb.IsNoiTuTiengAnh.GetValueOrDefault();
             }
-            public static async Task SetUserNoiTu(string userId)
+        }
+        public static async Task SetUserNoiTu(string userId)
         {
             using (FbToolEntities db = new FbToolEntities())
             {
@@ -403,12 +403,20 @@ namespace FacebookMessengerCsharp.Helper
                         FacebookId = userId,
                         IsNoiTu = true
                     });
-                    
+
                 }
                 else
                 {
                     userInDb.IsNoiTu = true;
                 }
+
+                var userBlock = await db.Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                if (userBlock != null)
+                {
+                    db.Fb_BlockUser.Remove(userBlock);
+                    ConsoleLogHelper.WriteToConsole($"RemoveStopAll {userId}");
+                }
+
                 await db.SaveChangesAsync();
             }
         }
@@ -433,7 +441,7 @@ namespace FacebookMessengerCsharp.Helper
             }
         }
 
-       
+
 
         public static async Task SetUserNoiTuTiengAnh(string userId)
         {

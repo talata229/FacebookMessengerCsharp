@@ -11,6 +11,7 @@ namespace FacebookMessengerCsharp.Console
     {
         static async Task Main(string[] args)
         {
+            //List<string> listTruyenCuoi = await FacebookToolHelper.GetListTruyenCuoi();
             System.Console.OutputEncoding = Encoding.Unicode;
             //Dictionary<string, string> dic = TuDienHelper.GenerateVietNameseDictionary();
             #region Chay ngon
