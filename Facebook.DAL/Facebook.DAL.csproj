@@ -125,6 +125,7 @@
       <DependentUpon>FacebookToolModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="Scripts\db.bacpac" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -140,6 +141,7 @@
       <DependentUpon>FacebookToolModel.edmx</DependentUpon>
       <LastGenOutput>FacebookToolModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\dbScript.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
