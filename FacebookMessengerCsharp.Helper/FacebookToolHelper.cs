@@ -302,6 +302,15 @@ namespace FacebookMessengerCsharp.Helper
             }
             return listTruyenCuoi;
         }
+        public static async Task<List<string>> GetListTruyenCuoiTop(int quantity)
+        {
+            List<string> listTruyenCuoi = new List<string>();
+            using (FbToolEntities db = new FbToolEntities())
+            {
+                listTruyenCuoi = await db.Fb_FunnyStory.Select(x => x.Content).Take(quantity).ToListAsync();
+            }
+            return listTruyenCuoi;
+        }
 
 
         public static async Task<bool> CheckIsBlockOrNot(string userId)
