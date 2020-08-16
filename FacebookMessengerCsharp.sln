@@ -13,6 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacebookMessengerCsharp.Hel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook.DAL", "Facebook.DAL\Facebook.DAL.csproj", "{C7A807D6-ABE8-4DD5-A00B-2FEFE168D385}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacebookMessengerCsharp.App", "FacebookMessengerCsharp.App\FacebookMessengerCsharp.App.csproj", "{B5298902-0A56-495B-9279-F38B3728A9D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToolFacebook", "ToolFacebook", "{02154489-8D8B-4C2B-ABDF-96B0212A7457}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacebookTool.App", "FacebookTool.App\FacebookTool.App.csproj", "{B8561EAC-636A-4A7F-88A9-D8A170AAC636}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacebookTool.Helper", "FacebookTool.Helper\FacebookTool.Helper.csproj", "{3E8AB7A0-B7CF-4B37-8277-2C9684B89A75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +47,25 @@ Global
 		{C7A807D6-ABE8-4DD5-A00B-2FEFE168D385}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7A807D6-ABE8-4DD5-A00B-2FEFE168D385}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7A807D6-ABE8-4DD5-A00B-2FEFE168D385}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5298902-0A56-495B-9279-F38B3728A9D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5298902-0A56-495B-9279-F38B3728A9D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5298902-0A56-495B-9279-F38B3728A9D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5298902-0A56-495B-9279-F38B3728A9D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8561EAC-636A-4A7F-88A9-D8A170AAC636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8561EAC-636A-4A7F-88A9-D8A170AAC636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8561EAC-636A-4A7F-88A9-D8A170AAC636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8561EAC-636A-4A7F-88A9-D8A170AAC636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E8AB7A0-B7CF-4B37-8277-2C9684B89A75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E8AB7A0-B7CF-4B37-8277-2C9684B89A75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E8AB7A0-B7CF-4B37-8277-2C9684B89A75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E8AB7A0-B7CF-4B37-8277-2C9684B89A75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8561EAC-636A-4A7F-88A9-D8A170AAC636} = {02154489-8D8B-4C2B-ABDF-96B0212A7457}
+		{3E8AB7A0-B7CF-4B37-8277-2C9684B89A75} = {02154489-8D8B-4C2B-ABDF-96B0212A7457}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0C9927CD-B801-4713-9E85-7BA44822939A}
