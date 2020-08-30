@@ -5,20 +5,28 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1e970ac1938447bb8012bb986a5e3e30" Name="Diagram1">
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_BlockUser" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_Like_Post" Width="1.5" PointX="5" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_Message" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_Post" Width="1.5" PointX="2.75" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_TemplateMessage" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_Test" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_User" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_User_Simsimi" Width="1.5" PointX="7.75" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FacebookToolModel.NoiTuUser" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FacebookToolModel.Fb_FunnyStory" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <AssociationConnector Association="FacebookToolModel.FK_Fb_Like_Post_Fb_Post" ManuallyRouted="false" />
-        <AssociationConnector Association="FacebookToolModel.FK_Fb_Message_Fb_TemplateMessage" ManuallyRouted="false" />
-        <AssociationConnector Association="FacebookToolModel.FK_Fb_Message_Fb_User" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="FacebookToolModel.NoiTuTiengAnhUser" Width="1.5" PointX="3.375" PointY="8.75" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_Fb_BlockUser" Width="1.5" PointX="5.75" PointY="8.75" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_Fb_Like_Post" Width="1.5" PointX="10" PointY="5.125" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_Fb_Message" Width="1.5" PointX="8" PointY="1" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_Fb_Post" Width="1.5" PointX="7.75" PointY="5" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_Fb_TemplateMessage" Width="1.5" PointX="5.75" PointY="5.125" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_Fb_Test" Width="1.5" PointX="7.75" PointY="8.75" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_Fb_User" Width="1.5" PointX="5.75" PointY="1.25" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_Fb_User_Simsimi" Width="1.5" PointX="9.75" PointY="8.75" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_NoiTuTiengAnhUser" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_NoiTuUser" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="FacebookToolModel.CrawlPostGroup_Action" Width="1.5" PointX="3" PointY="1.25" />
+        <EntityTypeShape EntityType="FacebookToolModel.CrawlPostGroup_Comment" Width="1.5" PointX="3" PointY="4" />
+        <EntityTypeShape EntityType="FacebookToolModel.CrawlPostGroup_Post" Width="1.5" PointX="0.75" PointY="3.375" />
+        <EntityTypeShape EntityType="FacebookToolModel.CrawlPostGroup_Privacy" Width="1.5" PointX="3" PointY="7.5" />
+        <EntityTypeShape EntityType="FacebookToolModel.sysdiagram" Width="1.5" PointX="2.75" PointY="11.75" />
+        <EntityTypeShape EntityType="FacebookToolModel.Chat_Fb_FunnyStory" Width="1.5" PointX="4.75" PointY="11.75" />
+        <AssociationConnector Association="FacebookToolModel.FK_Fb_Like_Post_Fb_Post" />
+        <AssociationConnector Association="FacebookToolModel.FK_Fb_Message_Fb_TemplateMessage" />
+        <AssociationConnector Association="FacebookToolModel.FK_Fb_Message_Fb_User" />
+        <AssociationConnector Association="FacebookToolModel.FK_CrawlPostGroup_Action_CrawlPostGroup_Post" />
+        <AssociationConnector Association="FacebookToolModel.FK_CrawPostGroup_Comment_CrawlPostGroup_Post" />
+        <AssociationConnector Association="FacebookToolModel.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

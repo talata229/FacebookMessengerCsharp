@@ -12,9 +12,13 @@ namespace Facebook.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Fb_FunnyStory
+    public partial class CrawlPostGroup_Action
     {
         public int Id { get; set; }
-        public string Content { get; set; }
+        public string Name { get; set; }
+        public string Link { get; set; }
+        public Nullable<int> CrawlPostGroup_PostId { get; set; }
+    
+        public virtual CrawlPostGroup_Post CrawlPostGroup_Post { get; set; }
     }
 }

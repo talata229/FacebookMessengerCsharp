@@ -4,7 +4,11 @@ namespace Facebook.DAL.Constants
 {
     public class Constant
     {
-        public static string Token = "EAAAAUaZA8jlABAAKgCvUUFTTG5VP7o90MymwjJuaTZC5RmiEszZBpMrulORQv3qG7GabZBAFwEx3UXw79EyAdocAJdZAgCOI0OvFV4unaf4TtMrYxVgW6V4Xt2OEB2au5Rimm2mg6rVmRfASqXMXQz4vRH1rZAeglPaRDEMmGs7pu91RjHF2xpsDc6itnK9DUZD";
+        public static List<string> LIST_TOKEN = new List<string>
+        {
+            "EAAAAZAw4FxQIBADFJQ9NdB4sTt8ZBBGk4oEZC9rAfTsrg8uRZA08jFW0LAweKvU5gGVVikQDEHVUs4Ryd8M1wPSJ07r1cyh1Auo8r3y42dIIEuGFbxBbNeK7ynMQLLoj9dgMfzW0FFSrDLjIMyICf7SxAyBUu6kcJkslS8nXNkWQRXDcHfkvasGHKNtufBgZD"
+        };
+        public static string TOKEN = "EAAAAZAw4FxQIBADFJQ9NdB4sTt8ZBBGk4oEZC9rAfTsrg8uRZA08jFW0LAweKvU5gGVVikQDEHVUs4Ryd8M1wPSJ07r1cyh1Auo8r3y42dIIEuGFbxBbNeK7ynMQLLoj9dgMfzW0FFSrDLjIMyICf7SxAyBUu6kcJkslS8nXNkWQRXDcHfkvasGHKNtufBgZD";
         public static List<string> ListTroLyAoMessage = new List<string>
         {
             "Đây là trợ lý ảo của Quang.\nHiện tại Quang không đang online nên không thể trả lời bạn ngay được.\nTrong khi chờ đợi, các bạn có thể gõ tin nhắn \"trolyao\" để trao đổi với trợ lý ảo" ,

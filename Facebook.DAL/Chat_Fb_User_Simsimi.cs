@@ -12,13 +12,13 @@ namespace Facebook.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Fb_BlockUser
+    public partial class Chat_Fb_User_Simsimi
     {
         public int Id { get; set; }
         public string FacebookId { get; set; }
+        public string FacebookName { get; set; }
+        public Nullable<bool> IsAgree { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
-        public Nullable<bool> IsBlockAll { get; set; }
-        public Nullable<System.DateTime> UtilTime { get; set; }
     }
 }

@@ -25,16 +25,21 @@ namespace Facebook.DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Fb_BlockUser> Fb_BlockUser { get; set; }
-        public virtual DbSet<Fb_Like_Post> Fb_Like_Post { get; set; }
-        public virtual DbSet<Fb_Message> Fb_Message { get; set; }
-        public virtual DbSet<Fb_Post> Fb_Post { get; set; }
-        public virtual DbSet<Fb_TemplateMessage> Fb_TemplateMessage { get; set; }
-        public virtual DbSet<Fb_Test> Fb_Test { get; set; }
-        public virtual DbSet<Fb_User> Fb_User { get; set; }
-        public virtual DbSet<Fb_User_Simsimi> Fb_User_Simsimi { get; set; }
-        public virtual DbSet<NoiTuUser> NoiTuUsers { get; set; }
-        public virtual DbSet<Fb_FunnyStory> Fb_FunnyStory { get; set; }
-        public virtual DbSet<NoiTuTiengAnhUser> NoiTuTiengAnhUsers { get; set; }
+        public virtual DbSet<Chat_Fb_BlockUser> Chat_Fb_BlockUser { get; set; }
+        public virtual DbSet<Chat_Fb_Like_Post> Chat_Fb_Like_Post { get; set; }
+        public virtual DbSet<Chat_Fb_Message> Chat_Fb_Message { get; set; }
+        public virtual DbSet<Chat_Fb_Post> Chat_Fb_Post { get; set; }
+        public virtual DbSet<Chat_Fb_TemplateMessage> Chat_Fb_TemplateMessage { get; set; }
+        public virtual DbSet<Chat_Fb_Test> Chat_Fb_Test { get; set; }
+        public virtual DbSet<Chat_Fb_User> Chat_Fb_User { get; set; }
+        public virtual DbSet<Chat_Fb_User_Simsimi> Chat_Fb_User_Simsimi { get; set; }
+        public virtual DbSet<Chat_NoiTuTiengAnhUser> Chat_NoiTuTiengAnhUser { get; set; }
+        public virtual DbSet<Chat_NoiTuUser> Chat_NoiTuUser { get; set; }
+        public virtual DbSet<CrawlPostGroup_Action> CrawlPostGroup_Action { get; set; }
+        public virtual DbSet<CrawlPostGroup_Comment> CrawlPostGroup_Comment { get; set; }
+        public virtual DbSet<CrawlPostGroup_Post> CrawlPostGroup_Post { get; set; }
+        public virtual DbSet<CrawlPostGroup_Privacy> CrawlPostGroup_Privacy { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Chat_Fb_FunnyStory> Chat_Fb_FunnyStory { get; set; }
     }
 }

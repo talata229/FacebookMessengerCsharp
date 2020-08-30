@@ -12,10 +12,16 @@ namespace Facebook.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class NoiTuUser
+    public partial class CrawlPostGroup_Privacy
     {
         public int Id { get; set; }
-        public string FacebookId { get; set; }
-        public Nullable<bool> IsNoiTu { get; set; }
+        public string Value { get; set; }
+        public string Description { get; set; }
+        public string Friends { get; set; }
+        public string Allow { get; set; }
+        public string Deny { get; set; }
+        public Nullable<int> CrawlPostGroup_PostId { get; set; }
+    
+        public virtual CrawlPostGroup_Post CrawlPostGroup_Post { get; set; }
     }
 }

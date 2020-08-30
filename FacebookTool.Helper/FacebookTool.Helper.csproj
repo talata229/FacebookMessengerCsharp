@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeHelper.cs" />
     <Compile Include="InvokeControlHelper.cs" />
+    <Compile Include="ListHelper.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="MethodInvoker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

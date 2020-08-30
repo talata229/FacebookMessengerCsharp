@@ -5,7 +5,7 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="FacebookToolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Fb_BlockUser">
+        <EntityType Name="Chat_Fb_BlockUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -17,15 +17,15 @@
           <Property Name="UtilTime" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="Fb_FunnyStory">
+warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Chat_Fb_FunnyStory">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="Fb_Like_Post">
+        <EntityType Name="Chat_Fb_Like_Post">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -36,7 +36,7 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="Type" Type="nvarchar" MaxLength="20" />
         </EntityType>
-        <EntityType Name="Fb_Message">
+        <EntityType Name="Chat_Fb_Message">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -47,7 +47,7 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
-        <EntityType Name="Fb_Post">
+        <EntityType Name="Chat_Fb_Post">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -60,7 +60,7 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="Type" Type="nvarchar" MaxLength="20" />
           <Property Name="Message" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="Fb_TemplateMessage">
+        <EntityType Name="Chat_Fb_TemplateMessage">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -70,13 +70,13 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="Type" Type="nchar" MaxLength="10" />
         </EntityType>
-        <EntityType Name="Fb_Test">
+        <EntityType Name="Chat_Fb_Test">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nchar" MaxLength="10" Nullable="false" />
         </EntityType>
-        <EntityType Name="Fb_User">
+        <EntityType Name="Chat_Fb_User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -85,7 +85,7 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="Name" Type="nvarchar" MaxLength="200" />
           <Property Name="BirthDay" Type="datetime" />
         </EntityType>
-        <EntityType Name="Fb_User_Simsimi">
+        <EntityType Name="Chat_Fb_User_Simsimi">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -96,7 +96,7 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
-        <EntityType Name="NoiTuTiengAnhUser">
+        <EntityType Name="Chat_NoiTuTiengAnhUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -104,7 +104,7 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
           <Property Name="IsNoiTuTiengAnh" Type="bit" />
         </EntityType>
-        <EntityType Name="NoiTuUser">
+        <EntityType Name="Chat_NoiTuUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -112,77 +112,236 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
           <Property Name="IsNoiTu" Type="bit" />
         </EntityType>
-        <Association Name="FK_Fb_Like_Post_Fb_Post">
-          <End Role="Fb_Post" Type="Self.Fb_Post" Multiplicity="0..1" />
-          <End Role="Fb_Like_Post" Type="Self.Fb_Like_Post" Multiplicity="*" />
+        <EntityType Name="CrawlPostGroup_Action">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Link" Type="nvarchar(max)" />
+          <Property Name="CrawlPostGroup_PostId" Type="int" />
+        </EntityType>
+        <EntityType Name="CrawlPostGroup_Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedTime" Type="datetime" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="CanRemove" Type="bit" />
+          <Property Name="LikeCount" Type="bigint" />
+          <Property Name="UserLike" Type="bit" />
+          <Property Name="Fb_Id" Type="nvarchar(max)" />
+          <Property Name="CrawlPostGroup_PostId" Type="int" />
+        </EntityType>
+        <EntityType Name="CrawlPostGroup_Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fb_Id" Type="nvarchar" MaxLength="100" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="Picture" Type="nvarchar(max)" />
+          <Property Name="Link" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Icon" Type="nvarchar(max)" />
+          <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="StatusType" Type="nvarchar(max)" />
+          <Property Name="ObjectId" Type="nvarchar(max)" />
+          <Property Name="CreatedTime" Type="datetime" />
+          <Property Name="UpdatedTime" Type="datetime" />
+          <Property Name="Shares" Type="bigint" />
+          <Property Name="IsHidden" Type="bit" />
+          <Property Name="IsExpired" Type="bit" />
+        </EntityType>
+        <EntityType Name="CrawlPostGroup_Privacy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Friends" Type="nvarchar(max)" />
+          <Property Name="Allow" Type="nvarchar(max)" />
+          <Property Name="Deny" Type="nvarchar(max)" />
+          <Property Name="CrawlPostGroup_PostId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_CrawlPostGroup_Action_CrawlPostGroup_Post">
+          <End Role="CrawlPostGroup_Post" Type="Self.CrawlPostGroup_Post" Multiplicity="0..1" />
+          <End Role="CrawlPostGroup_Action" Type="Self.CrawlPostGroup_Action" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Fb_Post">
+            <Principal Role="CrawlPostGroup_Post">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Fb_Like_Post">
+            <Dependent Role="CrawlPostGroup_Action">
+              <PropertyRef Name="CrawlPostGroup_PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post">
+          <End Role="CrawlPostGroup_Post" Type="Self.CrawlPostGroup_Post" Multiplicity="0..1" />
+          <End Role="CrawlPostGroup_Privacy" Type="Self.CrawlPostGroup_Privacy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CrawlPostGroup_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CrawlPostGroup_Privacy">
+              <PropertyRef Name="CrawlPostGroup_PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CrawPostGroup_Comment_CrawlPostGroup_Post">
+          <End Role="CrawlPostGroup_Post" Type="Self.CrawlPostGroup_Post" Multiplicity="0..1" />
+          <End Role="CrawlPostGroup_Comment" Type="Self.CrawlPostGroup_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CrawlPostGroup_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CrawlPostGroup_Comment">
+              <PropertyRef Name="CrawlPostGroup_PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fb_Like_Post_Fb_Post">
+          <End Role="Chat_Fb_Post" Type="Self.Chat_Fb_Post" Multiplicity="0..1" />
+          <End Role="Chat_Fb_Like_Post" Type="Self.Chat_Fb_Like_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chat_Fb_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Chat_Fb_Like_Post">
               <PropertyRef Name="IdPost" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Fb_Message_Fb_TemplateMessage">
-          <End Role="Fb_TemplateMessage" Type="Self.Fb_TemplateMessage" Multiplicity="0..1" />
-          <End Role="Fb_Message" Type="Self.Fb_Message" Multiplicity="*" />
+          <End Role="Chat_Fb_TemplateMessage" Type="Self.Chat_Fb_TemplateMessage" Multiplicity="0..1" />
+          <End Role="Chat_Fb_Message" Type="Self.Chat_Fb_Message" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Fb_TemplateMessage">
+            <Principal Role="Chat_Fb_TemplateMessage">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Fb_Message">
+            <Dependent Role="Chat_Fb_Message">
               <PropertyRef Name="Fb_TemplateMessageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Fb_Message_Fb_User">
-          <End Role="Fb_User" Type="Self.Fb_User" Multiplicity="0..1" />
-          <End Role="Fb_Message" Type="Self.Fb_Message" Multiplicity="*" />
+          <End Role="Chat_Fb_User" Type="Self.Chat_Fb_User" Multiplicity="0..1" />
+          <End Role="Chat_Fb_Message" Type="Self.Chat_Fb_Message" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Fb_User">
+            <Principal Role="Chat_Fb_User">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Fb_Message">
+            <Dependent Role="Chat_Fb_Message">
               <PropertyRef Name="FacebookIdReceived" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="FacebookToolModelStoreContainer">
-          <EntitySet Name="Fb_BlockUser" EntityType="Self.Fb_BlockUser" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Fb_Like_Post" EntityType="Self.Fb_Like_Post" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Fb_Message" EntityType="Self.Fb_Message" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Fb_Post" EntityType="Self.Fb_Post" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Fb_TemplateMessage" EntityType="Self.Fb_TemplateMessage" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Fb_Test" EntityType="Self.Fb_Test" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Fb_User" EntityType="Self.Fb_User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Fb_User_Simsimi" EntityType="Self.Fb_User_Simsimi" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NoiTuTiengAnhUser" EntityType="Self.NoiTuTiengAnhUser" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NoiTuUser" EntityType="Self.NoiTuUser" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Fb_FunnyStory" EntityType="Self.Fb_FunnyStory" store:Type="Tables" store:Schema="dbo">
+          <EntitySet Name="Chat_Fb_BlockUser" EntityType="Self.Chat_Fb_BlockUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chat_Fb_Like_Post" EntityType="Self.Chat_Fb_Like_Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chat_Fb_Message" EntityType="Self.Chat_Fb_Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chat_Fb_Post" EntityType="Self.Chat_Fb_Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chat_Fb_TemplateMessage" EntityType="Self.Chat_Fb_TemplateMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chat_Fb_Test" EntityType="Self.Chat_Fb_Test" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chat_Fb_User" EntityType="Self.Chat_Fb_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chat_Fb_User_Simsimi" EntityType="Self.Chat_Fb_User_Simsimi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chat_NoiTuTiengAnhUser" EntityType="Self.Chat_NoiTuTiengAnhUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chat_NoiTuUser" EntityType="Self.Chat_NoiTuUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CrawlPostGroup_Action" EntityType="Self.CrawlPostGroup_Action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CrawlPostGroup_Comment" EntityType="Self.CrawlPostGroup_Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CrawlPostGroup_Post" EntityType="Self.CrawlPostGroup_Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CrawlPostGroup_Privacy" EntityType="Self.CrawlPostGroup_Privacy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chat_Fb_FunnyStory" EntityType="Self.Chat_Fb_FunnyStory" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [Fb_FunnyStory].[Id] AS [Id], 
-    [Fb_FunnyStory].[Content] AS [Content]
-    FROM [dbo].[Fb_FunnyStory] AS [Fb_FunnyStory]</DefiningQuery>
+    [Chat_Fb_FunnyStory].[Id] AS [Id], 
+    [Chat_Fb_FunnyStory].[Content] AS [Content]
+    FROM [dbo].[Chat_Fb_FunnyStory] AS [Chat_Fb_FunnyStory]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_CrawlPostGroup_Action_CrawlPostGroup_Post" Association="Self.FK_CrawlPostGroup_Action_CrawlPostGroup_Post">
+            <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
+            <End Role="CrawlPostGroup_Action" EntitySet="CrawlPostGroup_Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" Association="Self.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post">
+            <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
+            <End Role="CrawlPostGroup_Privacy" EntitySet="CrawlPostGroup_Privacy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CrawPostGroup_Comment_CrawlPostGroup_Post" Association="Self.FK_CrawPostGroup_Comment_CrawlPostGroup_Post">
+            <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
+            <End Role="CrawlPostGroup_Comment" EntitySet="CrawlPostGroup_Comment" />
+          </AssociationSet>
           <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="Self.FK_Fb_Like_Post_Fb_Post">
-            <End Role="Fb_Post" EntitySet="Fb_Post" />
-            <End Role="Fb_Like_Post" EntitySet="Fb_Like_Post" />
+            <End Role="Chat_Fb_Post" EntitySet="Chat_Fb_Post" />
+            <End Role="Chat_Fb_Like_Post" EntitySet="Chat_Fb_Like_Post" />
           </AssociationSet>
           <AssociationSet Name="FK_Fb_Message_Fb_TemplateMessage" Association="Self.FK_Fb_Message_Fb_TemplateMessage">
-            <End Role="Fb_TemplateMessage" EntitySet="Fb_TemplateMessage" />
-            <End Role="Fb_Message" EntitySet="Fb_Message" />
+            <End Role="Chat_Fb_TemplateMessage" EntitySet="Chat_Fb_TemplateMessage" />
+            <End Role="Chat_Fb_Message" EntitySet="Chat_Fb_Message" />
           </AssociationSet>
           <AssociationSet Name="FK_Fb_Message_Fb_User" Association="Self.FK_Fb_Message_Fb_User">
-            <End Role="Fb_User" EntitySet="Fb_User" />
-            <End Role="Fb_Message" EntitySet="Fb_Message" />
+            <End Role="Chat_Fb_User" EntitySet="Chat_Fb_User" />
+            <End Role="Chat_Fb_Message" EntitySet="Chat_Fb_Message" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FacebookToolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Fb_BlockUser">
+        <EntityContainer Name="FbToolEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Chat_Fb_BlockUser" EntityType="FacebookToolModel.Chat_Fb_BlockUser" />
+          <EntitySet Name="Chat_Fb_Like_Post" EntityType="FacebookToolModel.Chat_Fb_Like_Post" />
+          <EntitySet Name="Chat_Fb_Message" EntityType="FacebookToolModel.Chat_Fb_Message" />
+          <EntitySet Name="Chat_Fb_Post" EntityType="FacebookToolModel.Chat_Fb_Post" />
+          <EntitySet Name="Chat_Fb_TemplateMessage" EntityType="FacebookToolModel.Chat_Fb_TemplateMessage" />
+          <EntitySet Name="Chat_Fb_Test" EntityType="FacebookToolModel.Chat_Fb_Test" />
+          <EntitySet Name="Chat_Fb_User" EntityType="FacebookToolModel.Chat_Fb_User" />
+          <EntitySet Name="Chat_Fb_User_Simsimi" EntityType="FacebookToolModel.Chat_Fb_User_Simsimi" />
+          <EntitySet Name="Chat_NoiTuTiengAnhUser" EntityType="FacebookToolModel.Chat_NoiTuTiengAnhUser" />
+          <EntitySet Name="Chat_NoiTuUser" EntityType="FacebookToolModel.Chat_NoiTuUser" />
+          <EntitySet Name="CrawlPostGroup_Action" EntityType="FacebookToolModel.CrawlPostGroup_Action" />
+          <EntitySet Name="CrawlPostGroup_Comment" EntityType="FacebookToolModel.CrawlPostGroup_Comment" />
+          <EntitySet Name="CrawlPostGroup_Post" EntityType="FacebookToolModel.CrawlPostGroup_Post" />
+          <EntitySet Name="CrawlPostGroup_Privacy" EntityType="FacebookToolModel.CrawlPostGroup_Privacy" />
+          <EntitySet Name="sysdiagrams" EntityType="FacebookToolModel.sysdiagram" />
+          <EntitySet Name="Chat_Fb_FunnyStory" EntityType="FacebookToolModel.Chat_Fb_FunnyStory" />
+          <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="FacebookToolModel.FK_Fb_Like_Post_Fb_Post">
+            <End Role="Chat_Fb_Post" EntitySet="Chat_Fb_Post" />
+            <End Role="Chat_Fb_Like_Post" EntitySet="Chat_Fb_Like_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fb_Message_Fb_TemplateMessage" Association="FacebookToolModel.FK_Fb_Message_Fb_TemplateMessage">
+            <End Role="Chat_Fb_TemplateMessage" EntitySet="Chat_Fb_TemplateMessage" />
+            <End Role="Chat_Fb_Message" EntitySet="Chat_Fb_Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fb_Message_Fb_User" Association="FacebookToolModel.FK_Fb_Message_Fb_User">
+            <End Role="Chat_Fb_User" EntitySet="Chat_Fb_User" />
+            <End Role="Chat_Fb_Message" EntitySet="Chat_Fb_Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CrawlPostGroup_Action_CrawlPostGroup_Post" Association="FacebookToolModel.FK_CrawlPostGroup_Action_CrawlPostGroup_Post">
+            <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
+            <End Role="CrawlPostGroup_Action" EntitySet="CrawlPostGroup_Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CrawPostGroup_Comment_CrawlPostGroup_Post" Association="FacebookToolModel.FK_CrawPostGroup_Comment_CrawlPostGroup_Post">
+            <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
+            <End Role="CrawlPostGroup_Comment" EntitySet="CrawlPostGroup_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" Association="FacebookToolModel.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post">
+            <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
+            <End Role="CrawlPostGroup_Privacy" EntitySet="CrawlPostGroup_Privacy" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Chat_Fb_BlockUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -193,7 +352,7 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="IsBlockAll" Type="Boolean" />
           <Property Name="UtilTime" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="Fb_Like_Post">
+        <EntityType Name="Chat_Fb_Like_Post">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -203,9 +362,9 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Fb_Post" Relationship="Self.FK_Fb_Like_Post_Fb_Post" FromRole="Fb_Like_Post" ToRole="Fb_Post" />
+          <NavigationProperty Name="Chat_Fb_Post" Relationship="FacebookToolModel.FK_Fb_Like_Post_Fb_Post" FromRole="Chat_Fb_Like_Post" ToRole="Chat_Fb_Post" />
         </EntityType>
-        <EntityType Name="Fb_Message">
+        <EntityType Name="Chat_Fb_Message">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -215,10 +374,10 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="Fb_TemplateMessageId" Type="Int32" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Fb_TemplateMessage" Relationship="Self.FK_Fb_Message_Fb_TemplateMessage" FromRole="Fb_Message" ToRole="Fb_TemplateMessage" />
-          <NavigationProperty Name="Fb_User" Relationship="Self.FK_Fb_Message_Fb_User" FromRole="Fb_Message" ToRole="Fb_User" />
+          <NavigationProperty Name="Chat_Fb_TemplateMessage" Relationship="FacebookToolModel.FK_Fb_Message_Fb_TemplateMessage" FromRole="Chat_Fb_Message" ToRole="Chat_Fb_TemplateMessage" />
+          <NavigationProperty Name="Chat_Fb_User" Relationship="FacebookToolModel.FK_Fb_Message_Fb_User" FromRole="Chat_Fb_Message" ToRole="Chat_Fb_User" />
         </EntityType>
-        <EntityType Name="Fb_Post">
+        <EntityType Name="Chat_Fb_Post">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -230,9 +389,9 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="CommentCount" Type="Int32" />
           <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Fb_Like_Post" Relationship="Self.FK_Fb_Like_Post_Fb_Post" FromRole="Fb_Post" ToRole="Fb_Like_Post" />
+          <NavigationProperty Name="Chat_Fb_Like_Post" Relationship="FacebookToolModel.FK_Fb_Like_Post_Fb_Post" FromRole="Chat_Fb_Post" ToRole="Chat_Fb_Like_Post" />
         </EntityType>
-        <EntityType Name="Fb_TemplateMessage">
+        <EntityType Name="Chat_Fb_TemplateMessage">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -241,15 +400,15 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Fb_Message" Relationship="Self.FK_Fb_Message_Fb_TemplateMessage" FromRole="Fb_TemplateMessage" ToRole="Fb_Message" />
+          <NavigationProperty Name="Chat_Fb_Message" Relationship="FacebookToolModel.FK_Fb_Message_Fb_TemplateMessage" FromRole="Chat_Fb_TemplateMessage" ToRole="Chat_Fb_Message" />
         </EntityType>
-        <EntityType Name="Fb_Test">
+        <EntityType Name="Chat_Fb_Test">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
-        <EntityType Name="Fb_User">
+        <EntityType Name="Chat_Fb_User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -257,9 +416,9 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="FacebookId" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="BirthDay" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Fb_Message" Relationship="Self.FK_Fb_Message_Fb_User" FromRole="Fb_User" ToRole="Fb_Message" />
+          <NavigationProperty Name="Chat_Fb_Message" Relationship="FacebookToolModel.FK_Fb_Message_Fb_User" FromRole="Chat_Fb_User" ToRole="Chat_Fb_Message" />
         </EntityType>
-        <EntityType Name="Fb_User_Simsimi">
+        <EntityType Name="Chat_Fb_User_Simsimi">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -270,83 +429,7 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="NoiTuUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsNoiTu" Type="Boolean" />
-        </EntityType>
-        <EntityType Name="Fb_FunnyStory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_Fb_Like_Post_Fb_Post">
-          <End Role="Fb_Post" Type="Self.Fb_Post" Multiplicity="0..1" />
-          <End Role="Fb_Like_Post" Type="Self.Fb_Like_Post" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Fb_Post">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Fb_Like_Post">
-              <PropertyRef Name="IdPost" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Fb_Message_Fb_TemplateMessage">
-          <End Role="Fb_TemplateMessage" Type="Self.Fb_TemplateMessage" Multiplicity="0..1" />
-          <End Role="Fb_Message" Type="Self.Fb_Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Fb_TemplateMessage">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Fb_Message">
-              <PropertyRef Name="Fb_TemplateMessageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Fb_Message_Fb_User">
-          <End Role="Fb_User" Type="Self.Fb_User" Multiplicity="0..1" />
-          <End Role="Fb_Message" Type="Self.Fb_Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Fb_User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Fb_Message">
-              <PropertyRef Name="FacebookIdReceived" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="FbToolEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Fb_BlockUser" EntityType="Self.Fb_BlockUser" />
-          <EntitySet Name="Fb_Like_Post" EntityType="Self.Fb_Like_Post" />
-          <EntitySet Name="Fb_Message" EntityType="Self.Fb_Message" />
-          <EntitySet Name="Fb_Post" EntityType="Self.Fb_Post" />
-          <EntitySet Name="Fb_TemplateMessage" EntityType="Self.Fb_TemplateMessage" />
-          <EntitySet Name="Fb_Test" EntityType="Self.Fb_Test" />
-          <EntitySet Name="Fb_User" EntityType="Self.Fb_User" />
-          <EntitySet Name="Fb_User_Simsimi" EntityType="Self.Fb_User_Simsimi" />
-          <EntitySet Name="NoiTuUsers" EntityType="Self.NoiTuUser" />
-          <EntitySet Name="Fb_FunnyStory" EntityType="Self.Fb_FunnyStory" />
-          <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="Self.FK_Fb_Like_Post_Fb_Post">
-            <End Role="Fb_Post" EntitySet="Fb_Post" />
-            <End Role="Fb_Like_Post" EntitySet="Fb_Like_Post" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Fb_Message_Fb_TemplateMessage" Association="Self.FK_Fb_Message_Fb_TemplateMessage">
-            <End Role="Fb_TemplateMessage" EntitySet="Fb_TemplateMessage" />
-            <End Role="Fb_Message" EntitySet="Fb_Message" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Fb_Message_Fb_User" Association="Self.FK_Fb_Message_Fb_User">
-            <End Role="Fb_User" EntitySet="Fb_User" />
-            <End Role="Fb_Message" EntitySet="Fb_Message" />
-          </AssociationSet>
-          <EntitySet Name="NoiTuTiengAnhUsers" EntityType="FacebookToolModel.NoiTuTiengAnhUser" />
-        </EntityContainer>
-        <EntityType Name="NoiTuTiengAnhUser">
+        <EntityType Name="Chat_NoiTuTiengAnhUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -354,124 +437,350 @@ warning 6002: The table/view 'FacebookTool.dbo.Fb_FunnyStory' does not have a pr
           <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsNoiTuTiengAnh" Type="Boolean" />
         </EntityType>
-      </Schema>
+        <EntityType Name="Chat_NoiTuUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsNoiTu" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="CrawlPostGroup_Action">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CrawlPostGroup_PostId" Type="Int32" />
+          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK_CrawlPostGroup_Action_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Action" ToRole="CrawlPostGroup_Post" />
+        </EntityType>
+        <EntityType Name="CrawlPostGroup_Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CanRemove" Type="Boolean" />
+          <Property Name="LikeCount" Type="Int64" />
+          <Property Name="UserLike" Type="Boolean" />
+          <Property Name="Fb_Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CrawlPostGroup_PostId" Type="Int32" />
+          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK_CrawPostGroup_Comment_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Comment" ToRole="CrawlPostGroup_Post" />
+        </EntityType>
+        <EntityType Name="CrawlPostGroup_Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fb_Id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Icon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StatusType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ObjectId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedTime" Type="DateTime" Precision="3" />
+          <Property Name="Shares" Type="Int64" />
+          <Property Name="IsHidden" Type="Boolean" />
+          <Property Name="IsExpired" Type="Boolean" />
+          <NavigationProperty Name="CrawlPostGroup_Action" Relationship="FacebookToolModel.FK_CrawlPostGroup_Action_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Action" />
+          <NavigationProperty Name="CrawlPostGroup_Comment" Relationship="FacebookToolModel.FK_CrawPostGroup_Comment_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Comment" />
+          <NavigationProperty Name="CrawlPostGroup_Privacy" Relationship="FacebookToolModel.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Privacy" />
+        </EntityType>
+        <EntityType Name="CrawlPostGroup_Privacy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Friends" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Allow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Deny" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CrawlPostGroup_PostId" Type="Int32" />
+          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Privacy" ToRole="CrawlPostGroup_Post" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Chat_Fb_FunnyStory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Fb_Like_Post_Fb_Post">
+          <End Type="FacebookToolModel.Chat_Fb_Post" Role="Chat_Fb_Post" Multiplicity="0..1" />
+          <End Type="FacebookToolModel.Chat_Fb_Like_Post" Role="Chat_Fb_Like_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chat_Fb_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Chat_Fb_Like_Post">
+              <PropertyRef Name="IdPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fb_Message_Fb_TemplateMessage">
+          <End Type="FacebookToolModel.Chat_Fb_TemplateMessage" Role="Chat_Fb_TemplateMessage" Multiplicity="0..1" />
+          <End Type="FacebookToolModel.Chat_Fb_Message" Role="Chat_Fb_Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chat_Fb_TemplateMessage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Chat_Fb_Message">
+              <PropertyRef Name="Fb_TemplateMessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fb_Message_Fb_User">
+          <End Type="FacebookToolModel.Chat_Fb_User" Role="Chat_Fb_User" Multiplicity="0..1" />
+          <End Type="FacebookToolModel.Chat_Fb_Message" Role="Chat_Fb_Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chat_Fb_User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Chat_Fb_Message">
+              <PropertyRef Name="FacebookIdReceived" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CrawlPostGroup_Action_CrawlPostGroup_Post">
+          <End Type="FacebookToolModel.CrawlPostGroup_Post" Role="CrawlPostGroup_Post" Multiplicity="0..1" />
+          <End Type="FacebookToolModel.CrawlPostGroup_Action" Role="CrawlPostGroup_Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CrawlPostGroup_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CrawlPostGroup_Action">
+              <PropertyRef Name="CrawlPostGroup_PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CrawPostGroup_Comment_CrawlPostGroup_Post">
+          <End Type="FacebookToolModel.CrawlPostGroup_Post" Role="CrawlPostGroup_Post" Multiplicity="0..1" />
+          <End Type="FacebookToolModel.CrawlPostGroup_Comment" Role="CrawlPostGroup_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CrawlPostGroup_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CrawlPostGroup_Comment">
+              <PropertyRef Name="CrawlPostGroup_PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post">
+          <End Type="FacebookToolModel.CrawlPostGroup_Post" Role="CrawlPostGroup_Post" Multiplicity="0..1" />
+          <End Type="FacebookToolModel.CrawlPostGroup_Privacy" Role="CrawlPostGroup_Privacy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CrawlPostGroup_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CrawlPostGroup_Privacy">
+              <PropertyRef Name="CrawlPostGroup_PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="FacebookToolModelStoreContainer" CdmEntityContainer="FbToolEntities">
-          <EntitySetMapping Name="Fb_BlockUser">
-            <EntityTypeMapping TypeName="FacebookToolModel.Fb_BlockUser">
-              <MappingFragment StoreEntitySet="Fb_BlockUser">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="IsBlockAll" ColumnName="IsBlockAll" />
+          <EntitySetMapping Name="Chat_Fb_BlockUser">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_Fb_BlockUser">
+              <MappingFragment StoreEntitySet="Chat_Fb_BlockUser">
                 <ScalarProperty Name="UtilTime" ColumnName="UtilTime" />
+                <ScalarProperty Name="IsBlockAll" ColumnName="IsBlockAll" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Fb_Like_Post">
-            <EntityTypeMapping TypeName="FacebookToolModel.Fb_Like_Post">
-              <MappingFragment StoreEntitySet="Fb_Like_Post">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="IdPost" ColumnName="IdPost" />
+          <EntitySetMapping Name="Chat_Fb_Like_Post">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_Fb_Like_Post">
+              <MappingFragment StoreEntitySet="Chat_Fb_Like_Post">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="FacebookIdPost" ColumnName="FacebookIdPost" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IdPost" ColumnName="IdPost" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Fb_Message">
-            <EntityTypeMapping TypeName="FacebookToolModel.Fb_Message">
-              <MappingFragment StoreEntitySet="Fb_Message">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FacebookIdReceived" ColumnName="FacebookIdReceived" />
-                <ScalarProperty Name="FacebookINameReceived" ColumnName="FacebookINameReceived" />
+          <EntitySetMapping Name="Chat_Fb_Message">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_Fb_Message">
+              <MappingFragment StoreEntitySet="Chat_Fb_Message">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Fb_TemplateMessageId" ColumnName="Fb_TemplateMessageId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="FacebookINameReceived" ColumnName="FacebookINameReceived" />
+                <ScalarProperty Name="FacebookIdReceived" ColumnName="FacebookIdReceived" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Fb_Post">
-            <EntityTypeMapping TypeName="FacebookToolModel.Fb_Post">
-              <MappingFragment StoreEntitySet="Fb_Post">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="FromUserId" ColumnName="FromUserId" />
+          <EntitySetMapping Name="Chat_Fb_Post">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_Fb_Post">
+              <MappingFragment StoreEntitySet="Chat_Fb_Post">
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="CommentCount" ColumnName="CommentCount" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Fb_TemplateMessage">
-            <EntityTypeMapping TypeName="FacebookToolModel.Fb_TemplateMessage">
-              <MappingFragment StoreEntitySet="Fb_TemplateMessage">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="FromUserId" ColumnName="FromUserId" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Fb_Test">
-            <EntityTypeMapping TypeName="FacebookToolModel.Fb_Test">
-              <MappingFragment StoreEntitySet="Fb_Test">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Fb_User">
-            <EntityTypeMapping TypeName="FacebookToolModel.Fb_User">
-              <MappingFragment StoreEntitySet="Fb_User">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chat_Fb_TemplateMessage">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_Fb_TemplateMessage">
+              <MappingFragment StoreEntitySet="Chat_Fb_TemplateMessage">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chat_Fb_Test">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_Fb_Test">
+              <MappingFragment StoreEntitySet="Chat_Fb_Test">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chat_Fb_User">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_Fb_User">
+              <MappingFragment StoreEntitySet="Chat_Fb_User">
                 <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Fb_User_Simsimi">
-            <EntityTypeMapping TypeName="FacebookToolModel.Fb_User_Simsimi">
-              <MappingFragment StoreEntitySet="Fb_User_Simsimi">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
-                <ScalarProperty Name="FacebookName" ColumnName="FacebookName" />
-                <ScalarProperty Name="IsAgree" ColumnName="IsAgree" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <EntitySetMapping Name="Chat_Fb_User_Simsimi">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_Fb_User_Simsimi">
+              <MappingFragment StoreEntitySet="Chat_Fb_User_Simsimi">
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NoiTuUsers">
-            <EntityTypeMapping TypeName="FacebookToolModel.NoiTuUser">
-              <MappingFragment StoreEntitySet="NoiTuUser">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsAgree" ColumnName="IsAgree" />
+                <ScalarProperty Name="FacebookName" ColumnName="FacebookName" />
                 <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
-                <ScalarProperty Name="IsNoiTu" ColumnName="IsNoiTu" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Fb_FunnyStory">
-            <EntityTypeMapping TypeName="FacebookToolModel.Fb_FunnyStory">
-              <MappingFragment StoreEntitySet="Fb_FunnyStory">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="NoiTuTiengAnhUsers">
-            <EntityTypeMapping TypeName="FacebookToolModel.NoiTuTiengAnhUser">
-              <MappingFragment StoreEntitySet="NoiTuTiengAnhUser">
+          <EntitySetMapping Name="Chat_NoiTuTiengAnhUser">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_NoiTuTiengAnhUser">
+              <MappingFragment StoreEntitySet="Chat_NoiTuTiengAnhUser">
                 <ScalarProperty Name="IsNoiTuTiengAnh" ColumnName="IsNoiTuTiengAnh" />
                 <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chat_NoiTuUser">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_NoiTuUser">
+              <MappingFragment StoreEntitySet="Chat_NoiTuUser">
+                <ScalarProperty Name="IsNoiTu" ColumnName="IsNoiTu" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CrawlPostGroup_Action">
+            <EntityTypeMapping TypeName="FacebookToolModel.CrawlPostGroup_Action">
+              <MappingFragment StoreEntitySet="CrawlPostGroup_Action">
+                <ScalarProperty Name="CrawlPostGroup_PostId" ColumnName="CrawlPostGroup_PostId" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CrawlPostGroup_Comment">
+            <EntityTypeMapping TypeName="FacebookToolModel.CrawlPostGroup_Comment">
+              <MappingFragment StoreEntitySet="CrawlPostGroup_Comment">
+                <ScalarProperty Name="CrawlPostGroup_PostId" ColumnName="CrawlPostGroup_PostId" />
+                <ScalarProperty Name="Fb_Id" ColumnName="Fb_Id" />
+                <ScalarProperty Name="UserLike" ColumnName="UserLike" />
+                <ScalarProperty Name="LikeCount" ColumnName="LikeCount" />
+                <ScalarProperty Name="CanRemove" ColumnName="CanRemove" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CrawlPostGroup_Post">
+            <EntityTypeMapping TypeName="FacebookToolModel.CrawlPostGroup_Post">
+              <MappingFragment StoreEntitySet="CrawlPostGroup_Post">
+                <ScalarProperty Name="IsExpired" ColumnName="IsExpired" />
+                <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
+                <ScalarProperty Name="Shares" ColumnName="Shares" />
+                <ScalarProperty Name="UpdatedTime" ColumnName="UpdatedTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+                <ScalarProperty Name="StatusType" ColumnName="StatusType" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Fb_Id" ColumnName="Fb_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CrawlPostGroup_Privacy">
+            <EntityTypeMapping TypeName="FacebookToolModel.CrawlPostGroup_Privacy">
+              <MappingFragment StoreEntitySet="CrawlPostGroup_Privacy">
+                <ScalarProperty Name="CrawlPostGroup_PostId" ColumnName="CrawlPostGroup_PostId" />
+                <ScalarProperty Name="Deny" ColumnName="Deny" />
+                <ScalarProperty Name="Allow" ColumnName="Allow" />
+                <ScalarProperty Name="Friends" ColumnName="Friends" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="FacebookToolModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chat_Fb_FunnyStory">
+            <EntityTypeMapping TypeName="FacebookToolModel.Chat_Fb_FunnyStory">
+              <MappingFragment StoreEntitySet="Chat_Fb_FunnyStory">
+                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

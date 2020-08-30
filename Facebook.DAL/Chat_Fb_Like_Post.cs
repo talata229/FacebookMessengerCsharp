@@ -12,13 +12,15 @@ namespace Facebook.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Fb_User_Simsimi
+    public partial class Chat_Fb_Like_Post
     {
         public int Id { get; set; }
-        public string FacebookId { get; set; }
-        public string FacebookName { get; set; }
-        public Nullable<bool> IsAgree { get; set; }
+        public Nullable<int> IdPost { get; set; }
+        public string FacebookIdPost { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
+        public string Type { get; set; }
+    
+        public virtual Chat_Fb_Post Chat_Fb_Post { get; set; }
     }
 }

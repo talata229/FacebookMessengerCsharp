@@ -44,11 +44,17 @@
             this.rtbLogGetToken = new System.Windows.Forms.RichTextBox();
             this.btnStartGetToken = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tbGroupId = new System.Windows.Forms.TextBox();
+            this.lbCrawlGroupPostStatus = new System.Windows.Forms.Label();
+            this.rtbCrawlGroupPostException = new System.Windows.Forms.RichTextBox();
+            this.rtbCrawlGroupPostInfo = new System.Windows.Forms.RichTextBox();
+            this.btnStartCrawlGroupPost = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -108,7 +114,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1043, 385);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Get Token";
+            this.tabPage1.Text = "Get TOKEN";
             // 
             // btnCopyGetToken
             // 
@@ -118,7 +124,7 @@
             this.btnCopyGetToken.Name = "btnCopyGetToken";
             this.btnCopyGetToken.Size = new System.Drawing.Size(206, 49);
             this.btnCopyGetToken.TabIndex = 4;
-            this.btnCopyGetToken.Text = "Copy Get Token";
+            this.btnCopyGetToken.Text = "Copy Get TOKEN";
             this.btnCopyGetToken.UseVisualStyleBackColor = false;
             this.btnCopyGetToken.Click += new System.EventHandler(this.btnCopyGetToken_Click);
             // 
@@ -152,9 +158,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(542, 323);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(205, 17);
+            this.label1.Size = new System.Drawing.Size(213, 17);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Number Of Threads Get Token";
+            this.label1.Text = "Number Of Threads Get TOKEN";
             // 
             // lbInfoGetToken
             // 
@@ -189,19 +195,69 @@
             this.btnStartGetToken.Name = "btnStartGetToken";
             this.btnStartGetToken.Size = new System.Drawing.Size(182, 50);
             this.btnStartGetToken.TabIndex = 0;
-            this.btnStartGetToken.Text = "Start Get Token";
+            this.btnStartGetToken.Text = "Start Get TOKEN";
             this.btnStartGetToken.UseVisualStyleBackColor = false;
             this.btnStartGetToken.Click += new System.EventHandler(this.btnStartGetToken_Click);
             // 
             // tabPage2
             // 
+            this.tabPage2.BackColor = System.Drawing.Color.Silver;
+            this.tabPage2.Controls.Add(this.tbGroupId);
+            this.tabPage2.Controls.Add(this.lbCrawlGroupPostStatus);
+            this.tabPage2.Controls.Add(this.rtbCrawlGroupPostException);
+            this.tabPage2.Controls.Add(this.rtbCrawlGroupPostInfo);
+            this.tabPage2.Controls.Add(this.btnStartCrawlGroupPost);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1043, 385);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Text = "Crawl Group Post";
+            // 
+            // tbGroupId
+            // 
+            this.tbGroupId.Location = new System.Drawing.Point(185, 28);
+            this.tbGroupId.Name = "tbGroupId";
+            this.tbGroupId.Size = new System.Drawing.Size(167, 22);
+            this.tbGroupId.TabIndex = 3;
+            this.tbGroupId.Text = "364997627165697";
+            // 
+            // lbCrawlGroupPostStatus
+            // 
+            this.lbCrawlGroupPostStatus.AutoSize = true;
+            this.lbCrawlGroupPostStatus.Location = new System.Drawing.Point(394, 34);
+            this.lbCrawlGroupPostStatus.Name = "lbCrawlGroupPostStatus";
+            this.lbCrawlGroupPostStatus.Size = new System.Drawing.Size(48, 17);
+            this.lbCrawlGroupPostStatus.TabIndex = 2;
+            this.lbCrawlGroupPostStatus.Text = "Status";
+            // 
+            // rtbCrawlGroupPostException
+            // 
+            this.rtbCrawlGroupPostException.Location = new System.Drawing.Point(705, 75);
+            this.rtbCrawlGroupPostException.Name = "rtbCrawlGroupPostException";
+            this.rtbCrawlGroupPostException.Size = new System.Drawing.Size(312, 289);
+            this.rtbCrawlGroupPostException.TabIndex = 1;
+            this.rtbCrawlGroupPostException.Text = "";
+            // 
+            // rtbCrawlGroupPostInfo
+            // 
+            this.rtbCrawlGroupPostInfo.Location = new System.Drawing.Point(19, 75);
+            this.rtbCrawlGroupPostInfo.Name = "rtbCrawlGroupPostInfo";
+            this.rtbCrawlGroupPostInfo.Size = new System.Drawing.Size(680, 289);
+            this.rtbCrawlGroupPostInfo.TabIndex = 1;
+            this.rtbCrawlGroupPostInfo.Text = "";
+            // 
+            // btnStartCrawlGroupPost
+            // 
+            this.btnStartCrawlGroupPost.BackColor = System.Drawing.Color.Moccasin;
+            this.btnStartCrawlGroupPost.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStartCrawlGroupPost.Location = new System.Drawing.Point(19, 18);
+            this.btnStartCrawlGroupPost.Name = "btnStartCrawlGroupPost";
+            this.btnStartCrawlGroupPost.Size = new System.Drawing.Size(142, 48);
+            this.btnStartCrawlGroupPost.TabIndex = 0;
+            this.btnStartCrawlGroupPost.Text = "Start";
+            this.btnStartCrawlGroupPost.UseVisualStyleBackColor = false;
+            this.btnStartCrawlGroupPost.Click += new System.EventHandler(this.btnStartCrawlGroupPost_Click);
             // 
             // panel3
             // 
@@ -222,6 +278,7 @@
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Facebook Tool";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -229,6 +286,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -251,6 +310,11 @@
         private System.Windows.Forms.TextBox txtTimeSleepCheckToken;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnCopyGetToken;
+        private System.Windows.Forms.TextBox tbGroupId;
+        private System.Windows.Forms.Label lbCrawlGroupPostStatus;
+        private System.Windows.Forms.RichTextBox rtbCrawlGroupPostException;
+        private System.Windows.Forms.RichTextBox rtbCrawlGroupPostInfo;
+        private System.Windows.Forms.Button btnStartCrawlGroupPost;
     }
 }
 

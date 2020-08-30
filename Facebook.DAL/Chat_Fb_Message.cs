@@ -12,7 +12,7 @@ namespace Facebook.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Fb_Message
+    public partial class Chat_Fb_Message
     {
         public int Id { get; set; }
         public Nullable<int> FacebookIdReceived { get; set; }
@@ -21,7 +21,7 @@ namespace Facebook.DAL
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     
-        public virtual Fb_TemplateMessage Fb_TemplateMessage { get; set; }
-        public virtual Fb_User Fb_User { get; set; }
+        public virtual Chat_Fb_TemplateMessage Chat_Fb_TemplateMessage { get; set; }
+        public virtual Chat_Fb_User Chat_Fb_User { get; set; }
     }
 }

@@ -12,8 +12,10 @@ namespace Facebook.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Fb_Test
+    public partial class Chat_NoiTuTiengAnhUser
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public string FacebookId { get; set; }
+        public Nullable<bool> IsNoiTuTiengAnh { get; set; }
     }
 }

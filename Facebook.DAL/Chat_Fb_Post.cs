@@ -12,12 +12,12 @@ namespace Facebook.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Fb_Post
+    public partial class Chat_Fb_Post
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Fb_Post()
+        public Chat_Fb_Post()
         {
-            this.Fb_Like_Post = new HashSet<Fb_Like_Post>();
+            this.Chat_Fb_Like_Post = new HashSet<Chat_Fb_Like_Post>();
         }
     
         public int Id { get; set; }
@@ -30,6 +30,6 @@ namespace Facebook.DAL
         public string Message { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Fb_Like_Post> Fb_Like_Post { get; set; }
+        public virtual ICollection<Chat_Fb_Like_Post> Chat_Fb_Like_Post { get; set; }
     }
 }

@@ -12,12 +12,12 @@ namespace Facebook.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Fb_User
+    public partial class Chat_Fb_User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Fb_User()
+        public Chat_Fb_User()
         {
-            this.Fb_Message = new HashSet<Fb_Message>();
+            this.Chat_Fb_Message = new HashSet<Chat_Fb_Message>();
         }
     
         public int Id { get; set; }
@@ -26,6 +26,6 @@ namespace Facebook.DAL
         public Nullable<System.DateTime> BirthDay { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Fb_Message> Fb_Message { get; set; }
+        public virtual ICollection<Chat_Fb_Message> Chat_Fb_Message { get; set; }
     }
 }

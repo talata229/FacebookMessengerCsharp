@@ -53,7 +53,7 @@ namespace FacebookMessengerCsharp.Helper
                         {
                             try
                             {
-                                Fb_Post fb_Post = new Fb_Post
+                                Chat_Fb_Post fb_Post = new Chat_Fb_Post
                                 {
                                     FacebookId = post.Id,
                                     CreatedDate = DateTime.Now,
@@ -62,9 +62,9 @@ namespace FacebookMessengerCsharp.Helper
                                     Type = post.Type,
                                     Message = post.Message
                                 }; ;
-                                if (!db.Fb_Post.Any(x => x.FacebookId == post.Id))
+                                if (!db.Chat_Fb_Post.Any(x => x.FacebookId == post.Id))
                                 {
-                                    db.Fb_Post.Add(fb_Post);
+                                    db.Chat_Fb_Post.Add(fb_Post);
                                     await db.SaveChangesAsync();
                                 }
                             }
@@ -97,7 +97,7 @@ namespace FacebookMessengerCsharp.Helper
         {
             try
             {
-                List<NewfeedDTO> newfeedDTOs = await GetNewFeed(Constant.Token, true, 3);
+                List<NewfeedDTO> newfeedDTOs = await GetNewFeed(Constant.TOKEN, true, 3);
                 newfeedDTOs = newfeedDTOs.Distinct(new ComparerCustom()).ToList();
                 using (FbToolEntities db = new FbToolEntities())
                 {
@@ -121,12 +121,12 @@ namespace FacebookMessengerCsharp.Helper
                             {
                                 reactionType = EnumReactionType.HAHA;
                             }
-                            isSuccess = await LikePost(Constant.Token, post.Id, reactionType);
+                            isSuccess = await LikePost(Constant.TOKEN, post.Id, reactionType);
                             if (isSuccess)
                             {
                                 //Save db
-                                Fb_Post postInDb = await db.Fb_Post.FirstOrDefaultAsync(x => x.FacebookId == post.Id);
-                                Fb_Like_Post fbLikePost = new Fb_Like_Post
+                                Chat_Fb_Post postInDb = await db.Chat_Fb_Post.FirstOrDefaultAsync(x => x.FacebookId == post.Id);
+                                Chat_Fb_Like_Post fbLikePost = new Chat_Fb_Like_Post
                                 {
                                     IdPost = postInDb?.Id,
                                     FacebookIdPost = post.Id,
@@ -134,9 +134,9 @@ namespace FacebookMessengerCsharp.Helper
                                     UpdatedDate = null,
                                     Type = type
                                 };
-                                if (!db.Fb_Like_Post.Any(x => x.FacebookIdPost == postInDb.FacebookId))
+                                if (!db.Chat_Fb_Like_Post.Any(x => x.FacebookIdPost == postInDb.FacebookId))
                                 {
-                                    db.Fb_Like_Post.Add(fbLikePost);
+                                    db.Chat_Fb_Like_Post.Add(fbLikePost);
                                     await db.SaveChangesAsync();
                                     ConsoleLogHelper.WriteToConsole($"{reactionType} Post success - {post.Id}");
                                 }
@@ -202,10 +202,10 @@ namespace FacebookMessengerCsharp.Helper
                 //RemoveStopAll
                 if (message.Equals(EnumHelper.GetDescription(EnumFeature.RemoveStopAll), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var userInDb = await db.Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == threadId);
+                    var userInDb = await db.Chat_Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == threadId);
                     if (userInDb != null)
                     {
-                        db.Fb_BlockUser.Remove(userInDb);
+                        db.Chat_Fb_BlockUser.Remove(userInDb);
                         await db.SaveChangesAsync();
                         ConsoleLogHelper.WriteToConsole($"RemoveStopAll {threadId}");
                     }
@@ -214,10 +214,10 @@ namespace FacebookMessengerCsharp.Helper
                 //StopAll
                 if (message.Equals(EnumHelper.GetDescription(EnumFeature.StopAll), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var userInDb = await db.Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == threadId);
+                    var userInDb = await db.Chat_Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == threadId);
                     if (userInDb == null)
                     {
-                        Fb_BlockUser blockUser = new Fb_BlockUser
+                        Chat_Fb_BlockUser blockUser = new Chat_Fb_BlockUser
                         {
                             FacebookId = threadId,
                             CreatedDate = DateTime.Now,
@@ -225,7 +225,7 @@ namespace FacebookMessengerCsharp.Helper
                             IsBlockAll = true,
                             UtilTime = null,
                         };
-                        db.Fb_BlockUser.Add(blockUser);
+                        db.Chat_Fb_BlockUser.Add(blockUser);
                         await db.SaveChangesAsync();
                         ConsoleLogHelper.WriteToConsole($"StopAll {threadId}");
                     }
@@ -246,17 +246,17 @@ namespace FacebookMessengerCsharp.Helper
                 //TroLyAo
                 if (message.Equals(EnumHelper.GetDescription(EnumFeature.TroLyAo), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var userInDb = await db.Fb_User_Simsimi.FirstOrDefaultAsync(x => x.FacebookId == threadId);
+                    var userInDb = await db.Chat_Fb_User_Simsimi.FirstOrDefaultAsync(x => x.FacebookId == threadId);
                     if (userInDb == null)
                     {
-                        Fb_User_Simsimi user_Simsimi = new Fb_User_Simsimi
+                        Chat_Fb_User_Simsimi user_Simsimi = new Chat_Fb_User_Simsimi
                         {
                             FacebookId = threadId,
                             FacebookName = "",
                             IsAgree = true,
                             CreatedDate = DateTime.Now
                         };
-                        db.Fb_User_Simsimi.Add(user_Simsimi);
+                        db.Chat_Fb_User_Simsimi.Add(user_Simsimi);
                         await db.SaveChangesAsync();
                         ConsoleLogHelper.WriteToConsole($"TroLyAo agree - {threadId}");
                     }
@@ -298,7 +298,7 @@ namespace FacebookMessengerCsharp.Helper
             List<string> listTruyenCuoi = new List<string>();
             using (FbToolEntities db = new FbToolEntities())
             {
-                listTruyenCuoi = await db.Fb_FunnyStory.Select(x => x.Content).ToListAsync();
+                listTruyenCuoi = await db.Chat_Fb_FunnyStory.Select(x => x.Content).ToListAsync();
             }
             return listTruyenCuoi;
         }
@@ -307,7 +307,7 @@ namespace FacebookMessengerCsharp.Helper
             List<string> listTruyenCuoi = new List<string>();
             using (FbToolEntities db = new FbToolEntities())
             {
-                listTruyenCuoi = await db.Fb_FunnyStory.Select(x => x.Content).Take(quantity).ToListAsync();
+                listTruyenCuoi = await db.Chat_Fb_FunnyStory.Select(x => x.Content).Take(quantity).ToListAsync();
             }
             return listTruyenCuoi;
         }
@@ -317,7 +317,7 @@ namespace FacebookMessengerCsharp.Helper
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                var userInDb = await db.Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                var userInDb = await db.Chat_Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
                 if (userInDb == null)
                 {
                     return false;
@@ -335,7 +335,7 @@ namespace FacebookMessengerCsharp.Helper
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                var userInDb = await db.Fb_User_Simsimi.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                var userInDb = await db.Chat_Fb_User_Simsimi.FirstOrDefaultAsync(x => x.FacebookId == userId);
                 if (userInDb == null)
                 {
                     return false;
@@ -348,10 +348,10 @@ namespace FacebookMessengerCsharp.Helper
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                var userInDb = await db.Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                var userInDb = await db.Chat_Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
                 if (userInDb == null)
                 {
-                    Fb_BlockUser blockUser = new Fb_BlockUser
+                    Chat_Fb_BlockUser blockUser = new Chat_Fb_BlockUser
                     {
                         FacebookId = userId,
                         CreatedDate = DateTime.Now,
@@ -359,7 +359,7 @@ namespace FacebookMessengerCsharp.Helper
                         IsBlockAll = false,
                         UtilTime = DateTime.Now.AddMinutes(10),
                     };
-                    db.Fb_BlockUser.Add(blockUser);
+                    db.Chat_Fb_BlockUser.Add(blockUser);
                     await db.SaveChangesAsync();
                 }
                 if (userInDb != null)
@@ -378,7 +378,7 @@ namespace FacebookMessengerCsharp.Helper
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                var userInDb = await db.NoiTuUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                var userInDb = await db.Chat_NoiTuUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
                 if (userInDb == null)
                 {
                     return false;
@@ -392,7 +392,7 @@ namespace FacebookMessengerCsharp.Helper
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                var userInDb = await db.NoiTuTiengAnhUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                var userInDb = await db.Chat_NoiTuTiengAnhUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
                 if (userInDb == null)
                 {
                     return false;
@@ -404,10 +404,10 @@ namespace FacebookMessengerCsharp.Helper
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                var userInDb = await db.NoiTuUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                var userInDb = await db.Chat_NoiTuUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
                 if (userInDb == null)
                 {
-                    db.NoiTuUsers.Add(new NoiTuUser()
+                    db.Chat_NoiTuUser.Add(new Chat_NoiTuUser()
                     {
                         FacebookId = userId,
                         IsNoiTu = true
@@ -419,10 +419,10 @@ namespace FacebookMessengerCsharp.Helper
                     userInDb.IsNoiTu = true;
                 }
 
-                var userBlock = await db.Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                var userBlock = await db.Chat_Fb_BlockUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
                 if (userBlock != null)
                 {
-                    db.Fb_BlockUser.Remove(userBlock);
+                    db.Chat_Fb_BlockUser.Remove(userBlock);
                     ConsoleLogHelper.WriteToConsole($"RemoveStopAll {userId}");
                 }
 
@@ -433,10 +433,10 @@ namespace FacebookMessengerCsharp.Helper
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                var userInDb = await db.NoiTuUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                var userInDb = await db.Chat_NoiTuUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
                 if (userInDb == null)
                 {
-                    db.NoiTuUsers.Add(new NoiTuUser()
+                    db.Chat_NoiTuUser.Add(new Chat_NoiTuUser()
                     {
                         FacebookId = userId,
                         IsNoiTu = false
@@ -456,10 +456,10 @@ namespace FacebookMessengerCsharp.Helper
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                var userInDb = await db.NoiTuTiengAnhUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                var userInDb = await db.Chat_NoiTuTiengAnhUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
                 if (userInDb == null)
                 {
-                    db.NoiTuTiengAnhUsers.Add(new NoiTuTiengAnhUser()
+                    db.Chat_NoiTuTiengAnhUser.Add(new Chat_NoiTuTiengAnhUser()
                     {
                         FacebookId = userId,
                         IsNoiTuTiengAnh = true
@@ -478,10 +478,10 @@ namespace FacebookMessengerCsharp.Helper
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                var userInDb = await db.NoiTuTiengAnhUsers.FirstOrDefaultAsync(x => x.FacebookId == userId);
+                var userInDb = await db.Chat_NoiTuTiengAnhUser.FirstOrDefaultAsync(x => x.FacebookId == userId);
                 if (userInDb == null)
                 {
-                    db.NoiTuTiengAnhUsers.Add(new NoiTuTiengAnhUser()
+                    db.Chat_NoiTuTiengAnhUser.Add(new Chat_NoiTuTiengAnhUser()
                     {
                         FacebookId = userId,
                         IsNoiTuTiengAnh = false
