@@ -182,35 +182,60 @@ namespace FacebookTool.App
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                //string sss = "EAAAAZAw4FxQIBAKZCCtymUZANGqBta9UHXrII0DE4HUWQDSiCZABSV2vccZA9TXgaF7XRDXNUL4kuQWjQJDuMwVZBBb7HahabZAZBPkA26tlWVcjJl9tsJ9BHy20M5RGOCg7ja0WimysFaDRXuevJwDzXlCh1iVPg8eaqG06lH55i1LiDp0ZBdzUU";
-                //string cookie = "sb=xu9AXyBTsvz6rQw_mvDWxQYh; datr=xu9AX34aUBYTrUBSV5usETpO; dpr=1.25; wd=1536x722; locale=vi_VN; c_user=100014450202805; spin=r.1002596222_b.trunk_t.1598925757_s.1_v.2_; xs=36%3ANjBzeW39w7xCQg%3A2%3A1598679884%3A17580%3A636%3A%3AAcWoJs3sD1_j26IiqYnXx7hIBjqHJhAgzxos8O6F4Q; fr=1d03kp3slxKi0cVmE.AWVlrNJVPProBxUP80BL5lUv1SI.BfQO_G.AE.AAA.0.0.BfTau-.AWWKYcv_";
-                var url = "https://graph.facebook.com/" + groupId + "/feed?limit=100&access_token=" +
-                          ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Token;
+                string token = ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Token;
+                var url = "https://graph.facebook.com/" + groupId + "/feed?limit=100&access_token=" + token;
                 CrawlPostGroupRoot root = new CrawlPostGroupRoot();
                 do
                 {
-                    //var http = new HttpClient();
-                    //var response = await http.GetAsync(url);
-                    //var result = await response.Content.ReadAsStringAsync();
-                    //root = JsonConvert.DeserializeObject<CrawlPostGroupRoot>(result);
-                    var result = await HttpClientHelper.SendRequestAsync(url, ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Cookie);
-                    root = JsonConvert.DeserializeObject<CrawlPostGroupRoot>(result);
-                    if (root.Data == null)
+                    try
                     {
-                        Thread.Sleep(5000);
-                        InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostException, $"Nghỉ 5s sau khi lấy được {totalPostCrawed}");
-                        continue;
+                        var result = "";
+                        do
+                        {
+                            try
+                            {
+                                result = await HttpClientHelper.SendRequestAsync(url, ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Cookie);
+                            }
+                            catch (Exception e)
+                            {
+                                Constant.LIST_TOKEN.Remove(token);
+                                token = ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Token;
+                                url = "https://graph.facebook.com/" + groupId + "/feed?limit=100&access_token=" + token;
+                                InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostException, $"Exception trong DoWhile GetListPostInGroup.Exception={e.Message},InnerException={e.InnerException?.Message}, url={url}", Color.Red);
+                            }
+
+                        } while (string.IsNullOrEmpty(result));
+
+                        root = JsonConvert.DeserializeObject<CrawlPostGroupRoot>(result);
+                        if (root.Data == null)
+                        {
+                            Thread.Sleep(5000);
+                            InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostException, $"Nghỉ 5s sau khi lấy được {totalPostCrawed}");
+                            continue;
+                        }
+                        foreach (var postDto in root.Data)
+                        {
+                            try
+                            {
+                                await AddOrUpdatePostGroup(postDto);
+                                totalPostCrawed++;
+                                InvokeControlHelper.UpdateLabel(lbCrawlGroupPostStatus, $"Crawled {totalPostCrawed} bài post", Color.Blue);
+                            }
+                            catch (Exception e)
+                            {
+                                InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostException, $"Chạy vào foreach AddOrUpdatePostGroup,Exception={e.Message},InnerException={e.InnerException?.Message},Root={root},postDto.Fb_Id={postDto.Fb_Id}", Color.Red);
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(root.Paging?.Next))
+                        {
+                            url = Regex.Replace(root.Paging?.Next, @"EAAA\w+", ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Token);
+                        }
                     }
-                    foreach (var postDto in root.Data)
+                    catch (Exception e)
                     {
-                        await AddOrUpdatePostGroup(postDto);
-                        totalPostCrawed++;
-                        InvokeControlHelper.UpdateLabel(lbCrawlGroupPostStatus, $"Crawled {totalPostCrawed} bài post", Color.Blue);
+                        InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostException, $"Chạy vào GetListPostInGroup,Exception={e.Message},InnerException={e.InnerException?.Message}.Root={root}", Color.Red);
                     }
-                    if (!string.IsNullOrEmpty(root.Paging?.Next))
-                    {
-                        url = Regex.Replace(root.Paging?.Next, @"EAAA\w+", ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Token);
-                    }
+
                 } while (root.Data?.Count > 0 || root.Data == null);
                 MessageBox.Show("Xong");
             }
