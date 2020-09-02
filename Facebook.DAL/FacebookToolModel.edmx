@@ -17,7 +17,7 @@
           <Property Name="UtilTime" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Chat_Fb_FunnyStory">
           <Key>
             <PropertyRef Name="Id" />
@@ -153,6 +153,29 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
           <Property Name="Shares" Type="bigint" />
           <Property Name="IsHidden" Type="bit" />
           <Property Name="IsExpired" Type="bit" />
+          <Property Name="TimeCreatedInDb" Type="datetime" />
+          <Property Name="TimeUpdatedInDb" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CrawlPostGroup_PostDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CrawlPostGroup_PostId" Type="int" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="UID" Type="bigint" />
+          <Property Name="ReactionTotalCount" Type="bigint" />
+          <Property Name="LikeCount" Type="bigint" />
+          <Property Name="LoveCount" Type="bigint" />
+          <Property Name="WowCount" Type="bigint" />
+          <Property Name="SupportCount" Type="bigint" />
+          <Property Name="HahaCount" Type="bigint" />
+          <Property Name="SadCount" Type="bigint" />
+          <Property Name="AngryCount" Type="bigint" />
+          <Property Name="ShareCount" Type="bigint" />
+          <Property Name="CommentCount" Type="bigint" />
+          <Property Name="TimeCreatedInDb" Type="datetime" />
+          <Property Name="TimeUpdatedInDb" Type="datetime" />
         </EntityType>
         <EntityType Name="CrawlPostGroup_Privacy">
           <Key>
@@ -166,16 +189,6 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
           <Property Name="Deny" Type="nvarchar(max)" />
           <Property Name="CrawlPostGroup_PostId" Type="int" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <Association Name="FK_CrawlPostGroup_Action_CrawlPostGroup_Post">
           <End Role="CrawlPostGroup_Post" Type="Self.CrawlPostGroup_Post" Multiplicity="0..1" />
           <End Role="CrawlPostGroup_Action" Type="Self.CrawlPostGroup_Action" Multiplicity="*" />
@@ -184,6 +197,18 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="CrawlPostGroup_Action">
+              <PropertyRef Name="CrawlPostGroup_PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post">
+          <End Role="CrawlPostGroup_Post" Type="Self.CrawlPostGroup_Post" Multiplicity="0..1" />
+          <End Role="CrawlPostGroup_PostDetail" Type="Self.CrawlPostGroup_PostDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CrawlPostGroup_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CrawlPostGroup_PostDetail">
               <PropertyRef Name="CrawlPostGroup_PostId" />
             </Dependent>
           </ReferentialConstraint>
@@ -262,8 +287,8 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
           <EntitySet Name="CrawlPostGroup_Action" EntityType="Self.CrawlPostGroup_Action" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CrawlPostGroup_Comment" EntityType="Self.CrawlPostGroup_Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CrawlPostGroup_Post" EntityType="Self.CrawlPostGroup_Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CrawlPostGroup_PostDetail" EntityType="Self.CrawlPostGroup_PostDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CrawlPostGroup_Privacy" EntityType="Self.CrawlPostGroup_Privacy" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Chat_Fb_FunnyStory" EntityType="Self.Chat_Fb_FunnyStory" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Chat_Fb_FunnyStory].[Id] AS [Id], 
@@ -273,6 +298,10 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
           <AssociationSet Name="FK_CrawlPostGroup_Action_CrawlPostGroup_Post" Association="Self.FK_CrawlPostGroup_Action_CrawlPostGroup_Post">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
             <End Role="CrawlPostGroup_Action" EntitySet="CrawlPostGroup_Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post" Association="Self.FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post">
+            <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
+            <End Role="CrawlPostGroup_PostDetail" EntitySet="CrawlPostGroup_PostDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" Association="Self.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
@@ -313,8 +342,8 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
           <EntitySet Name="CrawlPostGroup_Action" EntityType="FacebookToolModel.CrawlPostGroup_Action" />
           <EntitySet Name="CrawlPostGroup_Comment" EntityType="FacebookToolModel.CrawlPostGroup_Comment" />
           <EntitySet Name="CrawlPostGroup_Post" EntityType="FacebookToolModel.CrawlPostGroup_Post" />
+          <EntitySet Name="CrawlPostGroup_PostDetail" EntityType="FacebookToolModel.CrawlPostGroup_PostDetail" />
           <EntitySet Name="CrawlPostGroup_Privacy" EntityType="FacebookToolModel.CrawlPostGroup_Privacy" />
-          <EntitySet Name="sysdiagrams" EntityType="FacebookToolModel.sysdiagram" />
           <EntitySet Name="Chat_Fb_FunnyStory" EntityType="FacebookToolModel.Chat_Fb_FunnyStory" />
           <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="FacebookToolModel.FK_Fb_Like_Post_Fb_Post">
             <End Role="Chat_Fb_Post" EntitySet="Chat_Fb_Post" />
@@ -335,6 +364,10 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
           <AssociationSet Name="FK_CrawPostGroup_Comment_CrawlPostGroup_Post" Association="FacebookToolModel.FK_CrawPostGroup_Comment_CrawlPostGroup_Post">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
             <End Role="CrawlPostGroup_Comment" EntitySet="CrawlPostGroup_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post" Association="FacebookToolModel.FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post">
+            <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
+            <End Role="CrawlPostGroup_PostDetail" EntitySet="CrawlPostGroup_PostDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" Association="FacebookToolModel.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
@@ -488,9 +521,34 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
           <Property Name="Shares" Type="Int64" />
           <Property Name="IsHidden" Type="Boolean" />
           <Property Name="IsExpired" Type="Boolean" />
+          <Property Name="TimeCreatedInDb" Type="DateTime" Precision="3" />
+          <Property Name="TimeUpdatedInDb" Type="DateTime" Precision="3" />
           <NavigationProperty Name="CrawlPostGroup_Action" Relationship="FacebookToolModel.FK_CrawlPostGroup_Action_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Action" />
           <NavigationProperty Name="CrawlPostGroup_Comment" Relationship="FacebookToolModel.FK_CrawPostGroup_Comment_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Comment" />
+          <NavigationProperty Name="CrawlPostGroup_PostDetail" Relationship="FacebookToolModel.FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_PostDetail" />
           <NavigationProperty Name="CrawlPostGroup_Privacy" Relationship="FacebookToolModel.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Privacy" />
+        </EntityType>
+        <EntityType Name="CrawlPostGroup_PostDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CrawlPostGroup_PostId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UID" Type="Int64" />
+          <Property Name="ReactionTotalCount" Type="Int64" />
+          <Property Name="LikeCount" Type="Int64" />
+          <Property Name="LoveCount" Type="Int64" />
+          <Property Name="WowCount" Type="Int64" />
+          <Property Name="SupportCount" Type="Int64" />
+          <Property Name="HahaCount" Type="Int64" />
+          <Property Name="SadCount" Type="Int64" />
+          <Property Name="AngryCount" Type="Int64" />
+          <Property Name="ShareCount" Type="Int64" />
+          <Property Name="CommentCount" Type="Int64" />
+          <Property Name="TimeCreatedInDb" Type="DateTime" Precision="3" />
+          <Property Name="TimeUpdatedInDb" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post" FromRole="CrawlPostGroup_PostDetail" ToRole="CrawlPostGroup_Post" />
         </EntityType>
         <EntityType Name="CrawlPostGroup_Privacy">
           <Key>
@@ -504,16 +562,6 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
           <Property Name="Deny" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CrawlPostGroup_PostId" Type="Int32" />
           <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Privacy" ToRole="CrawlPostGroup_Post" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Chat_Fb_FunnyStory">
           <Key>
@@ -578,6 +626,18 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="CrawlPostGroup_Comment">
+              <PropertyRef Name="CrawlPostGroup_PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post">
+          <End Type="FacebookToolModel.CrawlPostGroup_Post" Role="CrawlPostGroup_Post" Multiplicity="0..1" />
+          <End Type="FacebookToolModel.CrawlPostGroup_PostDetail" Role="CrawlPostGroup_PostDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CrawlPostGroup_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CrawlPostGroup_PostDetail">
               <PropertyRef Name="CrawlPostGroup_PostId" />
             </Dependent>
           </ReferentialConstraint>
@@ -735,6 +795,8 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
           <EntitySetMapping Name="CrawlPostGroup_Post">
             <EntityTypeMapping TypeName="FacebookToolModel.CrawlPostGroup_Post">
               <MappingFragment StoreEntitySet="CrawlPostGroup_Post">
+                <ScalarProperty Name="TimeUpdatedInDb" ColumnName="TimeUpdatedInDb" />
+                <ScalarProperty Name="TimeCreatedInDb" ColumnName="TimeCreatedInDb" />
                 <ScalarProperty Name="IsExpired" ColumnName="IsExpired" />
                 <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
                 <ScalarProperty Name="Shares" ColumnName="Shares" />
@@ -753,6 +815,28 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CrawlPostGroup_PostDetail">
+            <EntityTypeMapping TypeName="FacebookToolModel.CrawlPostGroup_PostDetail">
+              <MappingFragment StoreEntitySet="CrawlPostGroup_PostDetail">
+                <ScalarProperty Name="TimeUpdatedInDb" ColumnName="TimeUpdatedInDb" />
+                <ScalarProperty Name="TimeCreatedInDb" ColumnName="TimeCreatedInDb" />
+                <ScalarProperty Name="CommentCount" ColumnName="CommentCount" />
+                <ScalarProperty Name="ShareCount" ColumnName="ShareCount" />
+                <ScalarProperty Name="AngryCount" ColumnName="AngryCount" />
+                <ScalarProperty Name="SadCount" ColumnName="SadCount" />
+                <ScalarProperty Name="HahaCount" ColumnName="HahaCount" />
+                <ScalarProperty Name="SupportCount" ColumnName="SupportCount" />
+                <ScalarProperty Name="WowCount" ColumnName="WowCount" />
+                <ScalarProperty Name="LoveCount" ColumnName="LoveCount" />
+                <ScalarProperty Name="LikeCount" ColumnName="LikeCount" />
+                <ScalarProperty Name="ReactionTotalCount" ColumnName="ReactionTotalCount" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CrawlPostGroup_PostId" ColumnName="CrawlPostGroup_PostId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CrawlPostGroup_Privacy">
             <EntityTypeMapping TypeName="FacebookToolModel.CrawlPostGroup_Privacy">
               <MappingFragment StoreEntitySet="CrawlPostGroup_Privacy">
@@ -763,17 +847,6 @@ warning 6002: The table/view 'FacebookTool.dbo.Chat_Fb_FunnyStory' does not have
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="FacebookToolModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

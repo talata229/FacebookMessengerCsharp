@@ -44,6 +44,7 @@
             this.rtbLogGetToken = new System.Windows.Forms.RichTextBox();
             this.btnStartGetToken = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnStartGetDetailPostGroup = new System.Windows.Forms.Button();
             this.tbGroupId = new System.Windows.Forms.TextBox();
             this.lbCrawlGroupPostStatus = new System.Windows.Forms.Label();
             this.rtbCrawlGroupPostException = new System.Windows.Forms.RichTextBox();
@@ -202,6 +203,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.Silver;
+            this.tabPage2.Controls.Add(this.btnStartGetDetailPostGroup);
             this.tabPage2.Controls.Add(this.tbGroupId);
             this.tabPage2.Controls.Add(this.lbCrawlGroupPostStatus);
             this.tabPage2.Controls.Add(this.rtbCrawlGroupPostException);
@@ -213,6 +215,18 @@
             this.tabPage2.Size = new System.Drawing.Size(1043, 385);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Crawl Group Post";
+            // 
+            // btnStartGetDetailPostGroup
+            // 
+            this.btnStartGetDetailPostGroup.BackColor = System.Drawing.Color.Lime;
+            this.btnStartGetDetailPostGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStartGetDetailPostGroup.Location = new System.Drawing.Point(875, 15);
+            this.btnStartGetDetailPostGroup.Name = "btnStartGetDetailPostGroup";
+            this.btnStartGetDetailPostGroup.Size = new System.Drawing.Size(142, 48);
+            this.btnStartGetDetailPostGroup.TabIndex = 4;
+            this.btnStartGetDetailPostGroup.Text = "Start Get Detail";
+            this.btnStartGetDetailPostGroup.UseVisualStyleBackColor = false;
+            this.btnStartGetDetailPostGroup.Click += new System.EventHandler(this.btnStartGetDetailPostGroup_Click);
             // 
             // tbGroupId
             // 
@@ -315,6 +329,7 @@
         private System.Windows.Forms.RichTextBox rtbCrawlGroupPostException;
         private System.Windows.Forms.RichTextBox rtbCrawlGroupPostInfo;
         private System.Windows.Forms.Button btnStartCrawlGroupPost;
+        private System.Windows.Forms.Button btnStartGetDetailPostGroup;
     }
 }
 

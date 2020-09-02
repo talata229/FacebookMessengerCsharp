@@ -38,8 +38,8 @@ namespace Facebook.DAL
         public virtual DbSet<CrawlPostGroup_Action> CrawlPostGroup_Action { get; set; }
         public virtual DbSet<CrawlPostGroup_Comment> CrawlPostGroup_Comment { get; set; }
         public virtual DbSet<CrawlPostGroup_Post> CrawlPostGroup_Post { get; set; }
+        public virtual DbSet<CrawlPostGroup_PostDetail> CrawlPostGroup_PostDetail { get; set; }
         public virtual DbSet<CrawlPostGroup_Privacy> CrawlPostGroup_Privacy { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Chat_Fb_FunnyStory> Chat_Fb_FunnyStory { get; set; }
     }
 }

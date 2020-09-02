@@ -50,7 +50,7 @@ namespace FacebookMessengerCsharp.App
                     case Facebook.DAL.Enum.EnumFeature.TroLyAo:
                         await this.send(new FB_Message
                         {
-                            text = ListHelper.GetRandomItemInList(Constant.ListConfirmAgreeUseTroLyAoMessage)
+                            text = ListHelper<string>.GetRandomItemInListObject(Constant.ListConfirmAgreeUseTroLyAoMessage)
                         }, thread_id, ThreadType.USER);
                         return;
                     case Facebook.DAL.Enum.EnumFeature.GirlXinh:
@@ -68,7 +68,7 @@ namespace FacebookMessengerCsharp.App
                         List<string> listTruyenCuoi = await FacebookToolHelper.GetListTruyenCuoi();
                         await this.send(new FB_Message
                         {
-                            text = ListHelper.GetRandomItemInList(listTruyenCuoi)
+                            text = ListHelper<string>.GetRandomItemInListObject(listTruyenCuoi)
                         }, thread_id, ThreadType.USER);
                         return;
                     case Facebook.DAL.Enum.EnumFeature.TinTuc:
@@ -127,7 +127,7 @@ namespace FacebookMessengerCsharp.App
                         var dic = TuDienHelper.GenerateVietNameseDictionary();
                         var lastWord = message.LastWord();
                         var listNewWord = dic.Keys.Where(x => String.Equals(x.FirstWord(), lastWord, StringComparison.OrdinalIgnoreCase) && x.Contains(" ")).ToList();
-                        string textSend = listNewWord.Count == 0 ? "Chịu thua rồi, ko tìm thấy từ nào cả :((" : $"Nối từ: {ListHelper.GetRandomItemInList(listNewWord)}";
+                        string textSend = listNewWord.Count == 0 ? "Chịu thua rồi, ko tìm thấy từ nào cả :((" : $"Nối từ: {ListHelper<string>.GetRandomItemInListObject(listNewWord)}";
                         await this.send(new FB_Message
                         {
                             text = textSend
@@ -139,7 +139,7 @@ namespace FacebookMessengerCsharp.App
                         var dic = TuDienHelper.GenerateVietNameseDictionary();
                         var lastWord = message.LastWord();
                         var listNewWord = dic.Keys.Where(x => String.Equals(x.FirstWord(), lastWord, StringComparison.OrdinalIgnoreCase) && x.Contains(" ")).ToList();
-                        string textSend = listNewWord.Count == 0 ? "Chịu thua rồi, ko tìm thấy từ nào cả :((" : $"Nối từ: {ListHelper.GetRandomItemInList(listNewWord)}";
+                        string textSend = listNewWord.Count == 0 ? "Chịu thua rồi, ko tìm thấy từ nào cả :((" : $"Nối từ: {ListHelper<string>.GetRandomItemInListObject(listNewWord)}";
                         await this.send(new FB_Message
                         {
                             text = textSend
@@ -150,7 +150,7 @@ namespace FacebookMessengerCsharp.App
                     {
                         await this.send(new FB_Message
                         {
-                            text = ListHelper.GetRandomItemInList(Constant.ListTroLyAoMessage)
+                            text = ListHelper<string>.GetRandomItemInListObject(Constant.ListTroLyAoMessage)
                         }, thread_id, ThreadType.USER);
                         await FacebookToolHelper.AddUser10Min(thread_id);
                     }
@@ -279,7 +279,7 @@ namespace FacebookMessengerCsharp.App
             {
                 try
                 {
-                    string text = ListHelper.GetRandomItemInList(ListHelper.ListMessage);
+                    string text = ListHelper<string>.GetRandomItemInListObject(Constant.ListMessage);
                     await this.setTypingStatus(TypingStatus.TYPING, user, ThreadType.USER);
                     await this.send(new FB_Message { text = text }, user, ThreadType.USER);
                     await this.wave(true, user, ThreadType.USER);

@@ -19,6 +19,7 @@ namespace Facebook.DAL
         {
             this.CrawlPostGroup_Action = new HashSet<CrawlPostGroup_Action>();
             this.CrawlPostGroup_Comment = new HashSet<CrawlPostGroup_Comment>();
+            this.CrawlPostGroup_PostDetail = new HashSet<CrawlPostGroup_PostDetail>();
             this.CrawlPostGroup_Privacy = new HashSet<CrawlPostGroup_Privacy>();
         }
     
@@ -37,11 +38,15 @@ namespace Facebook.DAL
         public Nullable<long> Shares { get; set; }
         public Nullable<bool> IsHidden { get; set; }
         public Nullable<bool> IsExpired { get; set; }
+        public Nullable<System.DateTime> TimeCreatedInDb { get; set; }
+        public Nullable<System.DateTime> TimeUpdatedInDb { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CrawlPostGroup_Action> CrawlPostGroup_Action { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CrawlPostGroup_Comment> CrawlPostGroup_Comment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CrawlPostGroup_PostDetail> CrawlPostGroup_PostDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CrawlPostGroup_Privacy> CrawlPostGroup_Privacy { get; set; }
     }

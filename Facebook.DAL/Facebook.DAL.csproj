@@ -96,6 +96,9 @@
     <Compile Include="CrawlPostGroup_Post.cs">
       <DependentUpon>FacebookToolModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CrawlPostGroup_PostDetail.cs">
+      <DependentUpon>FacebookToolModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CrawlPostGroup_Privacy.cs">
       <DependentUpon>FacebookToolModel.tt</DependentUpon>
     </Compile>
@@ -117,6 +120,7 @@
       <DependentUpon>FacebookToolModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DateTimeHelperDAL.cs" />
+    <Compile Include="Helpers\PostGroupHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\Simsimi\SimsimiRequest.cs" />
     <Compile Include="Responses\CrawlPostGroup\CommentsDatumDTO.cs" />
@@ -130,6 +134,7 @@
     <Compile Include="Responses\CrawlPostGroup\CrawlPostPropertyDTO.cs" />
     <Compile Include="Responses\CrawlPostGroup\CrawlPostSharesDTO.cs" />
     <Compile Include="Responses\CrawlPostGroup\CursorsDTO.cs" />
+    <Compile Include="Responses\CrawlPostGroup\PostDetail\PostDetailDTO.cs" />
     <Compile Include="Responses\FbSimpleResponse.cs" />
     <Compile Include="Responses\Newfeed\CategoryList.cs" />
     <Compile Include="Responses\Newfeed\Cursors.cs" />
@@ -138,9 +143,7 @@
     <Compile Include="Responses\Newfeed\NewfeedRoot.cs" />
     <Compile Include="Responses\Newfeed\Paging.cs" />
     <Compile Include="Responses\Simsimi\SimsimiResponse.cs" />
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>FacebookToolModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Responses\TokenCookie\TokenCookie.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -169,6 +172,12 @@
       <LastGenOutput>FacebookToolModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\dbScript.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FacebookTool.Helper\FacebookTool.Helper.csproj">
+      <Project>{3E8AB7A0-B7CF-4B37-8277-2C9684B89A75}</Project>
+      <Name>FacebookTool.Helper</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

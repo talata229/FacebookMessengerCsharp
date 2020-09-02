@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -14,7 +15,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Facebook.DAL;
 using Facebook.DAL.Constants;
+using Facebook.DAL.Helpers;
 using Facebook.DAL.Responses.CrawlPostGroup;
+using Facebook.DAL.Responses.TokenCookie;
+using FacebookMessengerCsharp.Helper;
 using FacebookTool.Helper;
 using Newtonsoft.Json;
 
@@ -178,53 +182,60 @@ namespace FacebookTool.App
         {
             using (FbToolEntities db = new FbToolEntities())
             {
-                var url = "https://graph.facebook.com/" + groupId + "/feed?limit=100&access_token=" + ListHelper.GetRandomItemInList(Constant.LIST_TOKEN);
+                //string sss = "EAAAAZAw4FxQIBAKZCCtymUZANGqBta9UHXrII0DE4HUWQDSiCZABSV2vccZA9TXgaF7XRDXNUL4kuQWjQJDuMwVZBBb7HahabZAZBPkA26tlWVcjJl9tsJ9BHy20M5RGOCg7ja0WimysFaDRXuevJwDzXlCh1iVPg8eaqG06lH55i1LiDp0ZBdzUU";
+                //string cookie = "sb=xu9AXyBTsvz6rQw_mvDWxQYh; datr=xu9AX34aUBYTrUBSV5usETpO; dpr=1.25; wd=1536x722; locale=vi_VN; c_user=100014450202805; spin=r.1002596222_b.trunk_t.1598925757_s.1_v.2_; xs=36%3ANjBzeW39w7xCQg%3A2%3A1598679884%3A17580%3A636%3A%3AAcWoJs3sD1_j26IiqYnXx7hIBjqHJhAgzxos8O6F4Q; fr=1d03kp3slxKi0cVmE.AWVlrNJVPProBxUP80BL5lUv1SI.BfQO_G.AE.AAA.0.0.BfTau-.AWWKYcv_";
+                var url = "https://graph.facebook.com/" + groupId + "/feed?limit=100&access_token=" +
+                          ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Token;
                 CrawlPostGroupRoot root = new CrawlPostGroupRoot();
                 do
                 {
-                    var http = new HttpClient();
-                    var response = await http.GetAsync(url);
-                    var result = await response.Content.ReadAsStringAsync();
+                    //var http = new HttpClient();
+                    //var response = await http.GetAsync(url);
+                    //var result = await response.Content.ReadAsStringAsync();
+                    //root = JsonConvert.DeserializeObject<CrawlPostGroupRoot>(result);
+                    var result = await HttpClientHelper.SendRequestAsync(url, ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Cookie);
                     root = JsonConvert.DeserializeObject<CrawlPostGroupRoot>(result);
                     if (root.Data == null)
                     {
                         Thread.Sleep(5000);
-                        InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostException,$"Nghỉ 5s sau khi lấy được {totalPostCrawed}");
+                        InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostException, $"Nghỉ 5s sau khi lấy được {totalPostCrawed}");
                         continue;
                     }
                     foreach (var postDto in root.Data)
                     {
-                        AddOrUpdatePostGroup(postDto);
+                        await AddOrUpdatePostGroup(postDto);
                         totalPostCrawed++;
                         InvokeControlHelper.UpdateLabel(lbCrawlGroupPostStatus, $"Crawled {totalPostCrawed} bài post", Color.Blue);
                     }
                     if (!string.IsNullOrEmpty(root.Paging?.Next))
                     {
-                        url = Regex.Replace(root.Paging?.Next, @"EAAA\w+", ListHelper.GetRandomItemInList(Constant.LIST_TOKEN));
+                        url = Regex.Replace(root.Paging?.Next, @"EAAA\w+", ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Token);
                     }
-                } while (root.Data?.Count > 0 ||root.Data==null);
+                } while (root.Data?.Count > 0 || root.Data == null);
                 MessageBox.Show("Xong");
             }
         }
 
 
-        private void AddOrUpdatePostGroup(CrawlPostDTO model)
+        private async Task AddOrUpdatePostGroup(CrawlPostDTO model)
         {
             using (var db = new FbToolEntities())
             {
-                var dbPost = db.CrawlPostGroup_Post.Where(x => x.Fb_Id == model.Fb_Id).Include(x => x.CrawlPostGroup_Action).FirstOrDefault();
-                if (dbPost == null)
+                var postInDb = db.CrawlPostGroup_Post.Where(x => x.Fb_Id == model.Fb_Id).Include(x => x.CrawlPostGroup_Action).FirstOrDefault();
+                if (postInDb == null)
                 {
-                    dbPost = new CrawlPostGroup_Post();
-                    db.CrawlPostGroup_Post.Add(dbPost);
+                    postInDb = new CrawlPostGroup_Post();
+                    postInDb.TimeCreatedInDb = DateTime.Now;
+                    db.CrawlPostGroup_Post.Add(postInDb);
                     db.SaveChanges();
                     InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostInfo, $"Thêm mới Post với Id = {model.Fb_Id}", Color.Blue);
                 }
-                if (dbPost != null)
+                if (postInDb != null)
                 {
-                    db.Entry(dbPost).CurrentValues.SetValues(model);
+                    db.Entry(postInDb).CurrentValues.SetValues(model);
+                    postInDb.TimeUpdatedInDb = DateTime.Now;
                     #region Action
-                    foreach (var action in dbPost.CrawlPostGroup_Action.ToList())
+                    foreach (var action in postInDb.CrawlPostGroup_Action.ToList())
                     {
                         if (!model.Actions.Any(c => c.Name == action.Name))
                             db.CrawlPostGroup_Action.Remove(action);
@@ -232,7 +243,7 @@ namespace FacebookTool.App
                     // Update and Insert children
                     foreach (var actionDto in model.Actions)
                     {
-                        var existingChildAction = dbPost.CrawlPostGroup_Action
+                        var existingChildAction = postInDb.CrawlPostGroup_Action
                             .Where(c => c.Name == actionDto.Name)
                             .FirstOrDefault();
 
@@ -247,13 +258,13 @@ namespace FacebookTool.App
                                 Name = actionDto.Name,
                                 Link = actionDto.Link
                             };
-                            dbPost.CrawlPostGroup_Action.Add(newChild);
+                            postInDb.CrawlPostGroup_Action.Add(newChild);
                         }
                     }
                     #endregion
 
                     #region Privacy
-                    var existingChildPrivacy = dbPost.CrawlPostGroup_Privacy.FirstOrDefault();
+                    var existingChildPrivacy = postInDb.CrawlPostGroup_Privacy.FirstOrDefault();
                     if (existingChildPrivacy != null)
                     {
                         // Update child
@@ -270,12 +281,12 @@ namespace FacebookTool.App
                             Allow = model.Privacy.Allow,
                             Deny = model.Privacy.Deny
                         };
-                        dbPost.CrawlPostGroup_Privacy.Add(newChild);
+                        postInDb.CrawlPostGroup_Privacy.Add(newChild);
                     }
                     #endregion
 
                     #region Comment
-                    foreach (var comment in dbPost.CrawlPostGroup_Comment.ToList())
+                    foreach (var comment in postInDb.CrawlPostGroup_Comment.ToList())
                     {
                         if (!model.Comments.Data.Any(c => c.Fb_Id == comment.Fb_Id))
                             db.CrawlPostGroup_Comment.Remove(comment);
@@ -285,7 +296,7 @@ namespace FacebookTool.App
                     {
                         foreach (var commentDto in model.Comments?.Data)
                         {
-                            var existingChildComment = dbPost.CrawlPostGroup_Comment
+                            var existingChildComment = postInDb.CrawlPostGroup_Comment
                                 .Where(c => c.Fb_Id == commentDto.Fb_Id)
                                 .FirstOrDefault();
 
@@ -304,15 +315,66 @@ namespace FacebookTool.App
                                     UserLike = commentDto.UserLikes,
                                     Fb_Id = commentDto.Fb_Id
                                 };
-                                dbPost.CrawlPostGroup_Comment.Add(newChild);
+                                postInDb.CrawlPostGroup_Comment.Add(newChild);
                             }
                         }
                     }
                     #endregion
                 }
                 db.SaveChanges();
-                InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostInfo, $"Đang lấy bài post với Id = {model.Fb_Id}", Color.Green);
+                InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostInfo, $"Update thành công bài Post với Id = {model.Fb_Id}", Color.Green);
+                await UpdatePostDetail(db, postInDb);
+                InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostInfo, $"Update thành công Detail bài Post với Id = {model.Fb_Id}", Color.Green);
+                Thread.Sleep(100);
             }
+        }
+
+        private async Task UpdatePostDetail(FbToolEntities db, CrawlPostGroup_Post dbPostInDb)
+        {
+            try
+            {
+                var postDetailInDb = db.CrawlPostGroup_PostDetail.FirstOrDefault(x => x.CrawlPostGroup_PostId == dbPostInDb.Id);
+                //string cookie =
+                //    "sb=srBAX2Yf70eNGh8YE48Rh9uV; datr=MbZAX5ch9yeZ8S7kWRJ-avy4; c_user=100001578994326; dpr=1.25; spin=r.1002600685_b.trunk_t.1598977068_s.1_v.2_; xs=44%3A-H2B8TYHbDoigw%3A2%3A1598151193%3A19558%3A6330%3A%3AAcUH9rZg5FSLhbO4I8oVAqiKtPcc_0fH95G7F6NZ2i0; fr=1nKtY59ZJSUFo6uYR.AWUxrD6u02zOlIw2BoY3euBzJOI.BfQLCy.TG.F9K.0.0.BfToJd.AWWJZZlx; wd=574x722; presence=EDvF3EtimeF1598981783EuserFA21B01578994326A2EstateFDt3F_5b_5dElm3FnullEutc3F1598981783875G598981783915CEchF_7bCC";
+                var tempPostDetail = await PostGroupHelper.GetPostDetailDTOAsync(dbPostInDb.Fb_Id, ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Cookie);
+                //string cookie = ListHelper.GetRandomItemInList(Constant.LIST_COOKIE);
+                //var tempPostDetail = await PostGroupHelper.GetPostDetailDTOAsync(dbPostInDb.Fb_Id, cookie);
+                if (postDetailInDb != null)
+                {
+                    db.Entry(postDetailInDb).CurrentValues.SetValues(tempPostDetail);
+                    postDetailInDb.TimeUpdatedInDb = DateTime.Now;
+                }
+                else
+                {
+                    var newPostDetail = new CrawlPostGroup_PostDetail();
+                    newPostDetail.TimeCreatedInDb = DateTime.Now;
+                    newPostDetail.CrawlPostGroup_PostId = dbPostInDb.Id;
+                    newPostDetail.Name = tempPostDetail.Name;
+                    newPostDetail.UID = tempPostDetail.UID;
+                    newPostDetail.ReactionTotalCount = tempPostDetail.ReactionTotalCount;
+                    newPostDetail.LikeCount = tempPostDetail.LikeCount;
+                    newPostDetail.LoveCount = tempPostDetail.LoveCount;
+                    newPostDetail.WowCount = tempPostDetail.WowCount;
+                    newPostDetail.SupportCount = tempPostDetail.SupportCount;
+                    newPostDetail.HahaCount = tempPostDetail.HahaCount;
+                    newPostDetail.SadCount = tempPostDetail.SadCount;
+                    newPostDetail.AngryCount = tempPostDetail.AngryCount;
+                    newPostDetail.ShareCount = tempPostDetail.ShareCount;
+                    newPostDetail.CommentCount = tempPostDetail.CommentCount;
+                    db.CrawlPostGroup_PostDetail.Add(newPostDetail);
+                }
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                InvokeControlHelper.AppendRichTextboxV2(rtbInfoGetToken, $"Exception UpdatePostDetail.PostId = {dbPostInDb?.Id}. Exception = {e.Message}, InnerException ={e.InnerException?.Message}", Color.Red);
+            }
+
+        }
+
+        private void btnStartGetDetailPostGroup_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
