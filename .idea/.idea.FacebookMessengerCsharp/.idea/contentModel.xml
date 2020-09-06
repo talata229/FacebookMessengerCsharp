@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\TranQuang\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\TranQuang\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_FacebookMessengerCsharp.2061826865.00" t="ExcludeRecursive" />
+    <e p="D:\MyPersonalProject\FacebookMessengerCsharp" t="IncludeFlat">
+      <e p="AsyncEnumerable" t="IncludeRecursive">
+        <e p="AsyncEnumerable.cs" t="Include" />
+        <e p="AsyncEnumerable.csproj" t="IncludeRecursive" />
+        <e p="AsyncEnumerationCanceledException.cs" t="Include" />
+        <e p="AsyncEnumerator.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Extensions" t="Include">
+          <e p="AdapterExtensions.cs" t="Include" />
+          <e p="ForEachAsync.cs" t="Include" />
+          <e p="ForEachAsyncBreakException.cs" t="Include" />
+          <e p="ForEachAsyncExtensions.cs" t="Include" />
+          <e p="IAsyncEnumerableExtensions.cs" t="Include" />
+          <e p="IAsyncEnumeratorExtensions.cs" t="Include" />
+          <e p="ParallelForEachException.cs" t="Include" />
+          <e p="ParallelForEachExtensions.cs" t="Include" />
+        </e>
+        <e p="IAsyncDisposable.cs" t="Include" />
+        <e p="IAsyncEnumerable.cs" t="Include" />
+        <e p="IAsyncEnumerator.cs" t="Include" />
+        <e p="Internals" t="Include">
+          <e p="AsyncEnumerableWrapper.cs" t="Include" />
+          <e p="AsyncEnumeratorWrapper.cs" t="Include" />
+          <e p="CancellationTokenEx.cs" t="Include" />
+          <e p="CurrentValueContainer.cs" t="Include" />
+          <e p="EmptyAsyncEnumerable.cs" t="Include" />
+          <e p="EmptyAsyncEnumerator.cs" t="Include" />
+          <e p="EnumerableAdapter.cs" t="Include" />
+          <e p="EnumeratorAdapter.cs" t="Include" />
+          <e p="TaskCompletionSource.cs" t="Include" />
+          <e p="TaskEx.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Facebook.DAL" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Chat_Fb_BlockUser.cs" t="Include" />
+        <e p="Chat_Fb_FunnyStory.cs" t="Include" />
+        <e p="Chat_Fb_Like_Post.cs" t="Include" />
+        <e p="Chat_Fb_Message.cs" t="Include" />
+        <e p="Chat_Fb_Post.cs" t="Include" />
+        <e p="Chat_Fb_TemplateMessage.cs" t="Include" />
+        <e p="Chat_Fb_Test.cs" t="Include" />
+        <e p="Chat_Fb_User.cs" t="Include" />
+        <e p="Chat_Fb_User_Simsimi.cs" t="Include" />
+        <e p="Chat_NoiTuTiengAnhUser.cs" t="Include" />
+        <e p="Chat_NoiTuUser.cs" t="Include" />
+        <e p="Constants" t="Include">
+          <e p="Constant.cs" t="Include" />
+        </e>
+        <e p="CrawlPostGroup_Action.cs" t="Include" />
+        <e p="CrawlPostGroup_Comment.cs" t="Include" />
+        <e p="CrawlPostGroup_Post.cs" t="Include" />
+        <e p="CrawlPostGroup_PostDetail.cs" t="Include" />
+        <e p="CrawlPostGroup_Privacy.cs" t="Include" />
+        <e p="Enum" t="Include">
+          <e p="EnumFeature.cs" t="Include" />
+          <e p="EnumReactionType.cs" t="Include" />
+        </e>
+        <e p="Facebook.DAL.csproj" t="IncludeRecursive" />
+        <e p="FacebookToolModel.Context.cs" t="Include" />
+        <e p="FacebookToolModel.Context.tt" t="Include" />
+        <e p="FacebookToolModel.cs" t="Include" />
+        <e p="FacebookToolModel.Designer.cs" t="Include" />
+        <e p="FacebookToolModel.edmx" t="Include" />
+        <e p="FacebookToolModel.edmx.diagram" t="Include" />
+        <e p="FacebookToolModel.tt" t="Include" />
+        <e p="Helpers" t="Include">
+          <e p="DateTimeHelperDAL.cs" t="Include" />
+          <e p="PostGroupHelper.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Requests" t="Include">
+          <e p="Simsimi" t="Include">
+            <e p="SimsimiRequest.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Responses" t="Include">
+          <e p="CrawlPostGroup" t="Include">
+            <e p="CommentsDatumDTO.cs" t="Include" />
+            <e p="CommentsPagingDTO.cs" t="Include" />
+            <e p="CrawlPostActionDTO.cs" t="Include" />
+            <e p="CrawlPostCommentsDTO.cs" t="Include" />
+            <e p="CrawlPostDTO.cs" t="Include" />
+            <e p="CrawlPostGroupRoot.cs" t="Include" />
+            <e p="CrawlPostPagingDTO.cs" t="Include" />
+            <e p="CrawlPostPrivacyDTO.cs" t="Include" />
+            <e p="CrawlPostPropertyDTO.cs" t="Include" />
+            <e p="CrawlPostSharesDTO.cs" t="Include" />
+            <e p="CursorsDTO.cs" t="Include" />
+            <e p="PostDetail" t="Include">
+              <e p="PostDetailDTO.cs" t="Include" />
+            </e>
+          </e>
+          <e p="FbSimpleResponse.cs" t="Include" />
+          <e p="Newfeed" t="Include">
+            <e p="CategoryList.cs" t="Include" />
+            <e p="Cursors.cs" t="Include" />
+            <e p="From.cs" t="Include" />
+            <e p="NewfeedDTO.cs" t="Include" />
+            <e p="NewfeedRoot.cs" t="Include" />
+            <e p="Paging.cs" t="Include" />
+          </e>
+          <e p="Simsimi" t="Include">
+            <e p="SimsimiResponse.cs" t="Include" />
+          </e>
+          <e p="TokenCookie" t="Include">
+            <e p="TokenCookie.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="db.bacpac" t="Include" />
+          <e p="dbScript.sql" t="Include" />
+        </e>
+      </e>
+      <e p="FacebookMessengerCsharp.App" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="Basic_Usage_App.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="FacebookMessengerCsharp.App.csproj" t="IncludeRecursive" />
+        <e p="FBClient_Cookies_App.cs" t="Include" />
+        <e p="Form1.cs" t="Include" />
+        <e p="Form1.Designer.cs" t="Include" />
+        <e p="Form1.resx" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+          <e p="Settings.Designer.cs" t="Include" />
+          <e p="Settings.settings" t="Include" />
+        </e>
+      </e>
+      <e p="FacebookMessengerCsharp.Client" t="IncludeRecursive">
+        <e p="API" t="Include">
+          <e p="Attachment.cs" t="Include" />
+          <e p="Client.cs" t="Include" />
+          <e p="Exception.cs" t="Include" />
+          <e p="File.cs" t="Include" />
+          <e p="GraphQl.cs" t="Include" />
+          <e p="Group.cs" t="Include" />
+          <e p="Location.cs" t="Include" />
+          <e p="MarketPlace.cs" t="Include" />
+          <e p="Message.cs" t="Include" />
+          <e p="Page.cs" t="Include" />
+          <e p="Plan.cs" t="Include" />
+          <e p="Poll.cs" t="Include" />
+          <e p="QuickReply.cs" t="Include" />
+          <e p="State.cs" t="Include" />
+          <e p="Sticker.cs" t="Include" />
+          <e p="Thread.cs" t="Include" />
+          <e p="User.cs" t="Include" />
+          <e p="Utils.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="FacebookMessengerCsharp.Client.csproj" t="IncludeRecursive" />
+        <e p="MessengerClient.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Utils" t="Include">
+          <e p="Extensions.cs" t="Include" />
+          <e p="KnownMimeTypes.cs" t="Include" />
+          <e p="MimeUtility.cs" t="Include" />
+        </e>
+      </e>
+      <e p="FacebookMessengerCsharp.Console" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="Basic_Usage.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="FacebookMessengerCsharp.Console.csproj" t="IncludeRecursive" />
+        <e p="FBClient_Cookies.cs" t="Include" />
+        <e p="FBClient_Simple.cs" t="Include" />
+        <e p="Graphics-Vibe-Hot-Burning-Social-Facebook.ico" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="TuDienTiengAnh.txt" t="Include" />
+        <e p="TuDienTiengViet.txt" t="Include" />
+        <e p="TuDienVietAnh.txt" t="Include" />
+      </e>
+      <e p="FacebookMessengerCsharp.Helper" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ComparerCustom.cs" t="Include" />
+        <e p="ConsoleLogHelper.cs" t="Include" />
+        <e p="DownloadHelper.cs" t="Include" />
+        <e p="EnumHelper.cs" t="Include" />
+        <e p="FacebookMessengerCsharp.Helper.csproj" t="IncludeRecursive" />
+        <e p="FacebookToolHelper.cs" t="Include" />
+        <e p="ListHelper.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="RSSHelper.cs" t="Include" />
+        <e p="SimsimiHelper.cs" t="Include" />
+        <e p="TuDienHelper.cs" t="Include" />
+        <e p="TuDienTiengViet.txt" t="Include" />
+      </e>
+      <e p="FacebookMessengerCsharp.sln" t="IncludeFlat" />
+      <e p="FacebookTool.App" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="FacebookTool.App.csproj" t="IncludeRecursive" />
+        <e p="frmMain.cs" t="Include" />
+        <e p="frmMain.Designer.cs" t="Include" />
+        <e p="frmMain.resx" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+          <e p="Settings.Designer.cs" t="Include" />
+          <e p="Settings.settings" t="Include" />
+        </e>
+        <e p="Yootheme-Social-Bookmark-Social-facebook-box-blue.ico" t="Include" />
+      </e>
+      <e p="FacebookTool.Helper" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="DateTimeHelper.cs" t="Include" />
+        <e p="FacebookTool.Helper.csproj" t="IncludeRecursive" />
+        <e p="HttpClientHelper.cs" t="Include" />
+        <e p="HttpClientHelper2.cs" t="Include" />
+        <e p="InvokeControlHelper.cs" t="Include" />
+        <e p="LogHelper.cs" t="Include" />
+        <e p="MethodInvoker.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="StringHelper.cs" t="Include" />
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="ToolFacebook" t="Include" />
+    </e>
+  </component>
+</project>
