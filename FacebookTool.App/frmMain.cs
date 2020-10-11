@@ -21,6 +21,7 @@ using Facebook.DAL.Responses.TokenCookie;
 using FacebookMessengerCsharp.Helper;
 using FacebookTool.Helper;
 using Newtonsoft.Json;
+using Z.BulkOperations;
 
 namespace FacebookTool.App
 {
@@ -209,15 +210,15 @@ namespace FacebookTool.App
                         root = JsonConvert.DeserializeObject<CrawlPostGroupRoot>(result);
                         if (root.Data == null)
                         {
-                            Thread.Sleep(5000);
-                            InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostException, $"Nghỉ 5s sau khi lấy được {totalPostCrawed}");
+                            Thread.Sleep(5 * 60 * 1000);
+                            InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostException, $"Nghỉ 5 phút sau khi lấy được {totalPostCrawed}");
                             continue;
                         }
                         foreach (var postDto in root.Data)
                         {
                             try
                             {
-                                await AddOrUpdatePostGroup(postDto);
+                                await AddOrUpdatePostGroupVersion2(postDto);
                                 totalPostCrawed++;
                                 InvokeControlHelper.UpdateLabel(lbCrawlGroupPostStatus, $"Crawled {totalPostCrawed} bài post", Color.Blue);
                             }
@@ -230,6 +231,7 @@ namespace FacebookTool.App
                         {
                             url = Regex.Replace(root.Paging?.Next, @"EAAA\w+", ListHelper<TokenCookie>.GetRandomItemInListObject(Constant.LIST_TOKEN_COOKIE).Token);
                         }
+                        Thread.Sleep(2 * 60 * 1000); //Nghỉ 2 phút
                     }
                     catch (Exception e)
                     {
@@ -240,12 +242,110 @@ namespace FacebookTool.App
                 MessageBox.Show("Xong");
             }
         }
+        private async Task AddOrUpdatePostGroupVersion2(CrawlPostDTO model)
+        {
+            using (var db = new FbToolEntities())
+            {
+                var listPost = new List<CrawlPostGroup_Post>();
+                var crawlPostGroup_Post = MapFromCrawlPostDTOToCrawlPostGroup_Post(model);
+                listPost.Add(crawlPostGroup_Post);
+                db.BulkMerge(listPost, options =>
+                {
+                    options.IncludeGraph = true;
+                    options.IncludeGraphOperationBuilder = operation =>
+                    {
+                        if (operation is BulkOperation<CrawlPostGroup_Post>)
+                        {
+                            var bulk = (BulkOperation<CrawlPostGroup_Post>)operation;
+                            bulk.ColumnPrimaryKeyExpression = x => new { x.Fb_Id };
+                            bulk.IgnoreOnMergeUpdateExpression = c => new { c.TimeCreatedInDb };
+                            bulk.IgnoreOnMergeInsertExpression = c => new { c.TimeUpdatedInDb };
+                        }
+                        if (operation is BulkOperation<CrawlPostGroup_Privacy>)
+                        {
+                            var bulk = (BulkOperation<CrawlPostGroup_Privacy>)operation;
+                            bulk.ColumnPrimaryKeyExpression = x => new { x.Value, x.CrawlPostGroup_PostId };
+                        }
+                        if (operation is BulkOperation<CrawlPostGroup_Action>)
+                        {
+                            var bulk = (BulkOperation<CrawlPostGroup_Action>)operation;
+                            bulk.ColumnPrimaryKeyExpression = x => new { x.Name, x.CrawlPostGroup_PostId };
+                        }
+                        if (operation is BulkOperation<CrawlPostGroup_Comment>)
+                        {
+                            var bulk = (BulkOperation<CrawlPostGroup_Comment>)operation;
+                            bulk.ColumnPrimaryKeyExpression = x => new { x.Fb_Id, x.CrawlPostGroup_PostId };
+                        }
+                    };
+                });
+                InvokeControlHelper.AppendRichTextboxV2(rtbCrawlGroupPostInfo, $"Upsert thành công bài Post với Id = {model.Fb_Id}", Color.Green);
+                listPost.Clear();
+                Thread.Sleep(100);
+            }
+        }
 
+        private CrawlPostGroup_Privacy mapFromCrawlPostGroupPrivacyTOCrawlPostPrivacyDTO(CrawlPostPrivacyDTO source)
+        {
+            var des = new CrawlPostGroup_Privacy();
+            des.Value = source.Value;
+            des.Description = source.Description;
+            des.Friends = source.Friends;
+            des.Allow = source.Allow;
+            des.Deny = source.Deny;
+            return des;
+        }
+        private CrawlPostGroup_Post MapFromCrawlPostDTOToCrawlPostGroup_Post(CrawlPostDTO source)
+        {
+            CrawlPostGroup_Post des = new CrawlPostGroup_Post();
+            try
+            {
+                des.Message = source.Message;
+                des.Picture = source.Picture;
+                des.Link = source.Link;
+                des.Name = source.Name;
+                des.Caption = source.Caption;
+                des.Description = source.Description;
+                des.CrawlPostGroup_Action = source.Actions.Select(x => new CrawlPostGroup_Action
+                {
+                    Name = x.Name,
+                    Link = x.Link
+                }).ToList();
+                des.CrawlPostGroup_Privacy = new List<CrawlPostGroup_Privacy>
+                {
+                    mapFromCrawlPostGroupPrivacyTOCrawlPostPrivacyDTO(source.Privacy)
+                };
+
+                des.CrawlPostGroup_Comment = source.Comments.Data.Select(x => new CrawlPostGroup_Comment()
+                {
+                    CreatedTime = DateTime.Parse(x.CreatedTimeFromApi),
+                    Message = x.Message,
+                    CanRemove = x.CanRemove,
+                    LikeCount = x.LikeCount,
+                    UserLike = x.UserLikes,
+                    Fb_Id = x.Fb_Id
+                }).ToList();
+                des.Type = source.Type;
+                des.StatusType = source.StatusType;
+                des.CreatedTime = source.CreatedTime;
+                des.UpdatedTime = source.UpdatedTime;
+                des.IsHidden = source.IsHidden;
+                des.IsExpired = source.IsExpired;
+                des.TimeCreatedInDb = DateTime.Now;
+                des.TimeUpdatedInDb = DateTime.Now;
+                return des;
+            }
+            catch (Exception e)
+            {
+
+            }
+            return des;
+        }
 
         private async Task AddOrUpdatePostGroup(CrawlPostDTO model)
         {
             using (var db = new FbToolEntities())
             {
+                var test = db.Chat_Fb_FunnyStory.ToList();
                 var postInDb = db.CrawlPostGroup_Post.Where(x => x.Fb_Id == model.Fb_Id).Include(x => x.CrawlPostGroup_Action).FirstOrDefault();
                 if (postInDb == null)
                 {
@@ -398,6 +498,11 @@ namespace FacebookTool.App
         }
 
         private void btnStartGetDetailPostGroup_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
         {
 
         }

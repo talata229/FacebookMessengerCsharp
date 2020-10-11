@@ -29,6 +29,8 @@ namespace Facebook.DAL
         public string Picture { get; set; }
         public string Link { get; set; }
         public string Name { get; set; }
+        public string Caption { get; set; }
+        public string Description { get; set; }
         public string Icon { get; set; }
         public string Type { get; set; }
         public string StatusType { get; set; }

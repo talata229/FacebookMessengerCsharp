@@ -17,7 +17,7 @@
           <Property Name="UtilTime" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DB_Dev.dbo.Chat_Fb_FunnyStory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Chat_Fb_FunnyStory">
           <Key>
             <PropertyRef Name="Id" />
@@ -139,11 +139,13 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Fb_Id" Type="nvarchar" MaxLength="100" />
+          <Property Name="Fb_Id" Type="nvarchar(max)" />
           <Property Name="Message" Type="nvarchar(max)" />
           <Property Name="Picture" Type="nvarchar(max)" />
           <Property Name="Link" Type="nvarchar(max)" />
           <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Caption" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Icon" Type="nvarchar(max)" />
           <Property Name="Type" Type="nvarchar(max)" />
           <Property Name="StatusType" Type="nvarchar(max)" />
@@ -161,7 +163,6 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CrawlPostGroup_PostId" Type="int" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="UID" Type="bigint" />
           <Property Name="ReactionTotalCount" Type="bigint" />
@@ -176,6 +177,7 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
           <Property Name="CommentCount" Type="bigint" />
           <Property Name="TimeCreatedInDb" Type="datetime" />
           <Property Name="TimeUpdatedInDb" Type="datetime" />
+          <Property Name="CrawlPostGroup_PostId" Type="int" />
         </EntityType>
         <EntityType Name="CrawlPostGroup_Privacy">
           <Key>
@@ -189,7 +191,7 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
           <Property Name="Deny" Type="nvarchar(max)" />
           <Property Name="CrawlPostGroup_PostId" Type="int" />
         </EntityType>
-        <Association Name="FK_CrawlPostGroup_Action_CrawlPostGroup_Post">
+        <Association Name="FK__CrawlPost__Crawl__2B3F6F97">
           <End Role="CrawlPostGroup_Post" Type="Self.CrawlPostGroup_Post" Multiplicity="0..1" />
           <End Role="CrawlPostGroup_Action" Type="Self.CrawlPostGroup_Action" Multiplicity="*" />
           <ReferentialConstraint>
@@ -201,7 +203,19 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post">
+        <Association Name="FK__CrawlPost__Crawl__2E1BDC42">
+          <End Role="CrawlPostGroup_Post" Type="Self.CrawlPostGroup_Post" Multiplicity="0..1" />
+          <End Role="CrawlPostGroup_Comment" Type="Self.CrawlPostGroup_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CrawlPostGroup_Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CrawlPostGroup_Comment">
+              <PropertyRef Name="CrawlPostGroup_PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CrawlPost__Crawl__30F848ED">
           <End Role="CrawlPostGroup_Post" Type="Self.CrawlPostGroup_Post" Multiplicity="0..1" />
           <End Role="CrawlPostGroup_PostDetail" Type="Self.CrawlPostGroup_PostDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -213,7 +227,7 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post">
+        <Association Name="FK__CrawlPost__Crawl__33D4B598">
           <End Role="CrawlPostGroup_Post" Type="Self.CrawlPostGroup_Post" Multiplicity="0..1" />
           <End Role="CrawlPostGroup_Privacy" Type="Self.CrawlPostGroup_Privacy" Multiplicity="*" />
           <ReferentialConstraint>
@@ -221,18 +235,6 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="CrawlPostGroup_Privacy">
-              <PropertyRef Name="CrawlPostGroup_PostId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CrawPostGroup_Comment_CrawlPostGroup_Post">
-          <End Role="CrawlPostGroup_Post" Type="Self.CrawlPostGroup_Post" Multiplicity="0..1" />
-          <End Role="CrawlPostGroup_Comment" Type="Self.CrawlPostGroup_Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CrawlPostGroup_Post">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CrawlPostGroup_Comment">
               <PropertyRef Name="CrawlPostGroup_PostId" />
             </Dependent>
           </ReferentialConstraint>
@@ -295,21 +297,21 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
     [Chat_Fb_FunnyStory].[Content] AS [Content]
     FROM [dbo].[Chat_Fb_FunnyStory] AS [Chat_Fb_FunnyStory]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK_CrawlPostGroup_Action_CrawlPostGroup_Post" Association="Self.FK_CrawlPostGroup_Action_CrawlPostGroup_Post">
+          <AssociationSet Name="FK__CrawlPost__Crawl__2B3F6F97" Association="Self.FK__CrawlPost__Crawl__2B3F6F97">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
             <End Role="CrawlPostGroup_Action" EntitySet="CrawlPostGroup_Action" />
           </AssociationSet>
-          <AssociationSet Name="FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post" Association="Self.FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post">
+          <AssociationSet Name="FK__CrawlPost__Crawl__2E1BDC42" Association="Self.FK__CrawlPost__Crawl__2E1BDC42">
+            <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
+            <End Role="CrawlPostGroup_Comment" EntitySet="CrawlPostGroup_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CrawlPost__Crawl__30F848ED" Association="Self.FK__CrawlPost__Crawl__30F848ED">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
             <End Role="CrawlPostGroup_PostDetail" EntitySet="CrawlPostGroup_PostDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" Association="Self.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post">
+          <AssociationSet Name="FK__CrawlPost__Crawl__33D4B598" Association="Self.FK__CrawlPost__Crawl__33D4B598">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
             <End Role="CrawlPostGroup_Privacy" EntitySet="CrawlPostGroup_Privacy" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CrawPostGroup_Comment_CrawlPostGroup_Post" Association="Self.FK_CrawPostGroup_Comment_CrawlPostGroup_Post">
-            <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
-            <End Role="CrawlPostGroup_Comment" EntitySet="CrawlPostGroup_Comment" />
           </AssociationSet>
           <AssociationSet Name="FK_Fb_Like_Post_Fb_Post" Association="Self.FK_Fb_Like_Post_Fb_Post">
             <End Role="Chat_Fb_Post" EntitySet="Chat_Fb_Post" />
@@ -357,19 +359,19 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
             <End Role="Chat_Fb_User" EntitySet="Chat_Fb_User" />
             <End Role="Chat_Fb_Message" EntitySet="Chat_Fb_Message" />
           </AssociationSet>
-          <AssociationSet Name="FK_CrawlPostGroup_Action_CrawlPostGroup_Post" Association="FacebookToolModel.FK_CrawlPostGroup_Action_CrawlPostGroup_Post">
+          <AssociationSet Name="FK__CrawlPost__Crawl__2B3F6F97" Association="FacebookToolModel.FK__CrawlPost__Crawl__2B3F6F97">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
             <End Role="CrawlPostGroup_Action" EntitySet="CrawlPostGroup_Action" />
           </AssociationSet>
-          <AssociationSet Name="FK_CrawPostGroup_Comment_CrawlPostGroup_Post" Association="FacebookToolModel.FK_CrawPostGroup_Comment_CrawlPostGroup_Post">
+          <AssociationSet Name="FK__CrawlPost__Crawl__2E1BDC42" Association="FacebookToolModel.FK__CrawlPost__Crawl__2E1BDC42">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
             <End Role="CrawlPostGroup_Comment" EntitySet="CrawlPostGroup_Comment" />
           </AssociationSet>
-          <AssociationSet Name="FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post" Association="FacebookToolModel.FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post">
+          <AssociationSet Name="FK__CrawlPost__Crawl__30F848ED" Association="FacebookToolModel.FK__CrawlPost__Crawl__30F848ED">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
             <End Role="CrawlPostGroup_PostDetail" EntitySet="CrawlPostGroup_PostDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" Association="FacebookToolModel.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post">
+          <AssociationSet Name="FK__CrawlPost__Crawl__33D4B598" Association="FacebookToolModel.FK__CrawlPost__Crawl__33D4B598">
             <End Role="CrawlPostGroup_Post" EntitySet="CrawlPostGroup_Post" />
             <End Role="CrawlPostGroup_Privacy" EntitySet="CrawlPostGroup_Privacy" />
           </AssociationSet>
@@ -486,7 +488,7 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CrawlPostGroup_PostId" Type="Int32" />
-          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK_CrawlPostGroup_Action_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Action" ToRole="CrawlPostGroup_Post" />
+          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK__CrawlPost__Crawl__2B3F6F97" FromRole="CrawlPostGroup_Action" ToRole="CrawlPostGroup_Post" />
         </EntityType>
         <EntityType Name="CrawlPostGroup_Comment">
           <Key>
@@ -500,18 +502,20 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
           <Property Name="UserLike" Type="Boolean" />
           <Property Name="Fb_Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CrawlPostGroup_PostId" Type="Int32" />
-          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK_CrawPostGroup_Comment_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Comment" ToRole="CrawlPostGroup_Post" />
+          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK__CrawlPost__Crawl__2E1BDC42" FromRole="CrawlPostGroup_Comment" ToRole="CrawlPostGroup_Post" />
         </EntityType>
         <EntityType Name="CrawlPostGroup_Post">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fb_Id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Fb_Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Caption" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Icon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StatusType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -523,17 +527,16 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
           <Property Name="IsExpired" Type="Boolean" />
           <Property Name="TimeCreatedInDb" Type="DateTime" Precision="3" />
           <Property Name="TimeUpdatedInDb" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CrawlPostGroup_Action" Relationship="FacebookToolModel.FK_CrawlPostGroup_Action_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Action" />
-          <NavigationProperty Name="CrawlPostGroup_Comment" Relationship="FacebookToolModel.FK_CrawPostGroup_Comment_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Comment" />
-          <NavigationProperty Name="CrawlPostGroup_PostDetail" Relationship="FacebookToolModel.FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_PostDetail" />
-          <NavigationProperty Name="CrawlPostGroup_Privacy" Relationship="FacebookToolModel.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Privacy" />
+          <NavigationProperty Name="CrawlPostGroup_Action" Relationship="FacebookToolModel.FK__CrawlPost__Crawl__2B3F6F97" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Action" />
+          <NavigationProperty Name="CrawlPostGroup_Comment" Relationship="FacebookToolModel.FK__CrawlPost__Crawl__2E1BDC42" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Comment" />
+          <NavigationProperty Name="CrawlPostGroup_PostDetail" Relationship="FacebookToolModel.FK__CrawlPost__Crawl__30F848ED" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_PostDetail" />
+          <NavigationProperty Name="CrawlPostGroup_Privacy" Relationship="FacebookToolModel.FK__CrawlPost__Crawl__33D4B598" FromRole="CrawlPostGroup_Post" ToRole="CrawlPostGroup_Privacy" />
         </EntityType>
         <EntityType Name="CrawlPostGroup_PostDetail">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CrawlPostGroup_PostId" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UID" Type="Int64" />
           <Property Name="ReactionTotalCount" Type="Int64" />
@@ -548,7 +551,8 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
           <Property Name="CommentCount" Type="Int64" />
           <Property Name="TimeCreatedInDb" Type="DateTime" Precision="3" />
           <Property Name="TimeUpdatedInDb" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post" FromRole="CrawlPostGroup_PostDetail" ToRole="CrawlPostGroup_Post" />
+          <Property Name="CrawlPostGroup_PostId" Type="Int32" />
+          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK__CrawlPost__Crawl__30F848ED" FromRole="CrawlPostGroup_PostDetail" ToRole="CrawlPostGroup_Post" />
         </EntityType>
         <EntityType Name="CrawlPostGroup_Privacy">
           <Key>
@@ -561,7 +565,7 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
           <Property Name="Allow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Deny" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CrawlPostGroup_PostId" Type="Int32" />
-          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post" FromRole="CrawlPostGroup_Privacy" ToRole="CrawlPostGroup_Post" />
+          <NavigationProperty Name="CrawlPostGroup_Post" Relationship="FacebookToolModel.FK__CrawlPost__Crawl__33D4B598" FromRole="CrawlPostGroup_Privacy" ToRole="CrawlPostGroup_Post" />
         </EntityType>
         <EntityType Name="Chat_Fb_FunnyStory">
           <Key>
@@ -606,7 +610,7 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CrawlPostGroup_Action_CrawlPostGroup_Post">
+        <Association Name="FK__CrawlPost__Crawl__2B3F6F97">
           <End Type="FacebookToolModel.CrawlPostGroup_Post" Role="CrawlPostGroup_Post" Multiplicity="0..1" />
           <End Type="FacebookToolModel.CrawlPostGroup_Action" Role="CrawlPostGroup_Action" Multiplicity="*" />
           <ReferentialConstraint>
@@ -618,7 +622,7 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CrawPostGroup_Comment_CrawlPostGroup_Post">
+        <Association Name="FK__CrawlPost__Crawl__2E1BDC42">
           <End Type="FacebookToolModel.CrawlPostGroup_Post" Role="CrawlPostGroup_Post" Multiplicity="0..1" />
           <End Type="FacebookToolModel.CrawlPostGroup_Comment" Role="CrawlPostGroup_Comment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -630,7 +634,7 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CrawlPostGroup_PostDetail_CrawlPostGroup_Post">
+        <Association Name="FK__CrawlPost__Crawl__30F848ED">
           <End Type="FacebookToolModel.CrawlPostGroup_Post" Role="CrawlPostGroup_Post" Multiplicity="0..1" />
           <End Type="FacebookToolModel.CrawlPostGroup_PostDetail" Role="CrawlPostGroup_PostDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -642,7 +646,7 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CrawlPostGroup_Privacy_CrawlPostGroup_Post">
+        <Association Name="FK__CrawlPost__Crawl__33D4B598">
           <End Type="FacebookToolModel.CrawlPostGroup_Post" Role="CrawlPostGroup_Post" Multiplicity="0..1" />
           <End Type="FacebookToolModel.CrawlPostGroup_Privacy" Role="CrawlPostGroup_Privacy" Multiplicity="*" />
           <ReferentialConstraint>
@@ -806,6 +810,8 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
                 <ScalarProperty Name="StatusType" ColumnName="StatusType" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Link" ColumnName="Link" />
                 <ScalarProperty Name="Picture" ColumnName="Picture" />
@@ -818,6 +824,7 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
           <EntitySetMapping Name="CrawlPostGroup_PostDetail">
             <EntityTypeMapping TypeName="FacebookToolModel.CrawlPostGroup_PostDetail">
               <MappingFragment StoreEntitySet="CrawlPostGroup_PostDetail">
+                <ScalarProperty Name="CrawlPostGroup_PostId" ColumnName="CrawlPostGroup_PostId" />
                 <ScalarProperty Name="TimeUpdatedInDb" ColumnName="TimeUpdatedInDb" />
                 <ScalarProperty Name="TimeCreatedInDb" ColumnName="TimeCreatedInDb" />
                 <ScalarProperty Name="CommentCount" ColumnName="CommentCount" />
@@ -832,7 +839,6 @@ warning 6002: The table/view 'Onfluencer_Data.dbo.Chat_Fb_FunnyStory' does not h
                 <ScalarProperty Name="ReactionTotalCount" ColumnName="ReactionTotalCount" />
                 <ScalarProperty Name="UID" ColumnName="UID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CrawlPostGroup_PostId" ColumnName="CrawlPostGroup_PostId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

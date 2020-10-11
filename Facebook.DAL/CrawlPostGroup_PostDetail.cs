@@ -15,7 +15,6 @@ namespace Facebook.DAL
     public partial class CrawlPostGroup_PostDetail
     {
         public int Id { get; set; }
-        public Nullable<int> CrawlPostGroup_PostId { get; set; }
         public string Name { get; set; }
         public Nullable<long> UID { get; set; }
         public Nullable<long> ReactionTotalCount { get; set; }
@@ -30,6 +29,7 @@ namespace Facebook.DAL
         public Nullable<long> CommentCount { get; set; }
         public Nullable<System.DateTime> TimeCreatedInDb { get; set; }
         public Nullable<System.DateTime> TimeUpdatedInDb { get; set; }
+        public Nullable<int> CrawlPostGroup_PostId { get; set; }
     
         public virtual CrawlPostGroup_Post CrawlPostGroup_Post { get; set; }
     }

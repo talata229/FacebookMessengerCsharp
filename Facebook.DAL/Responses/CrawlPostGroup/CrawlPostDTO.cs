@@ -24,6 +24,14 @@ namespace Facebook.DAL.Responses.CrawlPostGroup
 
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
+       
+        [JsonProperty("caption", NullValueHandling = NullValueHandling.Ignore)]
+        public string Caption { get; set; }
+
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
+        public string Description { get; set; }
+
+
 
         [JsonProperty("icon", NullValueHandling = NullValueHandling.Ignore)]
         public string Icon { get; set; }
