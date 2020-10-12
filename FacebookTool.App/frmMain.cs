@@ -300,6 +300,7 @@ namespace FacebookTool.App
             try
             {
                 des.Message = source.Message;
+                des.Fb_Id = source.Fb_Id;
                 des.Picture = source.Picture;
                 des.Link = source.Link;
                 des.Name = source.Name;
